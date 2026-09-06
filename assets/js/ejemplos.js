@@ -20,7 +20,7 @@ function renderEjemplos() {
     const cont = $('ej-container');
 
     if (!ejActivos.length) {
-        cont.innerHTML = '<div class="panel empty-state">No hay ejemplos para este filtro.</div>';
+        cont.innerHTML = `<div class="panel empty-state">${T.ej.vacio}</div>`;
         $('ej-contador').textContent = '';
         return;
     }
@@ -38,19 +38,19 @@ function renderEjemplos() {
                 <span class="ej-caret">▾</span>
             </button>
             <div class="ej-body" id="ej-body-${i}">
-                <p class="ej-objetivo"><strong>Objetivo.</strong> ${ej.objetivo}</p>
-                <p class="ej-req"><strong>Necesitas:</strong> ${ej.requisitos}</p>
+                <p class="ej-objetivo"><strong>${T.ej.objetivo}</strong> ${ej.objetivo}</p>
+                <p class="ej-req"><strong>${T.ej.necesitas}</strong> ${ej.requisitos}</p>
                 <ol class="ej-pasos">${ej.pasos.map(p => `<li>${p}</li>`).join('')}</ol>
                 <div class="ej-codewrap">
-                    <button class="ej-copy" data-copy="${i}">📋 Copiar</button>
+                    <button class="ej-copy" data-copy="${i}">${T.ej.copiar}</button>
                     <pre class="code">${escaparCodigo(ej.code)}</pre>
                 </div>
-                ${ej.salida ? `<h4 class="ej-sub">Qué verás</h4>
+                ${ej.salida ? `<h4 class="ej-sub">${T.ej.queVeras}</h4>
                 <pre class="code out">${escaparCodigo(ej.salida)}</pre>` : ''}
-                <div class="ej-nota"><strong>Dónde se rompe.</strong> ${ej.notas}</div>
+                <div class="ej-nota"><strong>${T.ej.dondeSeRompe}</strong> ${ej.notas}</div>
                 <label class="ej-hecho">
                     <input type="checkbox" data-hecho="${i}"${hecho ? ' checked' : ''}>
-                    <span>Ya lo probé</span>
+                    <span>${T.ej.yaLoProbe}</span>
                 </label>
             </div>
         </div>`;
@@ -77,8 +77,8 @@ $('ej-container').addEventListener('click', (ev) => {
    asi que se cae al metodo del textarea temporal. */
 function copiarTexto(texto, boton) {
     const ok = () => {
-        boton.textContent = '✓ Copiado';
-        setTimeout(() => { boton.textContent = '📋 Copiar'; }, 1600);
+        boton.textContent = T.ej.copiado;
+        setTimeout(() => { boton.textContent = T.ej.copiar; }, 1600);
     };
     const respaldo = () => {
         const area = document.createElement('textarea');

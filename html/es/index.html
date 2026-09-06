@@ -4,21 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tarjetas · Certificación Anthropic</title>
-    <script>
-    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
-       donde las rutas relativas resolverían un nivel por encima de ./html/.
-       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
-    (function () {
-        var dir = location.pathname.replace(/[^/]*$/, '');
-        if (!/\/html\/$/.test(dir)) {
-            var b = document.createElement('base');
-            b.href = 'html/';
-            document.head.appendChild(b);
-        }
-    }());
-    </script>
-    <link rel="stylesheet" href="../assets/css/base.css">
-    <link rel="stylesheet" href="../assets/css/tarjetas.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/tarjetas.css">
 </head>
 <body>
 <div class="container">
@@ -64,11 +51,12 @@
     </main>
 </div>
 
-<script src="../assets/js/datos/modulos.js"></script>
-<script src="../assets/js/datos/totales.js"></script>
-<script src="../assets/js/almacen.js"></script>
-<script src="../assets/js/comun.js"></script>
-<script src="../assets/js/datos/flashcards.js"></script>
-<script src="../assets/js/tarjetas.js"></script>
+<script src="../../assets/js/i18n/es.js"></script>
+<script src="../../assets/js/datos/es/modulos.js"></script>
+<script src="../../assets/js/datos/es/totales.js"></script>
+<script src="../../assets/js/almacen.js"></script>
+<script src="../../assets/js/comun.js"></script>
+<script src="../../assets/js/datos/es/flashcards.js"></script>
+<script src="../../assets/js/tarjetas.js"></script>
 </body>
 </html>

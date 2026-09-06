@@ -15,21 +15,21 @@ let examAvanceId = null;   // auto-avance pendiente tras elegir una opción
 function normalizarParaExamen() {
     // banco + i acompañan a cada pregunta para que un fallo del simulacro
     // acabe en la misma lista de repaso que un fallo de su página propia.
-    const mc = quizzesData.map((q, i) => ({ banco: 'q', i, m: q.m, q: q.q, options: q.options, correct: q.correct, explanation: q.explanation, tipo: 'Opción múltiple' }));
-    const vf = trueFalseData.map((t, i) => ({ banco: 'f', i, m: t.m, q: t.s, options: ['Verdadero', 'Falso'], correct: t.v ? 0 : 1, explanation: t.e, tipo: 'Verdadero/Falso' }));
-    const cd = codeData.map((c, i) => ({ banco: 'c', i, m: c.m, q: c.titulo, code: c.code, options: c.options, correct: c.correct, explanation: c.explanation, tipo: 'Completar código' }));
+    const mc = quizzesData.map((q, i) => ({ banco: 'q', i, m: q.m, q: q.q, options: q.options, correct: q.correct, explanation: q.explanation, tipo: T.tipos.q }));
+    const vf = trueFalseData.map((t, i) => ({ banco: 'f', i, m: t.m, q: t.s, options: T.exam.vf, correct: t.v ? 0 : 1, explanation: t.e, tipo: T.tipos.f }));
+    const cd = codeData.map((c, i) => ({ banco: 'c', i, m: c.m, q: c.titulo, code: c.code, options: c.options, correct: c.correct, explanation: c.explanation, tipo: T.tipos.c }));
     return mc.concat(vf, cd);
 }
 
 function renderRecordExamen() {
     if (!progreso.x.length) {
-        $('exam-record').innerHTML = '<div class="bd-item" style="grid-column:1/-1"><div class="bd-mod">Sin intentos todavía</div></div>';
+        $('exam-record').innerHTML = `<div class="bd-item" style="grid-column:1/-1"><div class="bd-mod">${T.exam.sinIntentos}</div></div>`;
         return;
     }
     const ultimos = progreso.x.slice(-4);
     const mejor = Math.max.apply(null, progreso.x.map(e => e.pct));
     $('exam-record').innerHTML =
-        `<div class="bd-item"><div class="bd-mod">Mejor</div><div class="bd-val" style="color:var(--verde)">${mejor}%</div></div>` +
+        `<div class="bd-item"><div class="bd-mod">${T.exam.mejor}</div><div class="bd-val" style="color:var(--verde)">${mejor}%</div></div>` +
         ultimos.map(e => `<div class="bd-item"><div class="bd-mod">${fechaLegible(e.fecha)}</div><div class="bd-val">${e.pct}%</div></div>`).join('');
 }
 
@@ -72,7 +72,7 @@ function renderExamPregunta() {
     const respondidas = examRespuestas.filter(r => r !== -1).length;
 
     $('exam-panel').innerHTML = `
-        <div class="q-meta">${MODULOS[p.m]} · ${p.tipo} · ${respondidas}/${examPreguntas.length} respondidas</div>
+        <div class="q-meta">${MODULOS[p.m]} · ${p.tipo} · ${T.exam.respondidas(respondidas, examPreguntas.length)}</div>
         <h3 style="margin-bottom:12px;">${p.q}</h3>
         ${p.code ? `<pre class="code">${marcarHueco(p.code)}</pre>` : ''}
         <div class="quiz-options">
@@ -133,16 +133,16 @@ function finalizarExamen(porTiempo) {
     $('exam-results').style.display = 'block';
     $('exam-results').innerHTML = `
         <div class="panel summary">
-            <h2>${porTiempo ? '⏰ Se acabó el tiempo' : 'Simulacro completado'}</h2>
+            <h2>${porTiempo ? T.exam.tiempoAgotado : T.exam.completado}</h2>
             <div class="score ${scoreClass(pct)}">${pct}%</div>
-            <div class="score-sub">${ok} de ${examPreguntas.length} correctas${sinResponder ? ` · ${sinResponder} sin responder` : ''}</div>
+            <div class="score-sub">${T.ui.correctas(ok, examPreguntas.length)}${sinResponder ? T.ui.sinResponderN(sinResponder) : ''}</div>
             <p>${scoreMessage(pct)}</p>
             <div class="breakdown">${renderBreakdown(porModulo)}</div>
-            <button class="submit-btn" id="exam-again" style="margin-top:20px;">🔄 Nuevo simulacro</button>
+            <button class="submit-btn" id="exam-again" style="margin-top:20px;">${T.exam.nuevo}</button>
         </div>
         ${fallos.length ? `
         <div class="panel">
-            <h3 style="color:var(--morado-osc); margin-bottom:14px;">Repaso de los ${fallos.length} fallos</h3>
+            <h3 style="color:var(--morado-osc); margin-bottom:14px;">${T.exam.repasoFallos(fallos.length)}</h3>
             ${fallos.map(x => `
                 <div class="quiz-question">
                     <div class="q-meta">${MODULOS[x.p.m]} · ${x.p.tipo}</div>
@@ -150,12 +150,12 @@ function finalizarExamen(porTiempo) {
                     ${x.p.code ? `<pre class="code">${marcarHueco(x.p.code)}</pre>` : ''}
                     <div class="quiz-options">
                         <div class="quiz-option correct"><span>✓ ${x.p.options[x.p.correct]}</span></div>
-                        ${x.elegida !== -1 ? `<div class="quiz-option incorrect"><span>✗ Tu respuesta: ${x.p.options[x.elegida]}</span></div>`
-                                           : '<div class="quiz-option"><span>— Sin responder</span></div>'}
+                        ${x.elegida !== -1 ? `<div class="quiz-option incorrect"><span>✗ ${T.exam.tuRespuesta} ${x.p.options[x.elegida]}</span></div>`
+                                           : `<div class="quiz-option"><span>${T.exam.sinResponder}</span></div>`}
                     </div>
                     <div class="answer-explanation show">${x.p.explanation}</div>
                 </div>`).join('')}
-        </div>` : '<div class="panel summary"><p>🎯 Sin fallos. Nada que repasar.</p></div>'}`;
+        </div>` : `<div class="panel summary"><p>${T.exam.sinFallos}</p></div>`}`;
 
     $('exam-again').addEventListener('click', () => {
         $('exam-results').style.display = 'none';

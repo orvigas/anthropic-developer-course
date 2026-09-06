@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True / False · Anthropic Certification</title>
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/quiz.css">
+    <link rel="stylesheet" href="../../assets/css/verdadero-falso.css">
+    <link rel="stylesheet" href="../../assets/css/resultados.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Interactive Study Flashcards</h1>
+        <p>Claude Developer Certification · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="tip">⚡ Quick round: one statement at a time. Answer and move on. Ideal for the day-before review.</div>
+        <div class="filtros" id="vf-filtros"></div>
+        <div class="card-counter"><span id="vf-pos">1</span> / <span id="vf-total">0</span> · Correct: <span id="vf-aciertos">0</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="vf-progress"></div></div>
+        <div class="panel vf-card" id="vf-panel"></div>
+        <div class="navigation-buttons">
+            <button class="nav-btn" id="vf-next">Next →</button>
+            <button class="nav-btn" id="vf-restart">🔄 Restart round</button>
+        </div>
+    </main>
+</div>
+
+<script src="../../assets/js/i18n/en.js"></script>
+<script src="../../assets/js/datos/en/modulos.js"></script>
+<script src="../../assets/js/datos/en/totales.js"></script>
+<script src="../../assets/js/almacen.js"></script>
+<script src="../../assets/js/comun.js"></script>
+<script src="../../assets/js/datos/en/verdadero-falso.js"></script>
+<script src="../../assets/js/verdadero-falso.js"></script>
+</body>
+</html>

@@ -16,13 +16,13 @@ function renderQuizzes() {
     $('quiz-submit').style.display = 'block';
 
     if (!quizActivo.length) {
-        cont.innerHTML = '<div class="panel empty-state">No hay preguntas para este filtro.</div>';
+        cont.innerHTML = `<div class="panel empty-state">${T.ui.vacioPreguntas}</div>`;
         return;
     }
 
     cont.innerHTML = quizActivo.map((quiz, i) => `
         <div class="quiz-question" id="qq-${i}">
-            <div class="q-meta">${MODULOS[quiz.m]} · Pregunta ${i + 1} de ${quizActivo.length}</div>
+            <div class="q-meta">${MODULOS[quiz.m]} · ${T.ui.pregunta(i + 1, quizActivo.length)}</div>
             <h3>${quiz.q}</h3>
             <div class="quiz-options">
                 ${quiz.options.map((op, j) => `
@@ -67,18 +67,18 @@ $('quiz-submit').addEventListener('click', () => {
         });
 
         const exp = $(`qexp-${i}`);
-        exp.innerHTML = (respuesta === -1 ? '<strong>Sin responder.</strong> ' : '') + quiz.explanation;
+        exp.innerHTML = (respuesta === -1 ? T.ui.sinResponderPrefijo : '') + quiz.explanation;
         exp.classList.add('show');
     });
 
     const pct = Math.round(ok / quizActivo.length * 100);
     $('quiz-results').innerHTML = `
-        <h2>Resultados</h2>
+        <h2>${T.ui.resultados}</h2>
         <div class="score ${scoreClass(pct)}">${pct}%</div>
-        <div class="score-sub">${ok} de ${quizActivo.length} correctas${sinResponder ? ` · ${sinResponder} sin responder` : ''}</div>
+        <div class="score-sub">${T.ui.correctas(ok, quizActivo.length)}${sinResponder ? T.ui.sinResponderN(sinResponder) : ''}</div>
         <p>${scoreMessage(pct)}</p>
         <div class="breakdown">${renderBreakdown(porModulo)}</div>
-        <button class="submit-btn secondary" id="quiz-reset" style="margin-top:18px;">🔄 Intentar de nuevo</button>`;
+        <button class="submit-btn secondary" id="quiz-reset" style="margin-top:18px;">${T.ui.intentar}</button>`;
     actualizarStatsGlobales();
     $('quiz-results').style.display = 'block';
     $('quiz-submit').style.display = 'none';

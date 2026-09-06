@@ -9,12 +9,12 @@
 
 /* Cómo leer cada banco: de dónde sale el texto y a qué página se vuelve. */
 const BANCOS_DATOS = {
-    t: { datos: flashcardsData, texto: x => x.q,      tipo: 'Tarjeta' },
-    q: { datos: quizzesData,    texto: x => x.q,      tipo: 'Opción múltiple' },
-    f: { datos: trueFalseData,  texto: x => x.s,      tipo: 'Verdadero/Falso' },
-    c: { datos: codeData,       texto: x => x.titulo, tipo: 'Completar código' },
-    p: { datos: matchSets,      texto: x => x.titulo, tipo: 'Emparejar' },
-    e: { datos: ejemplosData,   texto: x => x.tema,   tipo: 'Ejemplo' }
+    t: { datos: flashcardsData, texto: x => x.q,      tipo: T.tipos.t },
+    q: { datos: quizzesData,    texto: x => x.q,      tipo: T.tipos.q },
+    f: { datos: trueFalseData,  texto: x => x.s,      tipo: T.tipos.f },
+    c: { datos: codeData,       texto: x => x.titulo, tipo: T.tipos.c },
+    p: { datos: matchSets,      texto: x => x.titulo, tipo: T.tipos.p },
+    e: { datos: ejemplosData,   texto: x => x.tema,   tipo: T.tipos.e }
 };
 
 /* Cada banco necesita su índice: en las páginas de práctica lo asigna su
@@ -85,23 +85,23 @@ function renderResumen(resumen, fallos) {
         <div class="rep-cifras">
             <div class="rep-cifra">
                 <span class="rep-num ${claseDePct(acierto)}">${vistos ? acierto + '%' : '—'}</span>
-                <span class="rep-etq">de acierto</span>
-                <span class="rep-sub">${ok} de ${vistos} respondidos</span>
+                <span class="rep-etq">${T.rep.deAcierto}</span>
+                <span class="rep-sub">${T.rep.respondidos(ok, vistos)}</span>
             </div>
             <div class="rep-cifra">
                 <span class="rep-num">${cobertura}%</span>
-                <span class="rep-etq">del material visto</span>
-                <span class="rep-sub">${vistos} de ${total} elementos</span>
+                <span class="rep-etq">${T.rep.materialVisto}</span>
+                <span class="rep-sub">${T.rep.elementos(vistos, total)}</span>
             </div>
             <div class="rep-cifra">
                 <span class="rep-num ${mal ? 'flojo' : 'bien'}">${mal}</span>
-                <span class="rep-etq">por reforzar</span>
-                <span class="rep-sub">${mal ? 'aciértalos otra vez para quitarlos' : 'nada pendiente'}</span>
+                <span class="rep-etq">${T.rep.porReforzar}</span>
+                <span class="rep-sub">${mal ? T.rep.pendientes : T.rep.nadaPendiente}</span>
             </div>
             <div class="rep-cifra">
                 <span class="rep-num">${ultimo ? ultimo.pct + '%' : '—'}</span>
-                <span class="rep-etq">último simulacro</span>
-                <span class="rep-sub">${ultimo ? fechaLegible(ultimo.fecha) : 'sin intentos'}</span>
+                <span class="rep-etq">${T.rep.ultimoSimulacro}</span>
+                <span class="rep-sub">${ultimo ? fechaLegible(ultimo.fecha) : T.rep.sinIntentos}</span>
             </div>
         </div>
 
@@ -116,13 +116,13 @@ function renderResumen(resumen, fallos) {
                     <div class="rep-barra-cab">
                         <strong>${m}</strong>
                         <span>${MODULOS[m].replace(/^M\d · /, '')}</span>
-                        <em>${v ? pct + '%' : 'sin practicar'}</em>
+                        <em>${v ? pct + '%' : T.rep.sinPracticar}</em>
                     </div>
-                    <div class="rep-pista" title="${cob}% del módulo practicado">
+                    <div class="rep-pista" title="${T.rep.moduloPracticado(cob)}">
                         <div class="rep-relleno ${claseDePct(pct)}" style="width:${v ? pct : 0}%"></div>
                     </div>
                     <div class="rep-barra-pie">
-                        ${d.ok} acertados · ${d.mal} por reforzar · ${d.sinVer} sin ver
+                        ${T.rep.pieBarra(d.ok, d.mal, d.sinVer)}
                     </div>
                 </div>`;
             }).join('')}
@@ -140,9 +140,8 @@ function renderConsejos(resumen, fallos) {
     if (!modulos.length) {
         $('rep-consejos').innerHTML = `
             <div class="panel rep-vacio">
-                <h3>🎉 No hay nada marcado para reforzar</h3>
-                <p>Practica en cualquiera de las páginas y lo que falles aparecerá aquí,
-                   con la sugerencia de qué repasar y dónde.</p>
+                <h3>${T.rep.vacioTitulo}</h3>
+                <p>${T.rep.vacioTexto}</p>
             </div>`;
         return;
     }
@@ -170,34 +169,31 @@ function renderConsejos(resumen, fallos) {
                 <h3>${info.titulo}</h3>
                 <span class="rep-sigla">${info.sigla}</span>
                 <span class="rep-cuenta ${fm.length ? 'flojo' : ''}">
-                    ${fm.length ? fm.length + ' por reforzar' : 'sin practicar'}
+                    ${fm.length ? T.rep.cuenta(fm.length) : T.rep.sinPracticar}
                 </span>
             </div>
 
             ${pilares.length ? pilares.map(p => `
                 <div class="rep-consejo">
-                    <h4>${p.nombre} <span class="rep-tocado">${cuenta[p.nombre]} fallo${cuenta[p.nombre] === 1 ? '' : 's'}</span></h4>
+                    <h4>${p.nombre} <span class="rep-tocado">${T.rep.tocado(cuenta[p.nombre])}</span></h4>
                     <p>${p.repasa}</p>
                     <p class="rep-donde">
                         📖 <code class="inline">${info.fuente}</code>
-                        &nbsp;·&nbsp; 🎯 Practica con <a href="${p.practica.pagina}">${p.practica.que}</a>
+                        &nbsp;·&nbsp; ${T.rep.practicaCon} <a href="${p.practica.pagina}">${p.practica.que}</a>
                     </p>
                 </div>`).join('') : `
                 <div class="rep-consejo">
-                    <h4>Empieza por los cuatro pilares del módulo</h4>
+                    <h4>${T.rep.pilaresTitulo}</h4>
                     <p>${info.pilares.map(p => p.nombre.replace(/^[A-Z] · /, '')).join(' · ')}</p>
                     <p class="rep-donde">📖 <code class="inline">${info.fuente}</code></p>
                 </div>`}
 
             ${sinPilar > 0 ? `
-                <p class="rep-nota">${sinPilar} fallo${sinPilar === 1 ? '' : 's'} de este módulo
-                   no encaja${sinPilar === 1 ? '' : 'n'} claramente en un pilar: revísalo${sinPilar === 1 ? '' : 's'}
-                   en la lista de abajo.</p>` : ''}
+                <p class="rep-nota">${T.rep.sinPilar(sinPilar)}</p>` : ''}
 
             ${pendientes.length ? `
-                <p class="rep-nota">🧪 Te quedan ${pendientes.length} ejemplo${pendientes.length === 1 ? '' : 's'}
-                   de este módulo sin probar. Escribirlos fija lo que las preguntas solo reconocen:
-                   <a href="ejemplos.html">ir a los ejemplos</a>.</p>` : ''}
+                <p class="rep-nota">${T.rep.ejemplosPendientes(pendientes.length)}
+                   <a href="${T.paginaDeBanco.e}">${T.rep.irEjemplos}</a>.</p>` : ''}
         </div>`;
     }).join('');
 }
@@ -208,7 +204,7 @@ function renderFallos(fallos) {
     if (!lista.length) {
         $('rep-fallos').innerHTML = `
             <div class="panel rep-vacio">
-                <p>${fallos.length ? 'Nada marcado en este módulo.' : 'Todavía no has fallado nada. Empieza por cualquier página de práctica.'}</p>
+                <p>${fallos.length ? T.rep.nadaEnModulo : T.rep.nadaFallado}</p>
             </div>`;
         return;
     }
@@ -218,7 +214,7 @@ function renderFallos(fallos) {
 
     $('rep-fallos').innerHTML = Object.keys(MODULOS).filter(m => porModulo[m]).map(m => `
         <div class="panel">
-            <h3 class="rep-grupo"><span class="module-badge">${m}</span> ${porModulo[m].length} elemento${porModulo[m].length === 1 ? '' : 's'}</h3>
+            <h3 class="rep-grupo"><span class="module-badge">${m}</span> ${T.rep.grupo(porModulo[m].length)}</h3>
             ${porModulo[m].map(f => `
                 <div class="rep-fallo">
                     <div class="rep-fallo-txt">
@@ -227,8 +223,8 @@ function renderFallos(fallos) {
                         ${f.pilar ? `<span class="rep-pilar">${f.pilar.nombre}</span>` : ''}
                     </div>
                     <div class="rep-fallo-acc">
-                        <a class="rep-btn" href="${f.pagina}">Practicar</a>
-                        <button class="rep-btn ok" data-resuelto="${f.banco}:${f.i}">✓ Ya lo sé</button>
+                        <a class="rep-btn" href="${f.pagina}">${T.rep.practicar}</a>
+                        <button class="rep-btn ok" data-resuelto="${f.banco}:${f.i}">${T.rep.yaLoSe}</button>
                     </div>
                 </div>`).join('')}
         </div>`).join('');

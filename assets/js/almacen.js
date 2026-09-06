@@ -27,24 +27,10 @@ const ALMACEN = {
      0  sin tocar
      1  acertado / dominado / probado
      2  fallado / marcado para repasar          */
-const BANCOS = {
-    t: 'Tarjetas',
-    q: 'Opción múltiple',
-    f: 'Verdadero/Falso',
-    c: 'Completar código',
-    p: 'Emparejar',
-    e: 'Ejemplos'
-};
+const BANCOS = T.bancos;
 
 /* Página donde se practica cada banco, para poder enlazar un fallo. */
-const PAGINA_DE_BANCO = {
-    t: 'tarjetas-interactivas.html',
-    q: 'opcion-multiple.html',
-    f: 'verdadero-falso.html',
-    c: 'completar-codigo.html',
-    p: 'emparejar.html',
-    e: 'ejemplos.html'
-};
+const PAGINA_DE_BANCO = T.paginaDeBanco;
 
 function nuevoProgreso() {
     const p = { x: [] };                       // x = historial de simulacros
@@ -82,9 +68,9 @@ function resolverMedio() {
 }
 
 function descripcionDelMedio() {
-    if (ALMACEN.medio === 'cookie') return 'Progreso guardado en una cookie de este navegador.';
-    if (ALMACEN.medio === 'localStorage') return 'Este navegador no admite cookies en archivos locales: el progreso se guarda en localStorage.';
-    return 'Sin almacenamiento disponible: el progreso se perderá al cerrar la página.';
+    if (ALMACEN.medio === 'cookie') return T.medio.cookie;
+    if (ALMACEN.medio === 'localStorage') return T.medio.local;
+    return T.medio.ninguno;
 }
 
 /* ---------------------- Lectura y escritura ---------------------- */
@@ -219,7 +205,5 @@ function registrarSimulacro(pct) {
 
 function fechaLegible(ddmm) {
     if (!ddmm || ddmm.length !== 4) return ddmm || '—';
-    const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun',
-                   'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-    return ddmm.slice(0, 2) + ' ' + (meses[parseInt(ddmm.slice(2), 10) - 1] || '');
+    return ddmm.slice(0, 2) + ' ' + (T.meses[parseInt(ddmm.slice(2), 10) - 1] || '');
 }

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anthropic Certification · Choose language</title>
+    <script>
+    /* El enlace simbólico ./index.html de la raíz abre este archivo desde un
+       directorio por encima de ./html/, donde las rutas relativas resolverían
+       mal. Cuando el documento no está ya dentro de /html/, se ancla ahí. */
+    (function () {
+        var dir = location.pathname.replace(/[^/]*$/, '');
+        if (!/\/html\/$/.test(dir)) {
+            var b = document.createElement('base');
+            b.href = 'html/';
+            document.head.appendChild(b);
+        }
+    }());
+    </script>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <style>
+        .selector { max-width: 720px; margin: 0 auto; }
+        .idiomas {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px; margin-top: 26px;
+        }
+        .idioma {
+            display: block; text-decoration: none; color: inherit;
+            background: var(--panel); border: 2px solid transparent;
+            border-radius: 16px; padding: 26px 24px; box-shadow: var(--sombra);
+            transition: transform .15s ease, border-color .15s ease;
+        }
+        .idioma:hover, .idioma:focus-visible {
+            transform: translateY(-3px); border-color: var(--morado); outline: none;
+        }
+        .idioma .bandera { font-size: 2.4em; line-height: 1; }
+        .idioma h2 { color: var(--morado-osc); font-size: 1.35em; margin: 10px 0 4px; }
+        .idioma p { color: var(--texto-suave); font-size: .92em; }
+        .idioma .ir { display: inline-block; margin-top: 14px; font-weight: 600; color: var(--morado-osc); }
+        .sugerido {
+            display: inline-block; margin-top: 12px; font-size: .78em; font-weight: 600;
+            color: var(--verde); background: var(--verde-bg);
+            border-radius: 999px; padding: 2px 10px;
+        }
+        .nota {
+            text-align: center; color: #fff; opacity: .9;
+            font-size: .88em; margin-top: 26px; text-shadow: 0 2px 8px rgba(0,0,0,.28);
+        }
+    </style>
+</head>
+<body>
+<div class="container selector">
+    <header>
+        <h1>🧠 Claude Developer Certification</h1>
+        <p>Interactive study material · Anthropic</p>
+    </header>
+
+    <main>
+        <div class="idiomas">
+            <a class="idioma" id="op-es" href="es/index.html" lang="es">
+                <span class="bandera">🇲🇽</span>
+                <h2>Español</h2>
+                <p>Tarjetas, cuestionarios, ejemplos y simulacro de examen en español,
+                   con el término técnico en inglés entre paréntesis.</p>
+                <span class="ir">Entrar →</span>
+                <span class="sugerido" id="sug-es" hidden>Idioma de tu navegador</span>
+            </a>
+
+            <a class="idioma" id="op-en" href="en/index.html" lang="en">
+                <span class="bandera">🇬🇧</span>
+                <h2>English</h2>
+                <p>Flashcards, quizzes, examples and a mock exam in English,
+                   with the same content and the same progress tracking.</p>
+                <span class="ir">Enter →</span>
+                <span class="sugerido" id="sug-en" hidden>Your browser language</span>
+            </a>
+        </div>
+
+        <p class="nota">
+            El progreso se comparte entre los dos idiomas: el elemento nº 5 es el mismo aquí y allá ·
+            Progress is shared across both languages: item #5 is the same on either side
+        </p>
+    </main>
+</div>
+
+<script>
+/* Marca como sugerida la opción que coincide con el idioma del navegador.
+   No redirige sola: la elección es del lector. */
+(function () {
+    var lang = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    var sug = document.getElementById(lang === 'es' ? 'sug-es' : 'sug-en');
+    if (sug) sug.hidden = false;
+}());
+</script>
+</body>
+</html>

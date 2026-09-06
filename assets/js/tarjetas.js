@@ -19,7 +19,7 @@ function renderTarjeta() {
     flip.classList.remove('flipped');
 
     if (!card) {
-        $('fc-pregunta').textContent = 'No hay tarjetas para este filtro.';
+        $('fc-pregunta').textContent = T.fc.vacio;
         $('fc-respuesta').textContent = '';
         $('fc-modulo').textContent = '—';
         $('fc-modulo-b').textContent = '—';
@@ -42,7 +42,7 @@ function renderTarjeta() {
     $('next-btn').disabled = fcIndice === fcMazo.length - 1;
 
     const marca = estadoItem('t', card.i);
-    $('fc-marca').textContent = marca === 1 ? '✓ dominada' : marca === 2 ? '↻ por repasar' : 'sin marcar';
+    $('fc-marca').textContent = marca === 1 ? T.fc.dominada : marca === 2 ? T.fc.porRepasar : T.fc.sinMarcar;
 }
 
 function marcarTarjeta(estado) {

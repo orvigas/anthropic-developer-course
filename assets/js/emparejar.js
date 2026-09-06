@@ -20,7 +20,7 @@ function renderMatch() {
     const cont = $('match-panel');
 
     if (!matchActivos.length) {
-        cont.innerHTML = '<div class="empty-state">No hay ejercicios para este filtro.</div>';
+        cont.innerHTML = `<div class="empty-state">${T.match.vacio}</div>`;
         return;
     }
 
@@ -30,16 +30,16 @@ function renderMatch() {
         <div class="match-set" data-set="${si}" style="margin-bottom:34px;">
             <h3 style="color:var(--morado-osc); margin-bottom:4px; font-size:1.05em;">${set.titulo}</h3>
             <p style="font-size:.82em; color:var(--texto-suave); margin-bottom:14px;">
-                <span class="match-status" data-status="${si}">0 de ${set.pares.length} emparejados</span>
+                <span class="match-status" data-status="${si}">${T.match.estado(0, set.pares.length)}</span>
             </p>
             <div class="match-grid">
                 <div class="match-col">
-                    <h4>Término</h4>
+                    <h4>${T.match.termino}</h4>
                     ${set.pares.map((p, i) =>
                         `<div class="match-item" data-side="term" data-set="${si}" data-idx="${i}">${p[0]}</div>`).join('')}
                 </div>
                 <div class="match-col">
-                    <h4>Definición</h4>
+                    <h4>${T.match.definicion}</h4>
                     ${defs.map(d =>
                         `<div class="match-item" data-side="def" data-set="${si}" data-idx="${d.idx}">${d.texto}</div>`).join('')}
                 </div>
@@ -88,8 +88,8 @@ $('match-panel').addEventListener('click', (ev) => {
         const hechos = Object.keys(matchResueltos).filter(k => k.startsWith(si + '-')).length;
         const status = document.querySelector(`.match-status[data-status="${si}"]`);
         status.textContent = hechos === total
-            ? `✅ Completado: ${total} de ${total}`
-            : `${hechos} de ${total} emparejados`;
+            ? T.match.completado(total)
+            : T.match.estado(hechos, total);
         if (hechos === total) {
             status.style.color = 'var(--verde)';
             // Un conjunto solo cuenta como dominado si se completó sin fallos.

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards · Anthropic Certification</title>
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/tarjetas.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Interactive Study Flashcards</h1>
+        <p>Claude Developer Certification · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="tip">
+            💡 <strong>Click the card</strong> (or press the space bar) to flip it. Mark <em>I know it</em> / <em>Review</em>
+            to keep track; use ← → to move between cards.
+        </div>
+        <div class="filtros" id="fc-filtros"></div>
+        <div class="card-counter"><span id="current-card">1</span> / <span id="total-cards">0</span> · <span id="fc-marca"></span></div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div class="flip-scene">
+            <div class="flip-card" id="flip-card">
+                <div class="flip-face front">
+                    <div class="module-badge" id="fc-modulo">M1</div>
+                    <div class="flip-question" id="fc-pregunta"></div>
+                    <div class="flip-hint">Click to see the answer</div>
+                </div>
+                <div class="flip-face back">
+                    <div class="module-badge" id="fc-modulo-b">M1</div>
+                    <div class="flip-answer" id="fc-respuesta"></div>
+                    <div class="flip-hint">Click to go back</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button class="nav-btn" id="prev-btn">← Previous</button>
+            <button class="nav-btn ok" id="know-btn">✓ I know it</button>
+            <button class="nav-btn review" id="review-btn">↻ Review</button>
+            <button class="nav-btn" id="shuffle-btn">🔀 Shuffle</button>
+            <button class="nav-btn" id="next-btn">Next →</button>
+        </div>
+    </main>
+</div>
+
+<script src="../../assets/js/i18n/en.js"></script>
+<script src="../../assets/js/datos/en/modulos.js"></script>
+<script src="../../assets/js/datos/en/totales.js"></script>
+<script src="../../assets/js/almacen.js"></script>
+<script src="../../assets/js/comun.js"></script>
+<script src="../../assets/js/datos/en/flashcards.js"></script>
+<script src="../../assets/js/tarjetas.js"></script>
+</body>
+</html>

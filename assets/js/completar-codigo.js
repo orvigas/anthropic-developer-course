@@ -14,7 +14,7 @@ function renderCode() {
     $('code-submit').style.display = 'block';
     $('code-container').innerHTML = codeData.map((item, i) => `
         <div class="quiz-question" id="cq-${i}">
-            <div class="q-meta">${MODULOS[item.m]} · Ejercicio ${i + 1} de ${codeData.length}</div>
+            <div class="q-meta">${MODULOS[item.m]} · ${T.ui.ejercicio(i + 1, codeData.length)}</div>
             <h3>${item.titulo}</h3>
             <pre class="code">${marcarHueco(item.code)}</pre>
             <div class="quiz-options">
@@ -56,18 +56,18 @@ $('code-submit').addEventListener('click', () => {
         });
 
         const exp = $(`cexp-${i}`);
-        exp.innerHTML = (respuesta === -1 ? '<strong>Sin responder.</strong> ' : '') + item.explanation;
+        exp.innerHTML = (respuesta === -1 ? T.ui.sinResponderPrefijo : '') + item.explanation;
         exp.classList.add('show');
     });
 
     const pct = Math.round(ok / codeData.length * 100);
     $('code-results').innerHTML = `
-        <h2>Resultados</h2>
+        <h2>${T.ui.resultados}</h2>
         <div class="score ${scoreClass(pct)}">${pct}%</div>
-        <div class="score-sub">${ok} de ${codeData.length} correctos${sinResponder ? ` · ${sinResponder} sin responder` : ''}</div>
+        <div class="score-sub">${T.ui.correctos(ok, codeData.length)}${sinResponder ? T.ui.sinResponderN(sinResponder) : ''}</div>
         <p>${scoreMessage(pct)}</p>
         <div class="breakdown">${renderBreakdown(porModulo)}</div>
-        <button class="submit-btn secondary" id="code-reset" style="margin-top:18px;">🔄 Intentar de nuevo</button>`;
+        <button class="submit-btn secondary" id="code-reset" style="margin-top:18px;">${T.ui.intentar}</button>`;
     actualizarStatsGlobales();
     $('code-results').style.display = 'block';
     $('code-submit').style.display = 'none';

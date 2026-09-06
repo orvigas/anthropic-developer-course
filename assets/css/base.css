@@ -125,3 +125,7 @@ header p { font-size: 1.05em; opacity: .93; }
     border-color: rgba(255,255,255,.6);
     font-weight: 700;
 }
+
+/* Conmutador de idioma: última pestaña de la navegación. */
+.tab-btn.idioma { margin-left: auto; opacity: .85; }
+.tab-btn.idioma:hover { opacity: 1; }

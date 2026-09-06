@@ -4,23 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulacro de examen · Certificación Anthropic</title>
-    <script>
-    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
-       donde las rutas relativas resolverían un nivel por encima de ./html/.
-       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
-    (function () {
-        var dir = location.pathname.replace(/[^/]*$/, '');
-        if (!/\/html\/$/.test(dir)) {
-            var b = document.createElement('base');
-            b.href = 'html/';
-            document.head.appendChild(b);
-        }
-    }());
-    </script>
-    <link rel="stylesheet" href="../assets/css/base.css">
-    <link rel="stylesheet" href="../assets/css/quiz.css">
-    <link rel="stylesheet" href="../assets/css/codigo.css">
-    <link rel="stylesheet" href="../assets/css/resultados.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/quiz.css">
+    <link rel="stylesheet" href="../../assets/css/codigo.css">
+    <link rel="stylesheet" href="../../assets/css/resultados.css">
 </head>
 <body>
 <div class="container">
@@ -61,13 +48,14 @@
     </main>
 </div>
 
-<script src="../assets/js/datos/modulos.js"></script>
-<script src="../assets/js/datos/totales.js"></script>
-<script src="../assets/js/almacen.js"></script>
-<script src="../assets/js/comun.js"></script>
-<script src="../assets/js/datos/quizzes.js"></script>
-<script src="../assets/js/datos/verdadero-falso.js"></script>
-<script src="../assets/js/datos/codigo.js"></script>
-<script src="../assets/js/simulacro.js"></script>
+<script src="../../assets/js/i18n/es.js"></script>
+<script src="../../assets/js/datos/es/modulos.js"></script>
+<script src="../../assets/js/datos/es/totales.js"></script>
+<script src="../../assets/js/almacen.js"></script>
+<script src="../../assets/js/comun.js"></script>
+<script src="../../assets/js/datos/es/quizzes.js"></script>
+<script src="../../assets/js/datos/es/verdadero-falso.js"></script>
+<script src="../../assets/js/datos/es/codigo.js"></script>
+<script src="../../assets/js/simulacro.js"></script>
 </body>
 </html>

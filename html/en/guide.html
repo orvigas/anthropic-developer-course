@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick guide · Anthropic Certification</title>
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/guia.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Interactive Study Flashcards</h1>
+        <p>Claude Developer Certification · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="panel guia">
+            <h2 style="color:var(--morado-osc); text-align:center; margin-bottom:6px;">Quick mnemonics</h2>
+            <p style="text-align:center; color:var(--texto-suave); font-size:.9em; margin-bottom:24px;">
+                One acronym per module. Remember the acronym and you recover the four pillars.
+            </p>
+
+            <h3>📌 Module 1 — T.C.M.S · MSO Foundations</h3>
+            <ul class="clean">
+                <li><strong>T</strong> · <b>Tokens</b> — the unit of everything: prompt, history, tool schemas, results and response. The tokenizer depends on the model.</li>
+                <li><strong>C</strong> · <b>Context</b> — a fixed budget. Oversized input = validation error; ceiling hit during generation = partial output with <code class="inline">model_context_window_exceeded</code>.</li>
+                <li><strong>M</strong> · <b>Sampling</b> — every token is sampled from a distribution, hence the non-determinism. New models reject <code class="inline">temperature</code>/<code class="inline">top_p</code>/<code class="inline">top_k</code> with a 400.</li>
+                <li><strong>S</strong> · <b>Selection</b> — model and thinking mode are two independent controls that compose.</li>
+            </ul>
+
+            <h3>📌 Module 2 — P.E.S.A · Production-grade prompting</h3>
+            <ul class="clean">
+                <li><strong>P</strong> · <b>System prompt</b> — the persistent contract that applies to every response.</li>
+                <li><strong>E</strong> · <b>XML tags</b> — they separate instructions from data.</li>
+                <li><strong>S</strong> · <b>Samples (few-shot)</b> — they show the pattern instead of describing it.</li>
+                <li><strong>A</strong> · <b>Applying output constraints</b> — format constraints; their evolution is <code class="inline">output_config.format: json_schema</code>.</li>
+            </ul>
+
+            <h3>📌 Module 3 — P.C.S.A · Claude Code, MCP and integration</h3>
+            <ul class="clean">
+                <li><strong>P</strong> · <b>Permissions</b> — default, acceptEdits, plan, auto, allowlist, bypass. A <em>deny</em> rule always wins.</li>
+                <li><strong>C</strong> · <b>Configuration</b> — CLAUDE.md is prepended to the context on every session; rules files scope by path; hooks enforce deterministically.</li>
+                <li><strong>S</strong> · <b>Skills and plugins</b> — reusable workflows; the plugin bundles them with hooks, subagents and MCP.</li>
+                <li><strong>A</strong> · <b>Authentication</b> — secrets in environment variables or a secrets manager, never in the repository.</li>
+            </ul>
+
+            <h3>📌 Module 4 — E.R.C.S · Production, evals and security</h3>
+            <ul class="clean">
+                <li><strong>E</strong> · <b>Evals</b> — they turn "done" into a number. Coverage &gt; rubric perfection.</li>
+                <li><strong>R</strong> · <b>Resilience and tracing</b> — four testing levels + traces that localize the step that failed.</li>
+                <li><strong>C</strong> · <b>Cost</b> — levers: model, context size, number of tool calls, caching and batching.</li>
+                <li><strong>S</strong> · <b>Security</b> — the reliable boundary is the action one, not the wording of the prompt.</li>
+            </ul>
+
+            <h3>📌 Module 5 — E.P.R.L · Accelerators and IP contribution</h3>
+            <ul class="clean">
+                <li><strong>E</strong> · <b>Encapsulation</b> — the next engagement configures the asset instead of rebuilding it.</li>
+                <li><strong>P</strong> · <b>Preparation to contribute</b> — focused code, runnable example, test, assumptions and confirmed rights.</li>
+                <li><strong>R</strong> · <b>Requirements</b> — functional (what it does) and infrastructure (where and under what constraints it runs).</li>
+                <li><strong>L</strong> · <b>Lifecycle</b> — development → evaluation → staging → production, with a pinned model id.</li>
+            </ul>
+
+            <h3>⚠️ The 10 most expensive mistakes</h3>
+            <ol>
+                <li><b>Asserting exact text in tests</b> → assert properties (structure, range, field present).</li>
+                <li><b>Rewording the prompt without diagnosing</b> → identify the failure type before rewriting.</li>
+                <li><b>Turning on extended thinking for classification</b> → wasted tokens; it pays off on multi-step problems.</li>
+                <li><b>Putting a secret in CLAUDE.md or <code class="inline">.mcp.json</code></b> → read it from the environment and back the rule with a PreToolUse hook.</li>
+                <li><b>Omitting the <code class="inline">tool_result</code> after a <code class="inline">tool_use</code></b> → the API rejects the next request.</li>
+                <li><b>Connecting MCP servers without filtering</b> → every connected server fattens every request.</li>
+                <li><b>Not documenting requirements before coding</b> → scope creep and rework.</li>
+                <li><b>Using a model alias in production</b> → an upstream update becomes a silent change.</li>
+                <li><b>Forgetting the human gate before an irreversible action</b> → damage that is hard to undo.</li>
+                <li><b>Not treating fetched content as data</b> → successful prompt injection.</li>
+            </ol>
+
+            <h3>🧭 "When do I use…?" decision table</h3>
+            <div class="scroll-x">
+            <table class="tabla">
+                <tr><th>Situation</th><th>Choice</th><th>Module</th></tr>
+                <tr><td>A user is waiting for the response on screen</td><td>Streaming (SSE)</td><td>M1</td></tr>
+                <tr><td>Thousands of offline entries, cost rules</td><td>Message Batches API (up to 100,000 requests or 256 MB)</td><td>M1/M2</td></tr>
+                <tr><td>Concurrency without blocking the thread</td><td>SDK async client</td><td>M1</td></tr>
+                <tr><td>The same PDF across many requests</td><td>Files API + <code class="inline">file_id</code></td><td>M2</td></tr>
+                <tr><td>System prompt and schemas stable between turns</td><td>Prompt caching (<code class="inline">cache_control: ephemeral</code>, up to 4 breakpoints)</td><td>M2</td></tr>
+                <tr><td>Knowing whether the request fits before sending it</td><td><code class="inline">count_tokens</code> endpoint</td><td>M2</td></tr>
+                <tr><td>The session nears the ceiling but you are still on the same task</td><td>Compaction</td><td>M2</td></tr>
+                <tr><td>The next task is unrelated to the current one</td><td>Clearing (<code class="inline">/clear</code> or a new session)</td><td>M2</td></tr>
+                <tr><td>Exploration that would saturate the main context</td><td>Subagent handoff</td><td>M2/M3</td></tr>
+                <tr><td>Preventing an action no matter what</td><td>PreToolUse hook (exit code 2) or a <em>deny</em> rule</td><td>M3/M4</td></tr>
+                <tr><td>Grading a single label</td><td>Exact match</td><td>M4</td></tr>
+                <tr><td>Grading JSON or code</td><td>Code-based grading</td><td>M4</td></tr>
+                <tr><td>Grading open-ended quality</td><td>LLM-as-judge, calibrated against human labels</td><td>M4</td></tr>
+                <tr><td>Broad research divisible into independent parts</td><td>Orchestrator-worker (≈15× tokens)</td><td>M4</td></tr>
+                <tr><td>Deploying to production</td><td>Full pinned model id, never an alias</td><td>M5</td></tr>
+            </table>
+            </div>
+
+            <h3>🔤 EN ↔ ES equivalences</h3>
+            <p style="font-size:.9em; color:var(--texto-suave); margin-bottom:10px;">
+                The 69 course terms in both languages, in case the exam reaches you in Spanish.
+                "Source" says whether the pair comes from the module's official glossary or from the body of the material.
+            </p>
+            <div class="scroll-x">
+            <table class="tabla">
+                <tr><th>English</th><th>Español</th><th>Module</th><th>Source</th></tr>
+                <tr><td>Accelerator</td><td><b>Acelerador</b></td><td>M5</td><td>glossary</td></tr>
+                <tr><td>Agentic search</td><td><b>Búsqueda agéntica</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Allow rule</td><td><b>Regla de permiso</b></td><td>M3·M4</td><td>body text</td></tr>
+                <tr><td>Allowlist</td><td><b>Lista de permitidos</b></td><td>M3</td><td>body text</td></tr>
+                <tr><td>Batch</td><td><b>Lote</b></td><td>M1·M2</td><td>body text</td></tr>
+                <tr><td>Cache breakpoint</td><td><b>Punto de corte de caché</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Checkpoint</td><td><b>Punto de control</b></td><td>M1-M5</td><td>body text</td></tr>
+                <tr><td>Claude Agent SDK</td><td><b>SDK de Agentes de Claude</b></td><td>M2·M3</td><td>glossary</td></tr>
+                <tr><td>Clearing</td><td><b>Limpieza (de contexto)</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Commit</td><td><b>Commitear (al repositorio)</b></td><td>M2·M3</td><td>body text</td></tr>
+                <tr><td>Compaction</td><td><b>Compactación</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Context budget</td><td><b>Presupuesto de contexto</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Context window</td><td><b>Ventana de contexto</b></td><td>M1·M2</td><td>glossary</td></tr>
+                <tr><td>Contribution readiness</td><td><b>Preparación para contribuir</b></td><td>M5</td><td>glossary</td></tr>
+                <tr><td>Coverage</td><td><b>Cobertura</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>Deny rule</td><td><b>Regla de negación</b></td><td>M3</td><td>body text</td></tr>
+                <tr><td>Deployment platform</td><td><b>Plataforma de despliegue</b></td><td>M5</td><td>glossary</td></tr>
+                <tr><td>Effort setting</td><td><b>Configuración de esfuerzo</b></td><td>M1</td><td>body text</td></tr>
+                <tr><td>End-to-end (E2E)</td><td><b>Extremo a extremo</b></td><td>M2·M3·M4·M5</td><td>body text</td></tr>
+                <tr><td>Engagement</td><td><b>Proyecto (de cliente)</b></td><td>M5</td><td>body text</td></tr>
+                <tr><td>Eval</td><td><b>Evaluación</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Exact match</td><td><b>Coincidencia exacta</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>Exponential backoff</td><td><b>Retroceso exponencial</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Extended thinking</td><td><b>Pensamiento extendido</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Fetched content</td><td><b>Contenido obtenido</b></td><td>M5</td><td>body text</td></tr>
+                <tr><td>Function signature</td><td><b>Firma de función</b></td><td>M2</td><td>glossary</td></tr>
+                <tr><td>Functional / infrastructure requirements</td><td><b>Requisitos funcionales / de infraestructura</b></td><td>M5</td><td>body text</td></tr>
+                <tr><td>Grader</td><td><b>Calificador</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>Handoff</td><td><b>Traspaso</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>Holdout set</td><td><b>Conjunto de retención</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>Hook</td><td><b>Gancho</b></td><td>M3</td><td>glossary</td></tr>
+                <tr><td>Hook-based guardrail</td><td><b>Barrera de protección basada en ganchos</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Human gate / review step</td><td><b>Puerta humana</b></td><td>M3·M4</td><td>body text</td></tr>
+                <tr><td>Human-in-the-loop (HITL)</td><td><b>Humano en el bucle</b></td><td>M2</td><td>glossary</td></tr>
+                <tr><td>Integration test</td><td><b>Prueba de integración</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Least privilege</td><td><b>Privilegio mínimo</b></td><td>M5</td><td>body text</td></tr>
+                <tr><td>LLM-as-judge</td><td><b>LLM como juez</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>MCP (Model Context Protocol)</td><td><b>MCP (Protocolo de Contexto del Modelo)</b></td><td>M3</td><td>glossary</td></tr>
+                <tr><td>MCP transport</td><td><b>Transporte MCP</b></td><td>M3</td><td>glossary</td></tr>
+                <tr><td>Model alias versus pinned ID</td><td><b>Alias de modelo frente a ID fijado</b></td><td>M5</td><td>glossary</td></tr>
+                <tr><td>Orchestrator-worker pattern</td><td><b>Patrón orquestador-trabajador</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Permission mode</td><td><b>Modo de permiso</b></td><td>M3</td><td>glossary</td></tr>
+                <tr><td>Pinned ID</td><td><b>ID fijado</b></td><td>M5</td><td>body text</td></tr>
+                <tr><td>Prompt caching</td><td><b>Caché de prompts</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Prompt injection</td><td><b>Inyección de prompts</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Protected path</td><td><b>Ruta protegida</b></td><td>M3·M4</td><td>body text</td></tr>
+                <tr><td>Pruning</td><td><b>Poda</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Refactor</td><td><b>Refactorización</b></td><td>M2</td><td>glossary</td></tr>
+                <tr><td>Retriable / terminal error</td><td><b>Error reintentable / terminal</b></td><td>M4</td><td>glossary</td></tr>
+                <tr><td>Rollback</td><td><b>Reversión</b></td><td>M5</td><td>body text</td></tr>
+                <tr><td>Rules file</td><td><b>Archivo de reglas</b></td><td>M3</td><td>glossary</td></tr>
+                <tr><td>Sampling</td><td><b>Muestreo</b></td><td>M1</td><td>body text</td></tr>
+                <tr><td>Schema</td><td><b>Esquema</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Scope</td><td><b>Alcance / acotar</b></td><td>M3·M5</td><td>body text</td></tr>
+                <tr><td>Seam</td><td><b>Costura ⁽¹⁾</b></td><td>M4·M5</td><td>body text</td></tr>
+                <tr><td>Soft boundary</td><td><b>Límite blando</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>State</td><td><b>Estado</b></td><td>M2</td><td>glossary</td></tr>
+                <tr><td>Stop reason</td><td><b>Razón de detención</b></td><td>M2</td><td>glossary</td></tr>
+                <tr><td>Structured output</td><td><b>Salida estructurada</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Subagent</td><td><b>Subagente</b></td><td>M2·M3</td><td>glossary</td></tr>
+                <tr><td>System prompt</td><td><b>Prompt de sistema</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Thin wrapper</td><td><b>Envoltorio delgado</b></td><td>M2·M4</td><td>body text</td></tr>
+                <tr><td>Thinking block</td><td><b>Bloque de pensamiento</b></td><td>M1·M2</td><td>body text</td></tr>
+                <tr><td>Token</td><td><b>Token</b></td><td>M1</td><td>glossary</td></tr>
+                <tr><td>Tool result</td><td><b>Resultado de herramienta</b></td><td>M2</td><td>body text</td></tr>
+                <tr><td>Tool_use block</td><td><b>Bloque de uso de herramienta</b></td><td>M2</td><td>glossary</td></tr>
+                <tr><td>Tracing / trace</td><td><b>Rastreo / traza</b></td><td>M4</td><td>body text</td></tr>
+                <tr><td>Trade-off</td><td><b>Compromiso</b></td><td>M2·M4</td><td>body text</td></tr>
+                <tr><td>Trust boundary</td><td><b>Límite de confianza</b></td><td>M5</td><td>glossary</td></tr>
+            </table>
+            </div>
+            <p style="font-size:.84em; color:var(--texto-suave); margin-top:10px;">
+                ⁽¹⁾ "Costura" is the course's official Spanish translation and the one used
+                uniformly across the modules and the exercises. The term you would see in an
+                English exam is <b>seam</b>.
+            </p>
+        </div>
+    </main>
+</div>
+
+<script src="../../assets/js/i18n/en.js"></script>
+<script src="../../assets/js/datos/en/modulos.js"></script>
+<script src="../../assets/js/datos/en/totales.js"></script>
+<script src="../../assets/js/almacen.js"></script>
+<script src="../../assets/js/comun.js"></script>
+<script src="../../assets/js/guia.js"></script>
+</body>
+</html>

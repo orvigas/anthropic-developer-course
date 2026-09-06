@@ -27,10 +27,10 @@ function scoreClass(pct) {
     return 'poor';
 }
 function scoreMessage(pct) {
-    if (pct >= 90) return '¡Excelente! 🎉 Estás en nivel de examen.';
-    if (pct >= 75) return '¡Muy bien! 👍 Un repaso más y quedas listo.';
-    if (pct >= 60) return '📚 Vas encaminado. Revisa los módulos donde fallaste.';
-    return '⚠️ Requiere estudio adicional. Vuelve a los módulos y a las tarjetas.';
+    if (pct >= 90) return T.score.excelente;
+    if (pct >= 75) return T.score.bien;
+    if (pct >= 60) return T.score.encaminado;
+    return T.score.insuficiente;
 }
 function renderBreakdown(porModulo) {
     return Object.keys(MODULOS).filter(k => porModulo[k]).map(k => {
@@ -51,12 +51,12 @@ function actualizarStatsGlobales() {
     const repasar = totalPorRepasar();
     const ultimo = progreso.x.length ? progreso.x[progreso.x.length - 1].pct + '%' : '—';
     $('global-stats').innerHTML =
-        `<span>🃏 ${TOTALES.tarjetas} tarjetas</span>` +
-        `<span>❓ ${TOTALES.preguntas} preguntas</span>` +
-        `<span>🧪 ${TOTALES.ejemplos} ejemplos</span>` +
-        `<span>✓ ${dominadas} dominadas</span>` +
-        `<span class="stat-repaso${repasar ? ' hay' : ''}">↻ ${repasar} por repasar</span>` +
-        `<span>🎓 Último simulacro: ${ultimo}</span>`;
+        `<span>${T.stats.tarjetas(TOTALES.tarjetas)}</span>` +
+        `<span>${T.stats.preguntas(TOTALES.preguntas)}</span>` +
+        `<span>${T.stats.ejemplos(TOTALES.ejemplos)}</span>` +
+        `<span>${T.stats.dominadas(dominadas)}</span>` +
+        `<span class="stat-repaso${repasar ? ' hay' : ''}">${T.stats.porRepasar(repasar)}</span>` +
+        `<span>${T.stats.ultimo(ultimo)}</span>`;
 }
 
 /* Construye una fila de chips de filtro por módulo. */
@@ -64,7 +64,7 @@ function construirFiltros(contenedorId, onChange) {
     const cont = $(contenedorId);
     const claves = ['TODOS', ...Object.keys(MODULOS)];
     cont.innerHTML = claves.map((k, i) =>
-        `<button class="chip${i === 0 ? ' active' : ''}" data-mod="${k}">${k === 'TODOS' ? 'Todos' : k}</button>`
+        `<button class="chip${i === 0 ? ' active' : ''}" data-mod="${k}">${k === 'TODOS' ? T.filtroTodos : k}</button>`
     ).join('');
     cont.addEventListener('click', (ev) => {
         const btn = ev.target.closest('.chip');
@@ -89,24 +89,15 @@ function escaparCodigo(txt) {
    NAVEGACIÓN
    Se genera aquí para que las ocho páginas compartan una sola definición.
    ========================================================================= */
-const PAGINAS = [
-    { id: 'tarjetas',    archivo: 'tarjetas-interactivas.html', etiqueta: '🃏 Tarjetas' },
-    { id: 'quizzes',     archivo: 'opcion-multiple.html',       etiqueta: '✅ Opción múltiple' },
-    { id: 'truefalse',   archivo: 'verdadero-falso.html',       etiqueta: '⚡ Verdadero/Falso' },
-    { id: 'match',       archivo: 'emparejar.html',             etiqueta: '🔗 Emparejar' },
-    { id: 'code',        archivo: 'completar-codigo.html',      etiqueta: '⌨️ Completar código' },
-    { id: 'ejemplos',    archivo: 'ejemplos.html',              etiqueta: '🧪 Ejemplos' },
-    { id: 'exam',        archivo: 'simulacro.html',             etiqueta: '🎓 Simulacro' },
-    { id: 'repaso',      archivo: 'repaso.html',                etiqueta: '🎯 Qué reforzar' },
-    { id: 'guide',       archivo: 'guia.html',                  etiqueta: '📖 Guía rápida' }
-];
+const PAGINAS = T.paginas;
 
 function construirNav(actual) {
     $('tab-nav').innerHTML = PAGINAS.map(p =>
         p.id === actual
             ? `<span class="tab-btn active">${p.etiqueta}</span>`
             : `<a class="tab-btn" href="${p.archivo}">${p.etiqueta}</a>`
-    ).join('');
+    ).join('') +
+        `<a class="tab-btn idioma" href="${T.otroIdioma.href}">🌐 ${T.otroIdioma.etiqueta}</a>`;
 }
 
 /* =========================================================================
@@ -120,12 +111,12 @@ function construirBotonReinicio() {
     zona.className = 'zona-reinicio';
     zona.innerHTML = `
         <button class="btn-reinicio" id="btn-reinicio" title="${descripcionDelMedio()}">
-            🗑️ Reiniciar curso
+            ${T.reinicio.boton}
         </button>
         <span class="confirma-reinicio" id="confirma-reinicio" hidden>
-            Se borrará todo tu progreso y los temas por reforzar.
-            <button class="btn-reinicio peligro" id="btn-reinicio-si">Sí, borrar</button>
-            <button class="btn-reinicio" id="btn-reinicio-no">Cancelar</button>
+            ${T.reinicio.aviso}
+            <button class="btn-reinicio peligro" id="btn-reinicio-si">${T.reinicio.si}</button>
+            <button class="btn-reinicio" id="btn-reinicio-no">${T.reinicio.no}</button>
         </span>
         <span class="nota-medio">${descripcionDelMedio()}</span>`;
     document.querySelector('header').appendChild(zona);

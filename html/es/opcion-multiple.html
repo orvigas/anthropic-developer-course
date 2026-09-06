@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opción múltiple · Certificación Anthropic</title>
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/quiz.css">
+    <link rel="stylesheet" href="../../assets/css/resultados.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Tarjetas de Estudio Interactivas</h1>
+        <p>Certificación de Desarrollador Claude · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="tip">📝 Filtra por módulo, responde todas y envía. Las preguntas sin responder se marcan en ámbar.</div>
+        <div class="filtros" id="quiz-filtros"></div>
+        <div id="quiz-container"></div>
+        <button class="submit-btn" id="quiz-submit">📊 Calificar cuestionario</button>
+        <div id="quiz-results" class="panel summary" style="display:none; margin-top:22px;"></div>
+    </main>
+</div>
+
+<script src="../../assets/js/i18n/es.js"></script>
+<script src="../../assets/js/datos/es/modulos.js"></script>
+<script src="../../assets/js/datos/es/totales.js"></script>
+<script src="../../assets/js/almacen.js"></script>
+<script src="../../assets/js/comun.js"></script>
+<script src="../../assets/js/datos/es/quizzes.js"></script>
+<script src="../../assets/js/opcion-multiple.js"></script>
+</body>
+</html>
