@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qué reforzar · Certificación Anthropic</title>
+    <script>
+    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
+       donde las rutas relativas resolverían un nivel por encima de ./html/.
+       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
+    (function () {
+        var dir = location.pathname.replace(/[^/]*$/, '');
+        if (!/\/html\/$/.test(dir)) {
+            var b = document.createElement('base');
+            b.href = 'html/';
+            document.head.appendChild(b);
+        }
+    }());
+    </script>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/codigo.css">
+    <link rel="stylesheet" href="../assets/css/repaso.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Tarjetas de Estudio Interactivas</h1>
+        <p>Certificación de Desarrollador Claude · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="tip">
+            🎯 Aquí se acumula lo que fallas en cualquier página y en el simulacro.
+            Cada fallo se atribuye a un pilar del módulo y trae la sugerencia de qué repasar
+            y dónde practicarlo. Acertar de nuevo un elemento lo saca de la lista.
+        </div>
+
+        <div class="panel" id="rep-resumen"></div>
+
+        <h2 style="color:#fff; text-align:center; margin:26px 0 14px; font-size:1.25em;
+                   text-shadow:0 2px 8px rgba(0,0,0,.28);">Qué estudiar para reforzar</h2>
+        <div id="rep-consejos"></div>
+
+        <h2 style="color:#fff; text-align:center; margin:26px 0 6px; font-size:1.25em;
+                   text-shadow:0 2px 8px rgba(0,0,0,.28);">Tus fallos, uno a uno</h2>
+        <div class="filtros" id="rep-filtros"></div>
+        <div id="rep-fallos"></div>
+    </main>
+</div>
+
+<script src="../assets/js/datos/modulos.js"></script>
+<script src="../assets/js/datos/totales.js"></script>
+<script src="../assets/js/datos/refuerzo.js"></script>
+<script src="../assets/js/datos/flashcards.js"></script>
+<script src="../assets/js/datos/quizzes.js"></script>
+<script src="../assets/js/datos/verdadero-falso.js"></script>
+<script src="../assets/js/datos/emparejar.js"></script>
+<script src="../assets/js/datos/codigo.js"></script>
+<script src="../assets/js/datos/ejemplos.js"></script>
+<script src="../assets/js/almacen.js"></script>
+<script src="../assets/js/comun.js"></script>
+<script src="../assets/js/repaso.js"></script>
+</body>
+</html>

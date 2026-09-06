@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos aplicados · Certificación Anthropic</title>
+    <script>
+    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
+       donde las rutas relativas resolverían un nivel por encima de ./html/.
+       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
+    (function () {
+        var dir = location.pathname.replace(/[^/]*$/, '');
+        if (!/\/html\/$/.test(dir)) {
+            var b = document.createElement('base');
+            b.href = 'html/';
+            document.head.appendChild(b);
+        }
+    }());
+    </script>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/codigo.css">
+    <link rel="stylesheet" href="../assets/css/ejemplos.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Tarjetas de Estudio Interactivas</h1>
+        <p>Certificación de Desarrollador Claude · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="tip">
+            🧪 Un ejemplo completo por tema, de cero a funcionando. Los de Python necesitan
+            <code class="inline">pip install anthropic</code> y una clave en
+            <code class="inline">ANTHROPIC_API_KEY</code> (consumen tokens);
+            los de Claude Code son archivos de configuración y no cuestan nada.
+        </div>
+        <div class="filtros" id="ej-filtros"></div>
+        <div class="card-counter" id="ej-contador"></div>
+        <div class="ej-toolbar">
+            <button id="ej-expandir" data-estado="cerrado">⊞ Expandir todo</button>
+        </div>
+        <div id="ej-container"></div>
+    </main>
+</div>
+
+<script src="../assets/js/datos/modulos.js"></script>
+<script src="../assets/js/datos/totales.js"></script>
+<script src="../assets/js/almacen.js"></script>
+<script src="../assets/js/comun.js"></script>
+<script src="../assets/js/datos/ejemplos.js"></script>
+<script src="../assets/js/ejemplos.js"></script>
+</body>
+</html>

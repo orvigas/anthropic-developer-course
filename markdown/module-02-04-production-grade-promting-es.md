@@ -106,10 +106,10 @@ Cada tema de este módulo aborda un modo de fallo específico que con frecuencia
 ## Al final de este módulo, podrás:
 
 - 1 Escribir prompts listos para producción usando prompts de sistema, etiquetas XML, ejemplos few-shot y restricciones de salida, y diagnosticar por qué un prompt tiene bajo rendimiento cuando los resultados del primer intento no dan en el blanco.
-- 2 Decidir cuándo habilitar el pensamiento extendido, calibrar su ajuste de esfuerzo y manejar correctamente los bloques de pensamiento a lo largo de los turnos de uso de herramientas.
+- 2 Decidir cuándo habilitar el pensamiento extendido, calibrar su ajuste de esfuerzo y manejar correctamente los bloques de pensamiento (*thinking blocks*) a lo largo de los turnos de uso de herramientas.
 - 3 Definir e implementar un esquema de herramienta que Claude seleccione correctamente, construir el bucle de uso de herramientas, manejar bloques de mensajes de múltiples turnos y distinguir cuándo usar una sola llamada a herramienta frente a múltiples llamadas paralelas.
 - 4 Consumir una respuesta en streaming, ensamblar los eventos transmitidos en bloques de contenido completos y recuperarte limpiamente cuando un flujo se interrumpe a la mitad.
-- 5 Aplicar técnicas de ingeniería de contexto, incluyendo gestionar la ventana de contexto, compactar, limpiar el historial entre tareas y traspasos a subagentes, para mantener las sesiones de agente de múltiples turnos dentro del presupuesto sin perder la continuidad de la tarea.
+- 5 Aplicar técnicas de ingeniería de contexto, incluyendo gestionar la ventana de contexto, compactar, limpiar el historial (*clearing*) entre tareas y traspasos (*handoff*) a subagentes (*subagent handoff*), para mantener las sesiones de agente de múltiples turnos dentro del presupuesto sin perder la continuidad de la tarea.
 - 6 Construir un agente de producción eligiendo entre patrones de flujo de trabajo y de agente, cableando herramientas y contexto en un bucle funcional, seleccionando una ruta de cableado que se ajuste a tus restricciones de despliegue y agregando puntos de control con humano en el bucle (HITL) donde las acciones son irreversibles.
 - 7 Gestionar la memoria del agente entre sesiones usando patrones de almacenamiento persistente y eligiendo el alcance de memoria correcto, de modo que el estado del agente sobreviva entre turnos sin inflar el costo del contexto.
 - 8 Enviar imágenes y PDF a Claude usando la estructura correcta de bloques de mensaje, aplicar la Files API para activos reutilizables y enviar cargas de trabajo de alto volumen usando la Message Batches API para que se completen de forma asíncrona.
@@ -328,7 +328,7 @@ Ese razonamiento no es gratis; los tokens de pensamiento cuestan lo mismo que lo
 
 Cuando el pensamiento extendido está activado *y* tu conversación usa herramientas, hay una regla que no puedes saltarte: cada bloque de pensamiento que recibes tiene que volver a la API exactamente como llegó en el siguiente turno. Cada bloque viene con una firma que confirma que el razonamiento no fue manipulado. Si lo editas, lo resumes o lo descartas, la firma deja de coincidir y la API rechaza la solicitud.
 
-Los bloques de pensamiento redactados funcionan de la misma manera. Su contenido está cifrado y no está pensado para ser leído por humanos, pero aun así tienen que devolverse intactos.
+Los bloques de pensamiento (*thinking blocks*) redactados funcionan de la misma manera. Su contenido está cifrado y no está pensado para ser leído por humanos, pero aun así tienen que devolverse intactos.
 
 Este es un requisito estructural, no una elección de prompting que puedas tomar. El desliz más común es quitar el bloque de pensamiento para ahorrar contexto, lo que termina rompiendo tu siguiente solicitud. Si la preocupación real es cuánto contexto se acumula a partir del razonamiento acumulado, la solución es el trabajo de ingeniería de contexto que cubriremos en este módulo.
 
@@ -409,7 +409,7 @@ La tabla de abajo resume cada tipo de bloque, qué contiene y la regla que gobie
 | bloque text | Asistente/Claude | La salida en prosa de Claude | Claude puede devolver un bloque text junto a un bloque tool_use en el mismo turno. Cuando lo hace, tu código debe preservar el arreglo de contenido completo, incluyendo el bloque text, al agregar ese turno al historial de conversación. Descartar el bloque text corrompe el contexto del que Claude depende para los turnos de seguimiento. |
 | bloque tool_use | Asistente/Claude | El nombre de la herramienta, un ID único y los argumentos de entrada que Claude quiere pasar a tu función | Cada bloque tool_use debe ser respondido por un bloque tool_result en el turno de usuario inmediatamente siguiente. El tool_result debe llevar el mismo ID. Sin ese emparejamiento, la API rechaza la siguiente solicitud. |
 | bloque tool_result | Usuario | El ID de tool_use coincidente, el contenido del resultado y una bandera opcional is_error puesta en true cuando la llamada de herramienta falla | El valor de tool_use_id debe coincidir exactamente con el bloque tool_use original. Claude usa este ID para conectar cada resultado con la llamada que lo produjo, lo cual importa cuando un solo turno del asistente emite múltiples llamadas de herramienta y los resultados llegan en un orden distinto. |
-| bloque thinking | Asistente (solo con pensamiento extendido)/Claude | El razonamiento interno de Claude, visible solo cuando el pensamiento extendido está habilitado | El bloque debe devolverse a la API sin modificaciones en los turnos posteriores. La firma verifica que el razonamiento no haya sido modificado, así que cualquier edición o resumen rompe la firma y la API rechaza el mensaje. Los bloques de pensamiento redactados siguen la misma regla: devuélvelos tal como los recibiste, aunque el contenido esté cifrado y no sea legible por humanos. |
+| bloque thinking | Asistente (solo con pensamiento extendido)/Claude | El razonamiento interno de Claude, visible solo cuando el pensamiento extendido está habilitado | El bloque debe devolverse a la API sin modificaciones en los turnos posteriores. La firma verifica que el razonamiento no haya sido modificado, así que cualquier edición o resumen rompe la firma y la API rechaza el mensaje. Los bloques de pensamiento (*thinking blocks*) redactados siguen la misma regla: devuélvelos tal como los recibiste, aunque el contenido esté cifrado y no sea legible por humanos. |
 
 La invariante crítica es que cada bloque tool_use de un turno del asistente debe tener un bloque tool_result correspondiente en el turno de usuario inmediatamente siguiente. Los bloques tool_result faltantes, o los bloques tool_result que aparecen en un turno posterior en lugar del turno de usuario inmediatamente siguiente, provocan un error de validación de la API.
 
@@ -627,7 +627,7 @@ Para respuestas cortas o trabajos de backend donde nadie está esperando la sali
 
 *Una respuesta en streaming puede verse bien en pantalla y aun así corromper la siguiente solicitud. El texto se renderizó, el usuario vio una respuesta, y el manejador agregó el turno al historial. Lo que el manejador no detectó fue que el flujo se cayó a mitad de bloque, así que la llamada tool_use que almacenó estaba a la mitad de su entrada. La siguiente solicitud falla la validación, y el error apunta al turno siguiente y no al flujo que lo causó.*
 
-### Postmortem: bloque tool_use parcial confirmado al historial después de un flujo caído
+### Postmortem: bloque tool_use parcial persistido en el historial (*committed to history*) después de un flujo caído
 
 Un agente usaba streaming para que sus operadores pudieran ver las respuestas generarse en tiempo real. El manejador acumulaba eventos content_block_delta y agregaba el turno del asistente al historial cuando su bucle de lectura terminaba. En pruebas sobre una conexión local rápida, los flujos siempre corrían hasta completarse, así que el bucle siempre terminaba en message_stop y los turnos almacenados siempre estaban completos.
 
@@ -674,7 +674,7 @@ messages.append({"role": "assistant", "content": assemble(blocks)})
 
 # Selección de modelo y mantener las sesiones de múltiples turnos dentro del presupuesto
 
-Tomas una decisión temprana: qué modelo ejecuta la carga de trabajo. La familia Claude cubre un rango de compromisos entre costo, latencia y capacidad, así que el modelo que elijas fija el piso de precio y de velocidad dentro del cual se mueve cada decisión posterior.
+Tomas una decisión temprana: qué modelo ejecuta la carga de trabajo. La familia Claude cubre un rango de compromisos (*trade-off*) entre costo, latencia y capacidad, así que el modelo que elijas fija el piso de precio y de velocidad dentro del cual se mueve cada decisión posterior.
 
 Una vez fijado el modelo, la siguiente restricción es la ventana de contexto: la extensión completa de texto que el modelo puede recibir de una sola vez, incluyendo tu prompt, la conversación hasta ese momento y cada resultado de herramienta. Cada resultado de herramienta que Claude devuelve se agrega a la ventana de contexto y permanece ahí durante el resto de la sesión. En un prompt de un solo turno, eso es invisible. En una sesión de agente de múltiples pasos que corre diez o veinte llamadas de herramienta, la ventana se llena rápido, y una vez que se llena, el agente o compacta (perdiendo detalle) o se estanca antes de que la tarea esté terminada.
 
@@ -682,7 +682,7 @@ Entonces, la pregunta para cualquier flujo de trabajo agéntico es si has decidi
 
 ## Selección de modelo: empieza con Sonnet, muévete deliberadamente
 
-La familia de modelos Claude abarca actualmente cuatro niveles: Fable, Opus, Sonnet y Haiku, cada uno optimizado para distintos compromisos de costo, latencia y capacidad. Sonnet es el predeterminado equilibrado para la mayoría de las cargas de trabajo de producción. Haiku está construido para velocidad y eficiencia de costo en tareas que caben en su rango de capacidad. Opus maneja trabajo exigente por encima del rango de Sonnet, y Fable es el modelo más capaz de Anthropic, construido para las tareas más exigentes, incluyendo razonamiento complejo, programación avanzada, síntesis de investigación y flujos de trabajo agénticos sofisticados donde la máxima inteligencia es la prioridad. Confirma la línea de modelos actual y los identificadores de modelo contra platform.claude.com/docs al momento de construir.
+La familia de modelos Claude abarca actualmente cuatro niveles: Fable, Opus, Sonnet y Haiku, cada uno optimizado para distintos compromisos (*trade-off*) de costo, latencia y capacidad. Sonnet es el predeterminado equilibrado para la mayoría de las cargas de trabajo de producción. Haiku está construido para velocidad y eficiencia de costo en tareas que caben en su rango de capacidad. Opus maneja trabajo exigente por encima del rango de Sonnet, y Fable es el modelo más capaz de Anthropic, construido para las tareas más exigentes, incluyendo razonamiento complejo, programación avanzada, síntesis de investigación y flujos de trabajo agénticos sofisticados donde la máxima inteligencia es la prioridad. Confirma la línea de modelos actual y los identificadores de modelo contra platform.claude.com/docs al momento de construir.
 
 El punto de partida predeterminado es Sonnet. Sube a Opus solo cuando un conjunto de evaluaciones te diga que Sonnet no está alcanzando tu estándar de calidad. Baja a Haiku solo cuando un conjunto de evaluaciones te diga que la caída de calidad es aceptable para tu tarea, no simplemente para ahorrar costos. Tu decisión de cambiar de modelo siempre debe ser una decisión medida.
 
@@ -698,16 +698,16 @@ La sección anterior expuso el argumento para mover el estado fuera de la ventan
 
 | Estrategia | Qué hace | Cuándo aplicarla | Qué continuidad pierdes |
 |---|---|---|---|
-| **Poda** | Te permite saltar de vuelta a un mensaje anterior y continuar desde ahí, eliminando la conversación que vino después. | Después de que Claude haya seguido un camino improductivo o acumulado un ida y vuelta de depuración que no ayudará en la siguiente tarea. | El trabajo hecho después del punto de retroceso se pierde. Si Claude aprendió algo útil en ese tramo, tiene que volver a aprenderlo. |
-| **Compactación** (`/compact` en Claude Code; compactación del lado del servidor en la API, una estrategia beta que la plataforma realiza por ti, con el resumen manual como alternativa del lado del cliente) | Resume el historial de conversación en una versión condensada que preserva la información clave que Claude ha aprendido. El resumen cuesta menos tokens que los turnos originales. | Cuando la sesión se está acercando al techo de contexto pero quieres seguir trabajando en la misma funcionalidad con el conocimiento que Claude ha acumulado. | Se pueden perder detalles en el resumen. Cualquier cosa no capturada en el resumen no estará disponible para Claude de ahí en adelante. |
+| **Poda (*pruning*)** | Te permite saltar de vuelta a un mensaje anterior y continuar desde ahí, eliminando la conversación que vino después. | Después de que Claude haya seguido un camino improductivo o acumulado un ida y vuelta de depuración que no ayudará en la siguiente tarea. | El trabajo hecho después del punto de retroceso se pierde. Si Claude aprendió algo útil en ese tramo, tiene que volver a aprenderlo. |
+| **Compactación (*compaction*)** (`/compact` en Claude Code; compactación del lado del servidor en la API, una estrategia beta que la plataforma realiza por ti, con el resumen manual como alternativa del lado del cliente) | Resume el historial de conversación en una versión condensada que preserva la información clave que Claude ha aprendido. El resumen cuesta menos tokens que los turnos originales. | Cuando la sesión se está acercando al techo de contexto pero quieres seguir trabajando en la misma funcionalidad con el conocimiento que Claude ha acumulado. | Se pueden perder detalles en el resumen. Cualquier cosa no capturada en el resumen no estará disponible para Claude de ahí en adelante. |
 | **Limpieza** (`/clear` en Claude Code; nueva sesión en la API) | Inicia una conversación nueva con contexto vacío. Nada de la sesión anterior se traslada. | Cuando la siguiente tarea es completamente distinta de la actual, y el contexto previo solo introduciría sesgo o confusión. | Todo el contexto de la sesión se pierde. Cualquier cosa que Claude necesite recordar entre sesiones tiene que colocarse en algún lugar persistente, como un archivo CLAUDE.md. |
-| **Traspasos a subagentes** | Lanza un subagente en su propia ventana de contexto aislada, solo con la descripción de la tarea y el prompt de sistema que necesita. El subagente hace el trabajo y devuelve un resumen. | Cuando una subtarea es lo bastante autocontenida como para delegarla, especialmente trabajo de exploración donde el recorrido satura el contexto principal pero la respuesta es corta. | La visibilidad sobre cómo el subagente llegó a su conclusión. Los pasos intermedios se descartan junto con el contexto del subagente. |
+| **Traspasos (*handoff*) a subagentes (*subagent handoff*)** | Lanza un subagente en su propia ventana de contexto aislada, solo con la descripción de la tarea y el prompt de sistema que necesita. El subagente hace el trabajo y devuelve un resumen. | Cuando una subtarea es lo bastante autocontenida como para delegarla, especialmente trabajo de exploración donde el recorrido satura el contexto principal pero la respuesta es corta. | La visibilidad sobre cómo el subagente llegó a su conclusión. Los pasos intermedios se descartan junto con el contexto del subagente. |
 
 ## Dos palancas más: caché de prompts y conteo de tokens
 
 Las cuatro estrategias de arriba gestionan qué entra en la ventana de contexto. Dos funcionalidades de la API reducen lo que pagas por lo que ya está ahí.
 
-**El caché de prompts** almacena el trabajo de procesamiento hecho sobre un prefijo estable de tu solicitud para que las solicitudes de seguimiento puedan reutilizarlo en lugar de reprocesar los mismos tokens. La primera solicitud escribe el prefijo al caché; las solicitudes posteriores que envíen contenido idéntico hasta ese punto pagan una fracción del costo original. Los candidatos más fuertes son las partes de la solicitud que rara vez cambian entre turnos: un prompt de sistema largo, un conjunto grande de definiciones de herramienta, o un documento de referencia que consultas repetidamente. Habilitas el caché marcando un punto de corte de caché con un campo `cache_control` de tipo `ephemeral` en el último bloque que quieras cachear. Puedes colocar hasta cuatro puntos de corte. Para sesiones de múltiples turnos con un prompt de sistema y esquemas de herramienta estables, cachear esos prefijos una vez y reutilizarlos a lo largo de los turnos es la reducción de costo de mayor apalancamiento disponible.
+**El caché de prompts** almacena el trabajo de procesamiento hecho sobre un prefijo estable de tu solicitud para que las solicitudes de seguimiento puedan reutilizarlo en lugar de reprocesar los mismos tokens. La primera solicitud escribe el prefijo al caché; las solicitudes posteriores que envíen contenido idéntico hasta ese punto pagan una fracción del costo original. Los candidatos más fuertes son las partes de la solicitud que rara vez cambian entre turnos: un prompt de sistema largo, un conjunto grande de definiciones de herramienta, o un documento de referencia que consultas repetidamente. Habilitas el caché marcando un punto de corte (*cache breakpoint*) de caché con un campo `cache_control` de tipo `ephemeral` en el último bloque que quieras cachear. Puedes colocar hasta cuatro puntos de corte. Para sesiones de múltiples turnos con un prompt de sistema y esquemas de herramienta estables, cachear esos prefijos una vez y reutilizarlos a lo largo de los turnos es la reducción de costo de mayor apalancamiento disponible.
 
 **El conteo de tokens** te permite medir la presión de contexto antes de que salga una solicitud en lugar de después de que falle. El endpoint `count_tokens` toma el mismo cuerpo de solicitud que una llamada de mensajes y devuelve el conteo de tokens sin ejecutar la inferencia. Úsalo durante el desarrollo para verificar que tus suposiciones de presupuesto de contexto se sostengan frente a salidas de herramienta reales, no solo frente a fixtures de prueba, y en producción para bloquear solicitudes que excederían la ventana antes de que fallen.
 
@@ -721,13 +721,13 @@ La ruta tiene tres lugares donde puede salir mal: el troceado, el emparejamiento
 
 La ruta de "obtener una sola vez" te da un sistema sobre el que puedes razonar: puedes inspeccionar qué fragmentos se recuperaron para una consulta y probar esa recuperación directamente. El costo es la infraestructura: el índice que debe construirse, almacenarse, mantenerse sincronizado a medida que el corpus cambia y asegurarse dondequiera que viva. La ruta de "buscar a lo largo de varias rondas" elimina esa infraestructura y la obsolescencia que la acompaña, ya que el modelo lee los archivos actuales al momento de la consulta, a costa de gastar más tokens y tiempo por consulta y de darte un proceso menos inspeccionable. Para un corpus de referencia estable consultado con búsquedas simples, vale la pena ser dueño del índice. Para un corpus cambiante o preguntas de múltiples pasos, la búsqueda iterativa suele ser el sistema más simple pese a costar más por consulta.
 
-La ganancia de rendimiento reportada para la búsqueda agéntica de un solo agente frente a un índice de recuperación es una cifra fijada a una versión. Confírmala contra la capa de referencia al momento de construir en lugar de confiar en el número de este módulo.
+La ganancia de rendimiento reportada para la búsqueda agéntica (*agentic search*) de un solo agente frente a un índice de recuperación es una cifra fijada a una versión. Confírmala contra la capa de referencia al momento de construir en lugar de confiar en el número de este módulo.
 
-Ahora, entendamos un poco sobre dos de las estrategias más comunes: la compactación y los traspasos a subagentes.
+Ahora, entendamos un poco sobre dos de las estrategias más comunes: la compactación (*compaction*) y los traspasos (*handoff*) a subagentes (*subagent handoff*).
 
 ## Aplicando la compactación: qué se preserva depende de cómo escribas el resumidor
 
-Cuando usas `/compact` en Claude Code, la herramienta decide qué incluir en el resumen. En la API, la estrategia primaria documentada es la compactación del lado del servidor (beta): la plataforma resume la conversación por ti cuando está configurada en la solicitud. Cuando en cambio implementas compactación manual en una sesión de API, escribes el prompt del resumidor tú mismo. Ese prompt determina lo que el agente sabrá en los turnos posteriores.
+Cuando usas `/compact` en Claude Code, la herramienta decide qué incluir en el resumen. En la API, la estrategia primaria documentada es la compactación (*compaction*) del lado del servidor (beta): la plataforma resume la conversación por ti cuando está configurada en la solicitud. Cuando en cambio implementas compactación manual en una sesión de API, escribes el prompt del resumidor tú mismo. Ese prompt determina lo que el agente sabrá en los turnos posteriores.
 
 El prompt del resumidor dice "resume la conversación hasta ahora"
 
@@ -743,7 +743,7 @@ Este no es un caso extremo; la pérdida de estado crítico para la tarea por un 
 
 Cuando una tarea es demasiado grande para una sola ventana de contexto, agrandar la ventana no es la solución. La solución es descomponer la tarea y pasar solo el contexto relevante a cada subagente. Un subagente recibe una tarea acotada y el contexto mínimo que necesita: los resultados de pasos previos que son directamente relevantes, las herramientas que necesita para completar su tarea, y condiciones de salida claras. El agente padre recolecta los resultados. Este patrón mantiene bajo el costo por turno y hace tratables las tareas de horizonte largo.
 
-Al igual que la compactación y la poda, los traspasos a subagentes agregan sobrecarga de implementación, así que aplícalos solo donde el costo de contexto sea una restricción real: un prompt simple de un solo turno o un flujo de trabajo corto no necesita esto.
+Al igual que la compactación (*compaction*) y la poda (*pruning*), los traspasos (*handoff*) a subagentes (*subagent handoff*) agregan sobrecarga de implementación, así que aplícalos solo donde el costo de contexto sea una restricción real: un prompt simple de un solo turno o un flujo de trabajo corto no necesita esto.
 
 **Maneja bien**
 Sesiones de agente de múltiples pasos que exceden el presupuesto de tokens y necesitan descomposición. Se diseñan mejor en la etapa de arquitectura en lugar de parchearse como una corrección de producción.
@@ -779,7 +779,7 @@ En producción, los recibos contenían documentación de respaldo, incluyendo re
 | Turnos antes de que se llene la ventana | Las sesiones se completaban sin alcanzar el tope | Tope alcanzado en el turno 8 |
 | Síntoma observado | Ninguno. Las sesiones se completan limpiamente | Selecciones de herramienta equivocadas y salidas incompletas a partir del turno 8 |
 | Causa raíz identificada mediante | No aplica | Auditoría de uso de tokens, dos días después del despliegue |
-| Corrección | No aplica | Podar las salidas de herramientas después de usarlas, y aplicar compactación proactivamente antes de alcanzar el tope |
+| Corrección | No aplica | Podar las salidas de herramientas después de usarlas, y aplicar compactación (*compaction*) proactivamente antes de alcanzar el tope |
 
 **Qué debes tener en cuenta**
 
@@ -814,7 +814,7 @@ Haz clic en cada turno para inspeccionarlo.
 fetch_policy_document, selección correcta, 2,400 tokens. Último turno correcto. Cuatro resultados grandes de herramienta (9,600 tokens) están ahora asentados en la ventana de contexto, desplazando las instrucciones que le dicen a Claude qué herramienta usar a continuación.
 
 A. Agregar una descripción más clara al esquema de la herramienta apply_coverage_rule.
-B. Podar los resultados de fetch_policy_document después de cada turno para que las salidas acumuladas no desplacen las instrucciones actuales, y aplicar compactación antes del turno 5.
+B. Podar los resultados de fetch_policy_document después de cada turno para que las salidas acumuladas no desplacen las instrucciones actuales, y aplicar compactación (*compaction*) antes del turno 5.
 C. Aumentar max_tokens en la llamada a la API para darle a Claude más espacio para responder.
 
 ---
@@ -836,7 +836,7 @@ El error más crítico en el desarrollo de agentes es elegir el patrón equivoca
 | Elige un flujo de trabajo cuando… | Elige un agente cuando… |
 |---|---|
 | Puedes enumerar los pasos exactos en código. | Puedes especificar la meta y las herramientas, pero no la ruta exacta. |
-| El costo del error es real y las barreras de protección a nivel de paso importan. | La ruta a través del trabajo no puede enumerarse por adelantado. |
+| El costo del error es real y las barreras de protección (*guardrail*) a nivel de paso importan. | La ruta a través del trabajo no puede enumerarse por adelantado. |
 | Se requiere observabilidad con herramientas estándar. | El no determinismo es aceptable y las acciones posibles del agente están restringidas por su conjunto de herramientas registradas. |
 | Las entradas están bien acotadas a un conjunto conocido. | Las entradas del usuario varían de forma impredecible en contenido y estructura. |
 | Cada ejecución de la tarea sigue la misma secuencia. | La tarea requiere una secuenciación creativa de las herramientas disponibles. |
@@ -959,7 +959,7 @@ Como desarrollador usualmente no eliges la superficie, pero sí escribes el cód
 
 | Restricción | Qué tiende a descartar en el código | Qué usualmente sobrevive una revisión de código |
 |---|---|---|
-| Secreto profesional abogado-cliente | Llamadas desde una superficie de Claude.ai de grado consumidor que la firma no puede auditar de extremo a extremo. Rutas de código que envían contenido de documentos privilegiados a cualquier endpoint que la firma no haya aprobado para material privilegiado, sin importar cómo esté estructurado el prompt o el mensaje de sistema. | Llamadas directas a la API o al SDK desde dentro de la propia aplicación de la firma, autenticadas vía SSO, enrutadas a través de una pasarela de LLM aprobada por la firma con registro completo de solicitudes y respuestas. Ten en cuenta que el contenido nativo de las conversaciones de Compliance de Anthropic (prompts, respuestas y cargas útiles de llamadas a herramientas) no es capturado por Anthropic de forma predeterminada en el tráfico directo de la API, así que la organización debe implementar el registro de conversaciones en la capa de aplicación y enrutarlo a un destino de registro aprobado. Las llamadas a herramientas y los resultados de herramientas se quedan dentro de la ruta auditada. Confirma el diseño final de registro con tu equipo de cuenta de Anthropic. |
+| Secreto profesional abogado-cliente | Llamadas desde una superficie de Claude.ai de grado consumidor que la firma no puede auditar de extremo a extremo (*end-to-end*). Rutas de código que envían contenido de documentos privilegiados a cualquier endpoint que la firma no haya aprobado para material privilegiado, sin importar cómo esté estructurado el prompt o el mensaje de sistema. | Llamadas directas a la API o al SDK desde dentro de la propia aplicación de la firma, autenticadas vía SSO, enrutadas a través de una pasarela de LLM aprobada por la firma con registro completo de solicitudes y respuestas. Ten en cuenta que el contenido nativo de las conversaciones de Compliance de Anthropic (prompts, respuestas y cargas útiles de llamadas a herramientas) no es capturado por Anthropic de forma predeterminada en el tráfico directo de la API, así que la organización debe implementar el registro de conversaciones en la capa de aplicación y enrutarlo a un destino de registro aprobado. Las llamadas a herramientas y los resultados de herramientas se quedan dentro de la ruta auditada. Confirma el diseño final de registro con tu equipo de cuenta de Anthropic. |
 | HIPAA (manejo de PHI) | Código que envía Información de Salud Protegida a cualquier endpoint o ruta de entrega no cubierta por un Business Associate Agreement para la configuración específica en uso. Esto incluye cualquier ruta de registro o retención a la que tu código escriba y que no haya sido acotada bajo el mismo BAA. | Llamadas directas a la API o al SDK sobre una configuración cubierta por un BAA. La cobertura del BAA para el acceso a la API de primera parte de Anthropic se acuerda con Anthropic, que aprovisiona una organización dedicada habilitada para HIPAA que impone restricciones de funcionalidades por su propia parte. Confirma la configuración cubierta con tu equipo de cuenta de Anthropic. Una alternativa es una ruta mediada por la nube vía AWS Bedrock o GCP Vertex sobre la cuenta de nube elegible para HIPAA que el socio ya tenga. ***Nota***: *el BAA no cubre Console, Workbench, funcionalidades beta ni planes de consumidor. No todas las funcionalidades de la API están cubiertas bajo el BAA; verifica la lista actual de elegibilidad de funcionalidades en la Guía de Implementación de Anthropic antes de configurar.* |
 | GDPR y residencia de datos | Rutas de entrega donde la región de ejecución del modelo no puede fijarse en el código, o donde la solicitud puede ser servida desde una región fuera del límite geográfico aprobado. Recurrir por defecto a un endpoint global sin especificar región es el patrón común que se rompe aquí. | Una ruta mediada por la nube como Bedrock o Vertex, con la región fijada en la configuración del cliente a una jurisdicción cubierta. La API directa de Anthropic es un caso aparte; actualmente no provee residencia de datos en la UE, así que los socios con requisitos de residencia de datos en la UE deberían enrutar a través de Bedrock o Vertex en lugar de llamar a la API directamente. |
 | FedRAMP y gobierno | Cualquier ruta de código que llame a un endpoint que no esté en un entorno de nube autorizado al nivel de impacto requerido. Esto incluye rutas de desarrollo y de pruebas que golpean el endpoint comercial mientras producción golpea el autorizado, porque las credenciales y los patrones de código se filtran entre ambos. | Existen tres rutas autorizadas al momento de publicar. Claude for Government (C4G) cuenta con una autorización directa FedRAMP High sostenida a través de Palantir Federal Cloud Service – Supporting Services (PFCS-SS). Claude vía Amazon Bedrock GovCloud está aprobado para cargas de trabajo FedRAMP High y DoD IL4/5. Claude vía Vertex AI Assured Workloads también está autorizado por FedRAMP. Claude Enterprise en AWS Marketplace no está autorizado por FedRAMP, así que los equipos que requieran cumplimiento de FedRAMP deben usar una de las tres rutas anteriores. Verifica el estado de autorización actual en trust.anthropic.com antes de configurar. |
@@ -969,7 +969,7 @@ Esta tabla cubre las restricciones que determinan directamente la selección de 
 
 **Anticipo**
 
-El Módulo 4 (Ingeniería de Producción, Evaluaciones y Seguridad) profundiza en patrones seguros por diseño para IAM y privacidad, defensas contra la inyección de prompts desde entradas no confiables, barreras de protección en tiempo de ejecución, y endurecimiento de agentes. El rol de esta sección es más estrecho: sacar a la superficie la restricción en el punto de la construcción donde realmente descarta opciones, que es cuando eliges el endpoint, la configuración del cliente del SDK, y las credenciales que tu agente lleva a producción.
+El Módulo 4 (Ingeniería de Producción, Evaluaciones y Seguridad) profundiza en patrones seguros por diseño para IAM y privacidad, defensas contra la inyección de prompts desde entradas no confiables, barreras de protección (*guardrail*) en tiempo de ejecución, y endurecimiento de agentes. El rol de esta sección es más estrecho: sacar a la superficie la restricción en el punto de la construcción donde realmente descarta opciones, que es cuando eliges el endpoint, la configuración del cliente del SDK, y las credenciales que tu agente lleva a producción.
 
 ---
 
@@ -979,7 +979,7 @@ El Módulo 4 (Ingeniería de Producción, Evaluaciones y Seguridad) profundiza e
 
 **Configuración**
 
-*El agente funciona de extremo a extremo en pruebas porque tu entorno de pruebas es indulgente, pero producción no lo es. El agente tiene las mismas herramientas, el mismo bucle y el mismo prompt de sistema, pero el punto de control de HITL falta porque las pruebas nunca sacaron a la superficie un caso de uso donde fuera necesario.*
+*El agente funciona de extremo a extremo (*end-to-end*) en pruebas porque tu entorno de pruebas es indulgente, pero producción no lo es. El agente tiene las mismas herramientas, el mismo bucle y el mismo prompt de sistema, pero el punto de control de HITL falta porque las pruebas nunca sacaron a la superficie un caso de uso donde fuera necesario.*
 
 ### Un agente que edita archivos, probado en un directorio temporal, desplegado en un entorno de cliente
 
@@ -1104,7 +1104,7 @@ El alcance de la memoria coincide con la tarea en el momento del diseño. Usa al
 El almacenamiento externo agrega latencia de recuperación y la lógica de lectura/escritura que viene con ella. La memoria resumida depende de un prompt de resumidor bien especificado; sin uno, el estado crítico para la tarea se descarta en cada compresión. Ninguno de los dos enfoques es gratis, así que sopesa los costos y elige sabiamente.
 
 **Usa un enfoque diferente**
-Mantener todo el estado en contexto bajo la suposición de que la ventana será lo suficientemente grande. El costo en tokens crece con cada turno adicional porque el contexto completo se envía en cada llamada a la API. Sin almacenamiento en caché ni compactación, las sesiones largas acumulan costo más rápido de lo que los equipos esperan cuando solo miden los turnos iniciales. Mide el uso real de tokens de la sesión contra el límite de la ventana antes de comprometerte.
+Mantener todo el estado en contexto bajo la suposición de que la ventana será lo suficientemente grande. El costo en tokens crece con cada turno adicional porque el contexto completo se envía en cada llamada a la API. Sin almacenamiento en caché ni compactación (*compaction*), las sesiones largas acumulan costo más rápido de lo que los equipos esperan cuando solo miden los turnos iniciales. Mide el uso real de tokens de la sesión contra el límite de la ventana antes de comprometerte.
 
 ## Skills: conjuntos de instrucciones reutilizables que se cargan bajo demanda sin inflar cada sesión
 
@@ -1477,7 +1477,7 @@ Una salida con la forma equivocada apunta a una restricción de salida faltante,
 
 #### Ajusta la profundidad del razonamiento a la tarea antes de afinar el prompt.
 
-Habilita el razonamiento solo donde una pasada de razonamiento cambie la respuesta, y calibra el ajuste de esfuerzo al problema en lugar de subirlo en cada llamada. Recuerda que los bloques de pensamiento regresan a la API sin modificaciones o la siguiente solicitud falla. Elegir qué modelo ejecutar, como algo distinto de si habilitar el razonamiento, se enseña en el módulo MSO Foundations que precede a este.
+Habilita el razonamiento solo donde una pasada de razonamiento cambie la respuesta, y calibra el ajuste de esfuerzo al problema en lugar de subirlo en cada llamada. Recuerda que los bloques de pensamiento (*thinking blocks*) regresan a la API sin modificaciones o la siguiente solicitud falla. Elegir qué modelo ejecutar, como algo distinto de si habilitar el razonamiento, se enseña en el módulo MSO Foundations que precede a este.
 
 **3**
 
@@ -1495,7 +1495,7 @@ Claude elige una herramienta leyendo el campo description y emparejándolo con l
 
 #### El contexto es un presupuesto fijo, y las salidas de herramientas lo gastan más rápido que cualquier otra cosa en el bucle.
 
-Las salidas de herramientas en producción resultan de tres a cinco veces más largas que los fixtures usados en desarrollo, así que una sesión que se sostiene limpiamente a lo largo de cincuenta turnos en pruebas puede tocar el techo en el turno ocho una vez que se lanza. La poda, la compactación y los traspasos a subagentes recuperan margen de maneras distintas, y cuál aplicar depende de si todavía necesitas el estado anterior. Cuando la selección de herramientas empieza a degradarse después de un número fijo de turnos, la ventana es el primer lugar donde mirar, no el esquema.
+Las salidas de herramientas en producción resultan de tres a cinco veces más largas que los fixtures usados en desarrollo, así que una sesión que se sostiene limpiamente a lo largo de cincuenta turnos en pruebas puede tocar el techo en el turno ocho una vez que se lanza. La poda (*pruning*), la compactación (*compaction*) y los traspasos (*handoff*) a subagentes (*subagent handoff*) recuperan margen de maneras distintas, y cuál aplicar depende de si todavía necesitas el estado anterior. Cuando la selección de herramientas empieza a degradarse después de un número fijo de turnos, la ventana es el primer lugar donde mirar, no el esquema.
 
 **6**
 
@@ -1542,7 +1542,7 @@ Los prompts listos para producción, los bucles de uso de herramientas, el strea
 Alfabético. Haz clic en un término para expandir su definición.
 
 **Claude Agent SDK (SDK de Agentes de Claude)**
-Un entorno de ejecución de agentes gestionado que se distribuye como @anthropic-ai/claude-agent-sdk (Typescript) / claude-agent-sdk (Python). Le da a un socio acceso programático al mismo bucle de agente que impulsa a Claude Code: iteración, ejecución de herramientas, observación y terminación, de modo que el socio pueda incrustar un agente dentro de su propio producto en lugar de correr Claude Code en una terminal. Es distinto del Anthropic SDK, que es un envoltorio delgado de conveniencia sobre la API y no ejecuta un bucle de agente.
+Un entorno de ejecución de agentes gestionado que se distribuye como @anthropic-ai/claude-agent-sdk (Typescript) / claude-agent-sdk (Python). Le da a un socio acceso programático al mismo bucle de agente que impulsa a Claude Code: iteración, ejecución de herramientas, observación y terminación, de modo que el socio pueda incrustar un agente dentro de su propio producto en lugar de correr Claude Code en una terminal. Es distinto del Anthropic SDK, que es un envoltorio delgado (*thin wrapper*) de conveniencia sobre la API y no ejecuta un bucle de agente.
 
 **Context Window (Ventana de contexto)**
 El número total de tokens que un modelo puede procesar en una sola solicitud, incluidos el prompt de sistema, el historial de conversación, las definiciones de herramientas, los resultados de herramientas y la propia salida del modelo. Cuando el total acumulado alcanza el límite, el contenido anterior debe eliminarse o resumirse antes de que se pueda agregar contenido nuevo.
@@ -1602,7 +1602,7 @@ Modos de permiso, contexto de proyecto duradero, empaquetado de plugins e integr
 
 **M4**
 Production Engineering, Evals, and Security
-Evaluaciones, rastreo, manejo de fallos, presupuestos de costo y orquestación, y límites de seguridad que se sostienen en producción.
+Evaluaciones, rastreo (*trace*), manejo de fallos, presupuestos de costo y orquestación, y límites de seguridad que se sostienen en producción.
 
 **M5**
 Accelerators and IP Contribution

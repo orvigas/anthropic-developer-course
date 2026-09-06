@@ -1,0 +1,45 @@
+/* Tarjetas (flashcards)
+   Extraído de tarjetas-interactivas.html · Certificación Anthropic */
+
+/* ---------- Flashcards ---------- */
+.card-counter { color: #fff; text-align: center; margin-bottom: 10px; font-size: .92em; }
+.progress-bar {
+    background: rgba(255,255,255,.28); height: 7px; border-radius: 4px;
+    margin-bottom: 20px; overflow: hidden;
+}
+.progress-fill { height: 100%; background: #fff; transition: width .3s ease; width: 0%; }
+
+.flip-scene { perspective: 1400px; margin-bottom: 20px; }
+.flip-card {
+    position: relative; width: 100%; min-height: 300px;
+    transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,.2,.2,1);
+    cursor: pointer;
+}
+.flip-card.flipped { transform: rotateY(180deg); }
+.flip-face {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    background: #fff; border-radius: 16px; box-shadow: var(--sombra);
+    padding: 32px 30px; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center; overflow: auto;
+}
+.flip-face.back { transform: rotateY(180deg); background: #f7f8ff; }
+.flip-question { font-size: 1.18em; font-weight: 600; }
+.flip-answer { font-size: 1.02em; color: #3f4354; }
+.flip-answer strong { color: var(--morado-osc); }
+.flip-hint { font-size: .8em; color: #a0a4b4; margin-top: 18px; letter-spacing: .3px; }
+
+.module-badge {
+    display: inline-block; background: var(--morado); color: #fff;
+    padding: 3px 12px; border-radius: 20px; font-size: .72em;
+    letter-spacing: .8px; font-weight: 700; margin-bottom: 16px;
+}
+
+.navigation-buttons { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.nav-btn {
+    background: #fff; color: var(--morado-osc); padding: 10px 18px; border: none;
+    border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .9em; transition: all .2s;
+}
+.nav-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0,0,0,.2); }
+.nav-btn:disabled { opacity: .45; cursor: not-allowed; }
+.nav-btn.ok { background: var(--verde); color: #fff; }
+.nav-btn.review { background: #f0b429; color: #4a370a; }

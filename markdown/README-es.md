@@ -319,7 +319,7 @@ Este material se ha extraído de archivos HTML estáticos. Algunos elementos int
 
 ### 🃏 Herramienta Interactiva
 
-- **[tarjetas-interactivas.html](tarjetas-interactivas.html)** - Aplicación web interactiva
+- **[tarjetas-interactivas.html](../html/tarjetas-interactivas.html)** - Aplicación web interactiva
   - 27 tarjetas de estudio con flip animation
   - Función de mezcla aleatoria
   - 11 cuestionarios de práctica
@@ -354,7 +354,7 @@ Para completar tu formación como Claude Developer Certified:
 
 1. **Lee los módulos en orden** - Cada uno construye sobre el anterior
 2. **Usa la guía de estudio** - Consulta [ESTUDIO-CERTIFICACION-ANTHROPIC.md](ESTUDIO-CERTIFICACION-ANTHROPIC.md)
-3. **Practica con tarjetas interactivas** - Abre [tarjetas-interactivas.html](tarjetas-interactivas.html)
+3. **Practica con tarjetas interactivas** - Abre [tarjetas-interactivas.html](../html/tarjetas-interactivas.html)
 4. **Toma notas** - Especialmente sobre conceptos de production engineering
 5. **Practica con código** - Los conceptos de Módulo 2 requieren implementación práctica
 6. **Accede a la plataforma oficial** - Para ejercicios interactivos y certificación oficial

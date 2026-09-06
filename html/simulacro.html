@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulacro de examen · Certificación Anthropic</title>
+    <script>
+    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
+       donde las rutas relativas resolverían un nivel por encima de ./html/.
+       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
+    (function () {
+        var dir = location.pathname.replace(/[^/]*$/, '');
+        if (!/\/html\/$/.test(dir)) {
+            var b = document.createElement('base');
+            b.href = 'html/';
+            document.head.appendChild(b);
+        }
+    }());
+    </script>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/quiz.css">
+    <link rel="stylesheet" href="../assets/css/codigo.css">
+    <link rel="stylesheet" href="../assets/css/resultados.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Tarjetas de Estudio Interactivas</h1>
+        <p>Certificación de Desarrollador Claude · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div id="exam-intro" class="panel summary">
+            <h2>🎓 Simulacro de examen</h2>
+            <p style="color:var(--texto-suave); margin-bottom:18px;">
+                25 preguntas aleatorias de los cinco módulos (opción múltiple, verdadero/falso y código),
+                con 20 minutos de tiempo. Al terminar verás el desglose por módulo.
+            </p>
+            <div class="breakdown" id="exam-record"></div>
+            <button class="submit-btn" id="exam-start" style="margin-top:18px;">▶️ Comenzar simulacro</button>
+        </div>
+
+        <div id="exam-run" style="display:none;">
+            <div style="text-align:center; margin-bottom:16px;">
+                <span class="timer" id="exam-timer">20:00</span>
+            </div>
+            <div class="card-counter"><span id="exam-pos">1</span> / <span id="exam-total">25</span></div>
+            <div class="progress-bar"><div class="progress-fill" id="exam-progress"></div></div>
+            <div class="panel" id="exam-panel"></div>
+            <div class="navigation-buttons">
+                <button class="nav-btn" id="exam-prev">← Anterior</button>
+                <button class="nav-btn" id="exam-next">Siguiente →</button>
+                <button class="nav-btn ok" id="exam-finish">✓ Terminar y calificar</button>
+            </div>
+        </div>
+
+        <div id="exam-results" style="display:none;"></div>
+    </main>
+</div>
+
+<script src="../assets/js/datos/modulos.js"></script>
+<script src="../assets/js/datos/totales.js"></script>
+<script src="../assets/js/almacen.js"></script>
+<script src="../assets/js/comun.js"></script>
+<script src="../assets/js/datos/quizzes.js"></script>
+<script src="../assets/js/datos/verdadero-falso.js"></script>
+<script src="../assets/js/datos/codigo.js"></script>
+<script src="../assets/js/simulacro.js"></script>
+</body>
+</html>

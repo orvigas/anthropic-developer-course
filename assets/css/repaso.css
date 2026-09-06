@@ -1,0 +1,105 @@
+/* Página «Qué reforzar» · Certificación Anthropic */
+
+/* ---------- Cifras de cabecera ---------- */
+.rep-cifras {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px; margin-bottom: 26px;
+}
+.rep-cifra {
+    border: 1px solid var(--borde); border-radius: 11px; padding: 16px 12px;
+    text-align: center; background: #fafbff;
+}
+.rep-num { display: block; font-size: 2.1em; font-weight: 800; color: var(--morado-osc); line-height: 1.1; }
+.rep-num.bien  { color: var(--verde); }
+.rep-num.medio { color: #d18a00; }
+.rep-num.flojo { color: var(--rojo); }
+.rep-etq { display: block; font-size: .84em; font-weight: 600; margin-top: 4px; }
+.rep-sub { display: block; font-size: .74em; color: var(--texto-suave); margin-top: 3px; }
+
+/* ---------- Barras por módulo ---------- */
+.rep-barras { display: flex; flex-direction: column; gap: 14px; }
+.rep-barra-cab {
+    display: flex; align-items: baseline; gap: 8px; font-size: .88em; margin-bottom: 5px;
+}
+.rep-barra-cab strong { color: var(--morado-osc); }
+.rep-barra-cab span { color: var(--texto-suave); flex: 1; }
+.rep-barra-cab em { font-style: normal; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rep-pista { background: #eef0f8; border-radius: 4px; height: 9px; overflow: hidden; }
+.rep-relleno { height: 100%; background: var(--morado); transition: width .3s ease; }
+.rep-relleno.bien  { background: var(--verde); }
+.rep-relleno.medio { background: #f0b429; }
+.rep-relleno.flojo { background: var(--rojo); }
+.rep-barra-pie { font-size: .76em; color: var(--texto-suave); margin-top: 4px; }
+
+/* ---------- Consejos por módulo ---------- */
+.rep-modulo-cab {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--borde);
+}
+.rep-modulo-cab .module-badge { margin-bottom: 0; }
+.rep-modulo-cab h3 { font-size: 1.06em; color: var(--morado-osc); flex: 1; }
+.rep-sigla {
+    font-size: .72em; letter-spacing: 1px; color: var(--texto-suave);
+    font-family: 'SF Mono', Menlo, Consolas, monospace;
+}
+.rep-cuenta {
+    font-size: .74em; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    background: #eef0f8; color: var(--texto-suave);
+}
+.rep-cuenta.flojo { background: var(--rojo-bg); color: var(--rojo); }
+
+.rep-consejo { padding: 14px 0; border-bottom: 1px solid #f0f1f6; }
+.rep-consejo:last-child { border-bottom: none; }
+.rep-consejo h4 { font-size: .96em; color: var(--texto); margin-bottom: 5px; }
+.rep-tocado {
+    font-size: .72em; font-weight: 600; color: var(--rojo);
+    background: var(--rojo-bg); padding: 2px 8px; border-radius: 20px; margin-left: 6px;
+}
+.rep-consejo p { font-size: .9em; color: #3f4354; }
+.rep-donde { margin-top: 8px; font-size: .84em !important; color: var(--texto-suave) !important; }
+.rep-donde a { color: var(--morado-osc); font-weight: 600; }
+
+.rep-nota {
+    margin-top: 12px; font-size: .86em; color: #6b4e0c;
+    background: var(--ambar-bg); border-left: 4px solid #f0b429;
+    padding: 10px 13px; border-radius: 6px;
+}
+.rep-nota a { color: #8a6410; font-weight: 700; }
+
+/* ---------- Lista de fallos ---------- */
+.rep-grupo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: .95em; color: var(--texto-suave); margin-bottom: 12px;
+}
+.rep-grupo .module-badge { margin-bottom: 0; }
+
+.rep-fallo {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 11px 0; border-bottom: 1px solid #f0f1f6;
+}
+.rep-fallo:last-child { border-bottom: none; }
+.rep-fallo-txt { flex: 1; min-width: 240px; font-size: .9em; }
+.rep-tipo {
+    display: inline-block; font-size: .68em; font-weight: 700; letter-spacing: .6px;
+    text-transform: uppercase; color: var(--morado-osc); background: #eef0f8;
+    padding: 2px 8px; border-radius: 20px; margin-right: 7px; vertical-align: middle;
+}
+.rep-pilar {
+    display: block; font-size: .76em; color: var(--texto-suave); margin-top: 3px;
+}
+.rep-fallo-acc { display: flex; gap: 7px; flex-shrink: 0; }
+.rep-btn {
+    font-size: .8em; font-weight: 600; padding: 6px 12px; border-radius: 7px;
+    border: 1px solid var(--borde); background: #fafbff; color: var(--morado-osc);
+    cursor: pointer; text-decoration: none; font-family: inherit; white-space: nowrap;
+}
+.rep-btn:hover { border-color: var(--morado); background: #f2f3ff; }
+.rep-btn.ok { color: var(--verde); }
+.rep-btn.ok:hover { border-color: var(--verde); background: var(--verde-bg); }
+
+.rep-vacio { text-align: center; color: var(--texto-suave); }
+.rep-vacio h3 { color: var(--morado-osc); margin-bottom: 8px; }
+
+@media (max-width: 700px) {
+    .rep-fallo-acc { width: 100%; }
+}

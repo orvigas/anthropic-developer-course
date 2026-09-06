@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía rápida · Certificación Anthropic</title>
+    <script>
+    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
+       donde las rutas relativas resolverían un nivel por encima de ./html/.
+       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
+    (function () {
+        var dir = location.pathname.replace(/[^/]*$/, '');
+        if (!/\/html\/$/.test(dir)) {
+            var b = document.createElement('base');
+            b.href = 'html/';
+            document.head.appendChild(b);
+        }
+    }());
+    </script>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/guia.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Tarjetas de Estudio Interactivas</h1>
+        <p>Certificación de Desarrollador Claude · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="panel guia">
+            <h2 style="color:var(--morado-osc); text-align:center; margin-bottom:6px;">Mnemotecnia rápida</h2>
+            <p style="text-align:center; color:var(--texto-suave); font-size:.9em; margin-bottom:24px;">
+                Una sigla por módulo. Si recuerdas la sigla, recuperas los cuatro pilares.
+            </p>
+
+            <h3>📌 Módulo 1 — T.C.M.S · Fundamentos MSO</h3>
+            <ul class="clean">
+                <li><strong>T</strong> · <b>Tokens</b> — unidad de todo: prompt, historial, esquemas de herramientas, resultados y respuesta. El tokenizador depende del modelo.</li>
+                <li><strong>C</strong> · <b>Contexto</b> — presupuesto fijo. Entrada sobredimensionada = error de validación; techo alcanzado durante la generación = salida parcial con <code class="inline">model_context_window_exceeded</code>.</li>
+                <li><strong>M</strong> · <b>Muestreo</b> — cada token se muestrea de una distribución, de ahí el no-determinismo. Los modelos nuevos rechazan <code class="inline">temperature</code>/<code class="inline">top_p</code>/<code class="inline">top_k</code> con error 400.</li>
+                <li><strong>S</strong> · <b>Selección</b> — modelo y modo de razonamiento son dos controles independientes que se componen.</li>
+            </ul>
+
+            <h3>📌 Módulo 2 — P.E.S.A · Prompting de grado de producción</h3>
+            <ul class="clean">
+                <li><strong>P</strong> · <b>Prompt de sistema</b> — contrato persistente que aplica a cada respuesta.</li>
+                <li><strong>E</strong> · <b>Etiquetas XML</b> — separan instrucciones de datos.</li>
+                <li><strong>S</strong> · <b>Samples (few-shot)</b> — muestran el patrón en lugar de describirlo.</li>
+                <li><strong>A</strong> · <b>Acotar la salida</b> — restricciones de formato; su evolución es <code class="inline">output_config.format: json_schema</code>.</li>
+            </ul>
+
+            <h3>📌 Módulo 3 — P.C.S.A · Claude Code, MCP e integración</h3>
+            <ul class="clean">
+                <li><strong>P</strong> · <b>Permisos</b> — predeterminado, acceptEdits, plan, auto, allowlist, bypass. Una regla <em>deny</em> siempre gana.</li>
+                <li><strong>C</strong> · <b>Configuración</b> — CLAUDE.md se antepone al contexto en cada sesión; archivos de reglas acotan por ruta; los ganchos aplican de forma determinista.</li>
+                <li><strong>S</strong> · <b>Skills y plugins</b> — flujos reutilizables; el plugin los empaqueta con ganchos, subagentes y MCP.</li>
+                <li><strong>A</strong> · <b>Autenticación</b> — secretos en variables de entorno o gestor de secretos, nunca en el repositorio.</li>
+            </ul>
+
+            <h3>📌 Módulo 4 — E.R.C.S · Producción, evaluaciones y seguridad</h3>
+            <ul class="clean">
+                <li><strong>E</strong> · <b>Evaluaciones</b> — convierten "listo" en un número. Cobertura &gt; perfección de rúbrica.</li>
+                <li><strong>R</strong> · <b>Resiliencia y rastreo</b> — cuatro niveles de prueba + trazas que localizan el paso que falló.</li>
+                <li><strong>C</strong> · <b>Costo</b> — palancas: modelo, tamaño de contexto, número de llamadas a herramientas, caché y lotes.</li>
+                <li><strong>S</strong> · <b>Seguridad</b> — el límite fiable es el de la acción, no la redacción del prompt.</li>
+            </ul>
+
+            <h3>📌 Módulo 5 — E.P.R.L · Aceleradores y contribución IP</h3>
+            <ul class="clean">
+                <li><strong>E</strong> · <b>Empaquetamiento</b> — el siguiente compromiso configura el activo en lugar de reconstruirlo.</li>
+                <li><strong>P</strong> · <b>Preparación para contribuir</b> — código enfocado, ejemplo ejecutable, prueba, supuestos y derechos confirmados.</li>
+                <li><strong>R</strong> · <b>Requisitos</b> — funcionales (qué hace) e infraestructura (dónde y bajo qué restricciones corre).</li>
+                <li><strong>L</strong> · <b>Lifecycle</b> — desarrollo → evaluación → staging → producción, con ID de modelo fijado.</li>
+            </ul>
+
+            <h3>⚠️ Los 10 errores más costosos</h3>
+            <ol>
+                <li><b>Afirmar texto exacto en las pruebas</b> → afirma propiedades (estructura, rango, campo presente).</li>
+                <li><b>Reformular el prompt sin diagnosticar</b> → identifica el tipo de fallo antes de reescribir.</li>
+                <li><b>Activar pensamiento extendido en clasificación</b> → desperdicio de tokens; sirve en problemas de varios pasos.</li>
+                <li><b>Poner un secreto en CLAUDE.md o en <code class="inline">.mcp.json</code></b> → léelo de entorno y respalda la regla con un gancho PreToolUse.</li>
+                <li><b>Omitir el <code class="inline">tool_result</code> tras un <code class="inline">tool_use</code></b> → la API rechaza la siguiente solicitud.</li>
+                <li><b>Conectar servidores MCP sin filtrar</b> → cada servidor conectado engorda cada solicitud.</li>
+                <li><b>No documentar requisitos antes de codificar</b> → scope creep y trabajo rehecho.</li>
+                <li><b>Usar un alias de modelo en producción</b> → una actualización aguas arriba se vuelve un cambio silencioso.</li>
+                <li><b>Olvidar la puerta humana antes de una acción irreversible</b> → daño difícil de deshacer.</li>
+                <li><b>No tratar el contenido descargado como datos</b> → inyección de prompts exitosa.</li>
+            </ol>
+
+            <h3>🧭 Tabla de decisión "¿cuándo uso…?"</h3>
+            <div class="scroll-x">
+            <table class="tabla">
+                <tr><th>Situación</th><th>Elección</th><th>Módulo</th></tr>
+                <tr><td>Un usuario espera la respuesta en pantalla</td><td>Streaming (SSE)</td><td>M1</td></tr>
+                <tr><td>Miles de entradas offline, el costo manda</td><td>Message Batches API (hasta 100.000 solicitudes o 256 MB)</td><td>M1/M2</td></tr>
+                <tr><td>Concurrencia sin bloquear el hilo</td><td>Cliente async del SDK</td><td>M1</td></tr>
+                <tr><td>El mismo PDF en muchas solicitudes</td><td>Files API + <code class="inline">file_id</code></td><td>M2</td></tr>
+                <tr><td>Prompt de sistema y esquemas estables entre turnos</td><td>Caché de prompts (<code class="inline">cache_control: ephemeral</code>, hasta 4 cortes)</td><td>M2</td></tr>
+                <tr><td>Saber si la solicitud cabe antes de enviarla</td><td>Endpoint <code class="inline">count_tokens</code></td><td>M2</td></tr>
+                <tr><td>La sesión se acerca al techo pero sigues en la misma tarea</td><td>Compactación</td><td>M2</td></tr>
+                <tr><td>La siguiente tarea no tiene relación con la actual</td><td>Limpieza (<code class="inline">/clear</code> o sesión nueva)</td><td>M2</td></tr>
+                <tr><td>Exploración que saturaría el contexto principal</td><td>Traspaso a subagente</td><td>M2/M3</td></tr>
+                <tr><td>Impedir una acción pase lo que pase</td><td>Gancho PreToolUse (salida con código 2) o regla <em>deny</em></td><td>M3/M4</td></tr>
+                <tr><td>Calificar una etiqueta única</td><td>Coincidencia exacta</td><td>M4</td></tr>
+                <tr><td>Calificar JSON o código</td><td>Verificación calificada por código</td><td>M4</td></tr>
+                <tr><td>Calificar calidad abierta</td><td>LLM como juez, calibrado contra etiquetas humanas</td><td>M4</td></tr>
+                <tr><td>Investigación amplia divisible en partes independientes</td><td>Orquestador-trabajador (≈15× tokens)</td><td>M4</td></tr>
+                <tr><td>Desplegar a producción</td><td>ID de modelo completo fijado, nunca alias</td><td>M5</td></tr>
+            </table>
+            </div>
+
+            <h3>🔤 Equivalencias ES ↔ EN</h3>
+            <p style="font-size:.9em; color:var(--texto-suave); margin-bottom:10px;">
+                Los 69 términos del curso en los dos idiomas, por si el examen te llega en inglés.
+                «Origen» dice si el par sale del glosario oficial del módulo o del cuerpo del material.
+            </p>
+            <div class="scroll-x">
+            <table class="tabla">
+                <tr><th>Español</th><th>English</th><th>Módulo</th><th>Origen</th></tr>
+                <tr><td>Acelerador</td><td><b>Accelerator</b></td><td>M5</td><td>glosario</td></tr>
+                <tr><td>Alcance / acotar</td><td><b>Scope</b></td><td>M3·M5</td><td>texto</td></tr>
+                <tr><td>Alias de modelo frente a ID fijado</td><td><b>Model alias versus pinned ID</b></td><td>M5</td><td>glosario</td></tr>
+                <tr><td>Archivo de reglas</td><td><b>Rules file</b></td><td>M3</td><td>glosario</td></tr>
+                <tr><td>Barrera de protección basada en ganchos</td><td><b>Hook-based guardrail</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Bloque de pensamiento</td><td><b>Thinking block</b></td><td>M1·M2</td><td>texto</td></tr>
+                <tr><td>Bloque de uso de herramienta</td><td><b>Tool_use block</b></td><td>M2</td><td>glosario</td></tr>
+                <tr><td>Búsqueda agéntica</td><td><b>Agentic search</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Caché de prompts</td><td><b>Prompt caching</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Calificador</td><td><b>Grader</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Cobertura</td><td><b>Coverage</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Coincidencia exacta</td><td><b>Exact match</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Commitear (al repositorio)</td><td><b>Commit</b></td><td>M2·M3</td><td>texto</td></tr>
+                <tr><td>Compactación</td><td><b>Compaction</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Compromiso</td><td><b>Trade-off</b></td><td>M2·M4</td><td>texto</td></tr>
+                <tr><td>Configuración de esfuerzo</td><td><b>Effort setting</b></td><td>M1</td><td>texto</td></tr>
+                <tr><td>Conjunto de retención</td><td><b>Holdout set</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Contenido obtenido</td><td><b>Fetched content</b></td><td>M5</td><td>texto</td></tr>
+                <tr><td>Costura ⁽¹⁾</td><td><b>Seam</b></td><td>M4·M5</td><td>texto</td></tr>
+                <tr><td>Envoltorio delgado</td><td><b>Thin wrapper</b></td><td>M2·M4</td><td>texto</td></tr>
+                <tr><td>Error reintentable / terminal</td><td><b>Retriable / terminal error</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Esquema</td><td><b>Schema</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Estado</td><td><b>State</b></td><td>M2</td><td>glosario</td></tr>
+                <tr><td>Evaluación</td><td><b>Eval</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Extremo a extremo</td><td><b>End-to-end (E2E)</b></td><td>M2·M3·M4·M5</td><td>texto</td></tr>
+                <tr><td>Firma de función</td><td><b>Function signature</b></td><td>M2</td><td>glosario</td></tr>
+                <tr><td>Gancho</td><td><b>Hook</b></td><td>M3</td><td>glosario</td></tr>
+                <tr><td>Humano en el bucle</td><td><b>Human-in-the-loop (HITL)</b></td><td>M2</td><td>glosario</td></tr>
+                <tr><td>ID fijado</td><td><b>Pinned ID</b></td><td>M5</td><td>texto</td></tr>
+                <tr><td>Inyección de prompts</td><td><b>Prompt injection</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Límite blando</td><td><b>Soft boundary</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Límite de confianza</td><td><b>Trust boundary</b></td><td>M5</td><td>glosario</td></tr>
+                <tr><td>Limpieza (de contexto)</td><td><b>Clearing</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Lista de permitidos</td><td><b>Allowlist</b></td><td>M3</td><td>texto</td></tr>
+                <tr><td>LLM como juez</td><td><b>LLM-as-judge</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Lote</td><td><b>Batch</b></td><td>M1·M2</td><td>texto</td></tr>
+                <tr><td>MCP (Protocolo de Contexto del Modelo)</td><td><b>MCP (Model Context Protocol)</b></td><td>M3</td><td>glosario</td></tr>
+                <tr><td>Modo de permiso</td><td><b>Permission mode</b></td><td>M3</td><td>glosario</td></tr>
+                <tr><td>Muestreo</td><td><b>Sampling</b></td><td>M1</td><td>texto</td></tr>
+                <tr><td>Patrón orquestador-trabajador</td><td><b>Orchestrator-worker pattern</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Pensamiento extendido</td><td><b>Extended thinking</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Plataforma de despliegue</td><td><b>Deployment platform</b></td><td>M5</td><td>glosario</td></tr>
+                <tr><td>Poda</td><td><b>Pruning</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Preparación para contribuir</td><td><b>Contribution readiness</b></td><td>M5</td><td>glosario</td></tr>
+                <tr><td>Presupuesto de contexto</td><td><b>Context budget</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Privilegio mínimo</td><td><b>Least privilege</b></td><td>M5</td><td>texto</td></tr>
+                <tr><td>Prompt de sistema</td><td><b>System prompt</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Proyecto (de cliente)</td><td><b>Engagement</b></td><td>M5</td><td>texto</td></tr>
+                <tr><td>Prueba de integración</td><td><b>Integration test</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Puerta humana</td><td><b>Human gate / review step</b></td><td>M3·M4</td><td>texto</td></tr>
+                <tr><td>Punto de control</td><td><b>Checkpoint</b></td><td>M1-M5</td><td>texto</td></tr>
+                <tr><td>Punto de corte de caché</td><td><b>Cache breakpoint</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Rastreo / traza</td><td><b>Tracing / trace</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Razón de detención</td><td><b>Stop reason</b></td><td>M2</td><td>glosario</td></tr>
+                <tr><td>Refactorización</td><td><b>Refactor</b></td><td>M2</td><td>glosario</td></tr>
+                <tr><td>Regla de negación</td><td><b>Deny rule</b></td><td>M3</td><td>texto</td></tr>
+                <tr><td>Regla de permiso</td><td><b>Allow rule</b></td><td>M3·M4</td><td>texto</td></tr>
+                <tr><td>Requisitos funcionales / de infraestructura</td><td><b>Functional / infrastructure requirements</b></td><td>M5</td><td>texto</td></tr>
+                <tr><td>Resultado de herramienta</td><td><b>Tool result</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>Retroceso exponencial</td><td><b>Exponential backoff</b></td><td>M4</td><td>glosario</td></tr>
+                <tr><td>Reversión</td><td><b>Rollback</b></td><td>M5</td><td>texto</td></tr>
+                <tr><td>Ruta protegida</td><td><b>Protected path</b></td><td>M3·M4</td><td>texto</td></tr>
+                <tr><td>Salida estructurada</td><td><b>Structured output</b></td><td>M2</td><td>texto</td></tr>
+                <tr><td>SDK de Agentes de Claude</td><td><b>Claude Agent SDK</b></td><td>M2·M3</td><td>glosario</td></tr>
+                <tr><td>Subagente</td><td><b>Subagent</b></td><td>M2·M3</td><td>glosario</td></tr>
+                <tr><td>Token</td><td><b>Token</b></td><td>M1</td><td>glosario</td></tr>
+                <tr><td>Transporte MCP</td><td><b>MCP transport</b></td><td>M3</td><td>glosario</td></tr>
+                <tr><td>Traspaso</td><td><b>Handoff</b></td><td>M4</td><td>texto</td></tr>
+                <tr><td>Ventana de contexto</td><td><b>Context window</b></td><td>M1·M2</td><td>glosario</td></tr>
+            </table>
+            </div>
+            <p style="font-size:.84em; color:var(--texto-suave); margin-top:10px;">
+                ⁽¹⁾ «Costura» es la traducción oficial del curso y la que se usa aquí de forma
+                uniforme, en los módulos y en los ejercicios. El término que verías en un examen
+                en inglés es <b>seam</b>.
+            </p>
+        </div>
+    </main>
+</div>
+
+<script src="../assets/js/datos/modulos.js"></script>
+<script src="../assets/js/datos/totales.js"></script>
+<script src="../assets/js/almacen.js"></script>
+<script src="../assets/js/comun.js"></script>
+<script src="../assets/js/guia.js"></script>
+</body>
+</html>

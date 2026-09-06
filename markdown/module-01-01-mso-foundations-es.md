@@ -85,11 +85,11 @@ Claude es una familia de modelos que actualmente abarca cuatro niveles: Fable, O
 
 ### Los modos de razonamiento son una configuración separada de la elección de modelo
 
-Elegir qué modelo ejecutar es una decisión. Si el modelo razona antes de responder es una decisión separada que tomas por llamada. En los modelos actuales el modo de razonamiento es pensamiento adaptativo: el modelo decide cuándo y cuánto pensar, y ajustas la profundidad con una configuración de esfuerzo en lugar de un presupuesto de tokens fijo (el control budget_tokens más antiguo está en desuso y, en las generaciones de modelos más nuevas, devuelve un error 400). El contenido de pensamiento se omite de las respuestas de forma predeterminada en los modelos más nuevos. Solicita una pantalla resumida cuando necesites mostrarlo. El razonamiento justifica su costo en problemas duros y de múltiples pasos y se desperdicia en búsquedas y clasificación. El punto clave para este módulo es que los dos controles se componen: la elección de modelo selecciona el miembro de la familia, mientras que el modo de razonamiento se configura por solicitud. Los valores predeterminados por modelo difieren (algunos de los modelos más nuevos piensan de forma adaptativa de forma predeterminada o siempre), así que confirma los valores predeterminados de pensamiento actuales para tu modelo en tiempo de compilación.
+Elegir qué modelo ejecutar es una decisión. Si el modelo razona antes de responder es una decisión separada que tomas por llamada. En los modelos actuales el modo de razonamiento es pensamiento adaptativo: el modelo decide cuándo y cuánto pensar, y ajustas la profundidad con una configuración de esfuerzo (*effort setting*) en lugar de un presupuesto de tokens fijo (el control budget_tokens más antiguo está en desuso y, en las generaciones de modelos más nuevas, devuelve un error 400). El contenido de pensamiento se omite de las respuestas de forma predeterminada en los modelos más nuevos. Solicita una pantalla resumida cuando necesites mostrarlo. El razonamiento justifica su costo en problemas duros y de múltiples pasos y se desperdicia en búsquedas y clasificación. El punto clave para este módulo es que los dos controles se componen: la elección de modelo selecciona el miembro de la familia, mientras que el modo de razonamiento se configura por solicitud. Los valores predeterminados por modelo difieren (algunos de los modelos más nuevos piensan de forma adaptativa de forma predeterminada o siempre), así que confirma los valores predeterminados de pensamiento actuales para tu modelo en tiempo de compilación.
 
 ### Cómo trabajan juntos
 
-Debido a que la elección de modelo y el modo de razonamiento son independientes, cada uno se puede configurar por separado. Un modelo capaz sin razonamiento es rápido y directo, mientras que un modelo más pequeño con razonamiento gasta más tokens pensando. Las tareas más exigentes emparejan un modelo capaz con una configuración de esfuerzo más alta. El Módulo 2 enseña la mecánica de habilitar el razonamiento y manejar los bloques de pensamiento que devuelve. La decisión de qué modelo ejecutar, ponderada contra costo, latencia y calidad, se trata en el Módulo 4.
+Debido a que la elección de modelo y el modo de razonamiento son independientes, cada uno se puede configurar por separado. Un modelo capaz sin razonamiento es rápido y directo, mientras que un modelo más pequeño con razonamiento gasta más tokens pensando. Las tareas más exigentes emparejan un modelo capaz con una configuración de esfuerzo (*effort setting*) más alta. El Módulo 2 enseña la mecánica de habilitar el razonamiento y manejar los bloques de pensamiento (*thinking blocks*) que devuelve. La decisión de qué modelo ejecutar, ponderada contra costo, latencia y calidad, se trata en el Módulo 4.
 
 `[TAG TEACHING]` Enseñanza - Modos de Prompting · 8 min
 # Modos de prompting: zero-shot, one-shot, multi-shot
@@ -236,7 +236,7 @@ Modos de permiso, contexto de proyecto duradero, empaquetamiento de plugins e in
 
 M4
 Ingeniería de Producción, Evaluaciones y Seguridad
-Evaluaciones, rastreo, manejo de fallos, presupuestos de costo y orquestación, y límites de seguridad que se mantienen en producción.
+Evaluaciones, rastreo (*trace*), manejo de fallos, presupuestos de costo y orquestación, y límites de seguridad que se mantienen en producción.
 
 M5
 Aceleradoras y Contribución de IP

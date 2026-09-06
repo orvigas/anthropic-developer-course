@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emparejar · Certificación Anthropic</title>
+    <script>
+    /* El enlace simbólico ./index.html se abre desde la raíz del repositorio,
+       donde las rutas relativas resolverían un nivel por encima de ./html/.
+       Cuando el documento no está ya dentro de /html/, se ancla ahí. */
+    (function () {
+        var dir = location.pathname.replace(/[^/]*$/, '');
+        if (!/\/html\/$/.test(dir)) {
+            var b = document.createElement('base');
+            b.href = 'html/';
+            document.head.appendChild(b);
+        }
+    }());
+    </script>
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/emparejar.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>🧠 Tarjetas de Estudio Interactivas</h1>
+        <p>Certificación de Desarrollador Claude · Anthropic</p>
+        <div class="global-stats" id="global-stats"></div>
+    </header>
+
+    <div class="tab-navigation" id="tab-nav"></div>
+
+    <main class="vista">
+        <div class="tip">🔗 Clic en un término y luego en su definición. Un par incorrecto se marca en rojo y puedes reintentarlo.</div>
+        <div class="filtros" id="match-filtros"></div>
+        <div class="panel" id="match-panel"></div>
+    </main>
+</div>
+
+<script src="../assets/js/datos/modulos.js"></script>
+<script src="../assets/js/datos/totales.js"></script>
+<script src="../assets/js/almacen.js"></script>
+<script src="../assets/js/comun.js"></script>
+<script src="../assets/js/datos/emparejar.js"></script>
+<script src="../assets/js/emparejar.js"></script>
+</body>
+</html>

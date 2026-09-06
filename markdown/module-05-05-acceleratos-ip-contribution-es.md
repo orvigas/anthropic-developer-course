@@ -87,15 +87,15 @@ Este módulo retoma el momento en que tu código se ejecuta correctamente y plan
 
 # Qué podrás hacer al final
 
-Documenta bien la construcción y el siguiente compromiso partirá de ella en lugar de partir desde cero.
+Documenta bien la construcción y el siguiente proyecto (*engagement*) partirá de ella en lugar de partir desde cero.
 
 En los últimos tres módulos construiste un agente de producción, lo conectaste a Claude Code con los controles correctos de permisos y de contexto, y configuraste las conexiones MCP que pasan una revisión de seguridad. Cada una de esas fue una construcción funcional.
 
-Este módulo cubre lo que sucede con una construcción después de que funciona. O la reconstruyes desde cero en el siguiente compromiso, o la empaquetas una sola vez, de modo que el siguiente equipo solo la configure. El segundo camino es el que libera tu tiempo para trabajo nuevo en lugar de reconstrucciones repetidas.
+Este módulo cubre lo que sucede con una construcción después de que funciona. O la reconstruyes desde cero en el siguiente proyecto, o la empaquetas una sola vez, de modo que el siguiente equipo solo la configure. El segundo camino es el que libera tu tiempo para trabajo nuevo en lugar de reconstrucciones repetidas.
 
 Al final de este módulo, podrás:
 
-- 1 Empaquetar una solución funcional como un **acelerador** reutilizable, ya sea una plantilla de agente parametrizada, un servidor MCP configurable o una suite de evaluaciones portátil, para que el siguiente compromiso configure un activo en lugar de reconstruirlo por completo.
+- 1 Empaquetar una solución funcional como un **acelerador** reutilizable, ya sea una plantilla de agente parametrizada, un servidor MCP configurable o una suite de evaluaciones portátil, para que el siguiente proyecto configure un activo en lugar de reconstruirlo por completo.
 - 2 Contribuir de vuelta una herramienta, un patrón o una corrección a través de los canales documentados y prepararla para que un mantenedor pueda aceptarla, convirtiendo un activo privado en infraestructura compartida.
 - 3 Elegir dónde se ejecuta una carga de trabajo de Claude entre la API de primera parte, Amazon Bedrock, Google Vertex AI y plataformas de terceros, y versionar lo que se despacha para que un cambio de modelo o de prompt no rompa silenciosamente la producción.
 - 4 Comparar esas plataformas en latencia, cumplimiento y costo para que la elección sea una que un equipo de compras y de seguridad pueda aprobar, en lugar de un valor predeterminado al que tu equipo recurrió.
@@ -117,13 +117,13 @@ Construimos este Módulo 5 del curso de Desarrollador: Aceleradores y Contribuci
 
 `[TAG TEACHING]` Enseñanza - Empaquetamiento para Reutilización · 16 min
 
-# Empaquetar una construcción funcional para que el siguiente compromiso parta de un activo
+# Empaquetar una construcción funcional para que el siguiente proyecto parta de un activo
 
 Terminaste los módulos anteriores con una construcción que se ejecuta: un bucle de agente, un servidor MCP configurado, una evaluación que demuestra que el prompt funciona. Lo que más tiempo consume y más caro resulta en un equipo es el tiempo de ingeniería que se gasta reconstruyendo lo mismo para el siguiente cliente.
 
 ## Qué hace un acelerador: conservar las partes reutilizables y separar el resto
 
-Un **acelerador** es una solución empaquetada de modo que los compromisos futuros partan de una base funcional en lugar de un repositorio en blanco. En términos del plano de trabajo, esto es empaquetamiento para reutilización: separar el código específico del compromiso del núcleo reutilizable y parametrizar el resto. Toma una construcción funcional, separa las partes que son específicas del cliente y exponlas como parámetros con valores predeterminados documentados. El activo entonces se configura en lugar de reescribirse por completo. Empaquetar para reutilización mientras la construcción está fresca es más barato que reconstruir la intención meses después, cuando la persona que sabía por qué un valor estaba escrito en duro ya se fue.
+Un **acelerador** es una solución empaquetada de modo que los proyectos futuros partan de una base funcional en lugar de un repositorio en blanco. En términos del plano de trabajo, esto es empaquetamiento para reutilización: separar el código específico del proyecto del núcleo reutilizable y parametrizar el resto. Toma una construcción funcional, separa las partes que son específicas del cliente y exponlas como parámetros con valores predeterminados documentados. El activo entonces se configura en lugar de reescribirse por completo. Empaquetar para reutilización mientras la construcción está fresca es más barato que reconstruir la intención meses después, cuando la persona que sabía por qué un valor estaba escrito en duro ya se fue.
 
 ### La mayor parte del trabajo reutilizable cae en distintos tipos de activo, y cada uno se empaqueta de manera diferente
 
@@ -159,7 +159,7 @@ Mantén esta lista de verificación junto a la construcción mientras la empaque
 
 **Maneja bien**
 
-Parametrizar mientras la construcción está fresca convierte una entrega en un activo que el siguiente compromiso configura en horas.
+Parametrizar mientras la construcción está fresca convierte una entrega en un activo que el siguiente proyecto (*engagement*) configura en horas.
 
 **Agrega costo o complejidad**
 
@@ -183,9 +183,9 @@ Esta es una autopsia, escrita como la escribe un equipo después de que falla el
 
 ### Qué sucedió
 
-Un equipo construyó una plantilla de agente para un compromiso con un cliente y la despachó a tiempo. Para cumplir con la fecha de entrega, los valores específicos del cliente fueron directo al código: la ruta del repositorio, el nombre del modelo, los umbrales de revisión y un puñado de fragmentos de prompt específicos del dominio de ese cliente. La plantilla se ejecutó, el compromiso se cerró, y la construcción pasó al repositorio compartido etiquetada como reutilizable.
+Un equipo construyó una plantilla de agente para un proyecto con un cliente y la despachó a tiempo. Para cumplir con la fecha de entrega, los valores específicos del cliente fueron directo al código: la ruta del repositorio, el nombre del modelo, los umbrales de revisión y un puñado de fragmentos de prompt específicos del dominio de ese cliente. La plantilla se ejecutó, el proyecto se cerró, y la construcción pasó al repositorio compartido etiquetada como reutilizable.
 
-Meses después, un segundo equipo la retomó para un compromiso similar. No pudieron configurarla, porque no había nada que configurar. Cada valor que necesitaba cambiar estaba incrustado en el bucle donde el segundo equipo no podía verlo sin leer el archivo completo. No había ningún documento que dijera qué valores eran específicos del cliente y cuáles eran estructurales. Tampoco había una evaluación incluida, así que incluso después de adivinar las ediciones, nada confirmaba que la plantilla siguiera funcionando en el nuevo contexto. Tuvieron que reescribirla desde cero.
+Meses después, un segundo equipo la retomó para un proyecto similar. No pudieron configurarla, porque no había nada que configurar. Cada valor que necesitaba cambiar estaba incrustado en el bucle donde el segundo equipo no podía verlo sin leer el archivo completo. No había ningún documento que dijera qué valores eran específicos del cliente y cuáles eran estructurales. Tampoco había una evaluación incluida, así que incluso después de adivinar las ediciones, nada confirmaba que la plantilla siguiera funcionando en el nuevo contexto. Tuvieron que reescribirla desde cero.
 
 **Por qué esto falló**
 
@@ -236,7 +236,7 @@ El canal de contribución está diseñado para recibir ese activo empaquetado. L
 
 ## Haz coincidir la contribución con el canal construido para ella
 
-Contribuir de vuelta significa llevar un activo de la reutilización privada a la infraestructura compartida a través de un canal documentado. Cada canal está construido para un tipo específico de contribución. El **Claude Cookbook** es un repositorio de GitHub con implementaciones de referencia enfocadas. Está diseñado para implementaciones autocontenidas de un patrón o de varios patrones, demostradas con claridad y funcionando de extremo a extremo. Los servidores MCP y las herramientas de código abierto viven cada uno en su propio repositorio con sus propias convenciones de contribución. Enviar una aplicación completa de múltiples componentes al Cookbook es un desajuste. El repositorio está configurado para revisar un patrón enfocado en lugar de una aplicación entera, así que un envío de ese tamaño no encaja con lo que los revisores buscan y se estancará. El primer paso es hacer coincidir la contribución con el canal construido para ella. Poner una aplicación completa donde corresponde un ejemplo enfocado es una de las razones más comunes por las que una contribución nunca llega a revisarse.
+Contribuir de vuelta significa llevar un activo de la reutilización privada a la infraestructura compartida a través de un canal documentado. Cada canal está construido para un tipo específico de contribución. El **Claude Cookbook** es un repositorio de GitHub con implementaciones de referencia enfocadas. Está diseñado para implementaciones autocontenidas de un patrón o de varios patrones, demostradas con claridad y funcionando de extremo a extremo (*end-to-end*). Los servidores MCP y las herramientas de código abierto viven cada uno en su propio repositorio con sus propias convenciones de contribución. Enviar una aplicación completa de múltiples componentes al Cookbook es un desajuste. El repositorio está configurado para revisar un patrón enfocado en lugar de una aplicación entera, así que un envío de ese tamaño no encaja con lo que los revisores buscan y se estancará. El primer paso es hacer coincidir la contribución con el canal construido para ella. Poner una aplicación completa donde corresponde un ejemplo enfocado es una de las razones más comunes por las que una contribución nunca llega a revisarse.
 
 ### Qué hace posible verificar una contribución
 
@@ -249,15 +249,15 @@ Un mantenedor acepta una contribución que puede verificar. El listón lo fija l
 
 ### Los derechos y la atribución van antes de la revisión técnica
 
-Las licencias y la atribución deciden si una contribución puede aceptarse siquiera, y por eso van antes de la revisión técnica. El código traído de un compromiso con un cliente puede tener restricciones sobre a dónde puede ir. Confirmar que tienes el derecho de contribuirlo, y atribuir aquello sobre lo que construiste, es una puerta que la contribución debe pasar primero. Saltarse esto es lo que convierte una contribución en un problema que el equipo legal debe deshacer después.
+Las licencias y la atribución deciden si una contribución puede aceptarse siquiera, y por eso van antes de la revisión técnica. El código traído de un proyecto con un cliente puede tener restricciones sobre a dónde puede ir. Confirmar que tienes el derecho de contribuirlo, y atribuir aquello sobre lo que construiste, es una puerta que la contribución debe pasar primero. Saltarse esto es lo que convierte una contribución en un problema que el equipo legal debe deshacer después.
 
-El ejemplo que se trabaja aquí es el caso del agente de servicio al cliente. Un patrón reutilizable de manejo de conversaciones, construido durante un compromiso, se despoja de las particularidades del cliente y se prepara como un ejemplo general para el Cookbook. El movimiento de contribuir de vuelta es compartido por los tres roles de este plan de estudios. Tu trabajo como Desarrollador es la preparación técnica: el código enfocado, el ejemplo, la prueba, los supuestos y la verificación de derechos. El contexto del compromiso viene del equipo en general.
+El ejemplo que se trabaja aquí es el caso del agente de servicio al cliente. Un patrón reutilizable de manejo de conversaciones, construido durante un proyecto, se despoja de las particularidades del cliente y se prepara como un ejemplo general para el Cookbook. El movimiento de contribuir de vuelta es compartido por los tres roles de este plan de estudios. Tu trabajo como Desarrollador es la preparación técnica: el código enfocado, el ejemplo, la prueba, los supuestos y la verificación de derechos. El contexto del proyecto viene del equipo en general.
 
 ### La referencia de preparación para contribuir
 
 | Canal | Qué revisa un mantenedor | Licencias y atribución | El listón de ejemplo y prueba que hay que superar |
 |-------|--------------------------|------------------------|---------------------------------------------------|
-| El Cookbook para un ejemplo enfocado, o el repositorio propio de la herramienta o del servidor para una herramienta o una corrección. | Que el código haga una sola cosa y que puedan leerlo por completo. | Confirma que tienes el derecho de contribuir código proveniente de un compromiso, con el trabajo previo atribuido. | Un ejemplo ejecutable más una prueba que demuestre el comportamiento, no solo una descripción de él. |
+| El Cookbook para un ejemplo enfocado, o el repositorio propio de la herramienta o del servidor para una herramienta o una corrección. | Que el código haga una sola cosa y que puedan leerlo por completo. | Confirma que tienes el derecho de contribuir código proveniente de un proyecto, con el trabajo previo atribuido. | Un ejemplo ejecutable más una prueba que demuestre el comportamiento, no solo una descripción de él. |
 
 **Nota:**
 
@@ -271,7 +271,7 @@ Superar el listón del mantenedor y la puerta de licencias es trabajo real por e
 
 **Usa un enfoque diferente**
 
-Cuando el código carga una restricción de licencia del compromiso que no puedes resolver, no lo contribuyas: escala el asunto al propietario en su lugar.
+Cuando el código carga una restricción de licencia del proyecto que no puedes resolver, no lo contribuyas: escala el asunto al propietario en su lugar.
 
 ---
 
@@ -315,7 +315,7 @@ Inténtalo ahora. Lee los tres casos a continuación. Haz coincidir cada caso co
 
 **Caso B:** Una aplicación completa de servicio al cliente que un desarrollador quiere compartir entera, incluidos su interfaz de usuario y sus scripts de despliegue.
 
-**Caso C:** Una corrección de una línea a un ejemplo existente del Cookbook. El fragmento es la línea corregida, traída de un compromiso con un cliente.
+**Caso C:** Una corrección de una línea a un ejemplo existente del Cookbook. El fragmento es la línea corregida, traída de un proyecto con un cliente.
 
 ### Coincidencia 1: caso con canal
 
@@ -329,7 +329,7 @@ Caso B: Una aplicación completa de servicio al cliente compartida entera, inclu
 - El Cookbook, pero solo después de extraer el patrón reutilizable como un ejemplo enfocado
 - El repositorio propio del ejemplo del Cookbook
 
-Caso C: Una corrección de una línea a un ejemplo existente del Cookbook. El fragmento es la línea corregida, traída de un compromiso con un cliente.
+Caso C: Una corrección de una línea a un ejemplo existente del Cookbook. El fragmento es la línea corregida, traída de un proyecto con un cliente.
 - El repositorio propio de la herramienta
 - El Cookbook, pero solo después de extraer el patrón reutilizable como un ejemplo enfocado
 - El repositorio propio del ejemplo del Cookbook
@@ -339,17 +339,17 @@ Caso C: Una corrección de una línea a un ejemplo existente del Cookbook. El fr
 Caso A: Una herramienta enfocada que envuelve una sola API en una función limpia. El fragmento es la función y nada más.
 - Una prueba que demuestre que el envoltorio se comporta correctamente
 - La reducción a un solo patrón enfocado, porque una aplicación entera no encaja en una revisión construida para un patrón
-- La verificación de derechos, porque el código de un compromiso puede cargar una restricción de licencia que bloquea la fusión antes de cualquier revisión técnica
+- La verificación de derechos, porque el código de un proyecto puede cargar una restricción de licencia que bloquea la fusión antes de cualquier revisión técnica
 
 Caso B: Una aplicación completa de servicio al cliente compartida entera, incluidos su interfaz de usuario y sus scripts de despliegue.
 - Una prueba que demuestre que el envoltorio se comporta correctamente
 - La reducción a un solo patrón enfocado, porque una aplicación entera no encaja en una revisión construida para un patrón
-- La verificación de derechos, porque el código de un compromiso puede cargar una restricción de licencia que bloquea la fusión antes de cualquier revisión técnica
+- La verificación de derechos, porque el código de un proyecto puede cargar una restricción de licencia que bloquea la fusión antes de cualquier revisión técnica
 
-Caso C: Una corrección de una línea a un ejemplo existente del Cookbook. El fragmento es la línea corregida, traída de un compromiso con un cliente.
+Caso C: Una corrección de una línea a un ejemplo existente del Cookbook. El fragmento es la línea corregida, traída de un proyecto con un cliente.
 - Una prueba que demuestre que el envoltorio se comporta correctamente
 - La reducción a un solo patrón enfocado, porque una aplicación entera no encaja en una revisión construida para un patrón
-- La verificación de derechos, porque el código de un compromiso puede cargar una restricción de licencia que bloquea la fusión antes de cualquier revisión técnica
+- La verificación de derechos, porque el código de un proyecto puede cargar una restricción de licencia que bloquea la fusión antes de cualquier revisión técnica
 
 ---
 
@@ -422,7 +422,7 @@ Una aplicación de Claude atraviesa el mismo ciclo de vida que cualquier sistema
 - 1 **Requisitos:** capturar las necesidades funcionales y de infraestructura
 - 2 **Diseño:** elegir la plataforma, el modelo y los límites de confianza
 - 3 **Construcción:** escribir el agente, las herramientas y los prompts
-- 4 **Prueba:** evaluaciones, pruebas unitarias, de integración y de extremo a extremo
+- 4 **Prueba:** evaluaciones, pruebas unitarias, de integración y de extremo a extremo (*end-to-end*)
 - 5 **Despliegue:** fijar la versión, condicionar la promoción a la evaluación
 - 6 **Operación:** instrumentar costo, latencia y errores; hacer cumplir los guardarraíles
 - 7 **Iteración:** retroalimentar los hallazgos de producción hacia los requisitos
@@ -431,7 +431,7 @@ Las fases son las mismas que los módulos anteriores enseñaron una por una. Ide
 
 ## Puertas entre fases
 
-Una puerta es una decisión de pasar de una fase a la siguiente, y es donde un compromiso regulado mantiene el control. No pasas de diseño a construcción hasta que la plataforma satisface el requisito de residencia; no pasas de despliegue hacia producción plena hasta que la nueva versión supera la evaluación contra la línea base fijada. Colocar el trabajo de ingeniería en la fase correcta, y negarse a saltar una puerta, es lo que mantiene revisable una aplicación de Claude.
+Una puerta es una decisión de pasar de una fase a la siguiente, y es donde un proyecto regulado mantiene el control. No pasas de diseño a construcción hasta que la plataforma satisface el requisito de residencia; no pasas de despliegue hacia producción plena hasta que la nueva versión supera la evaluación contra la línea base fijada. Colocar el trabajo de ingeniería en la fase correcta, y negarse a saltar una puerta, es lo que mantiene revisable una aplicación de Claude.
 
 **Nota:**
 
@@ -480,7 +480,7 @@ Un activo empaquetado y uno contribuido son ambos apenas código hasta que algo 
 
 ## La nube del cliente normalmente determina la plataforma
 
-La **plataforma de despliegue** es el entorno donde se ejecuta la carga de trabajo de Claude. El mismo modelo puede ejecutarse en varios entornos de despliegue, y la nube existente del cliente normalmente determina cuál. La API de Claude de primera parte es el entorno propio de Anthropic y típicamente recibe primero las nuevas características. Claude Platform on AWS se accede a través de la cuenta de AWS del cliente usando los IDs de modelo y el ciclo de vida propios de Anthropic; la inferencia es operada por Anthropic, fuera del límite de AWS. Amazon Bedrock ofrece dos integraciones: Claude in Amazon Bedrock usa la API de Mensajes en /anthropic/v1/messages con amplia paridad de características; confirma cualquier requisito específico de una característica contra la documentación de Bedrock, ya que existe una lista de características no soportadas, mientras que Claude on Amazon Bedrock (heredado) usa las APIs InvokeModel/Converse con identificadores versionados por ARN. Google Vertex AI hace lo mismo dentro de Google Cloud. Las plataformas de terceros, como Microsoft Foundry, incrustan Claude dentro de un producto que el cliente ya usa. Microsoft Foundry ofrece Claude en dos formas de alojamiento: Alojado en Azure (actualmente Claude Opus 4.8, Claude Sonnet 5 y Claude Haiku 4.5, con la inferencia ejecutándose de extremo a extremo en infraestructura de Azure, disponible de forma general) y Alojado en Anthropic (todos los demás modelos Claude de Foundry, con la inferencia en infraestructura operada por Anthropic). Los supuestos de residencia para clientes regulados dependen de la forma de alojamiento del modelo específico. Confirma la forma de alojamiento y la división actual de modelos con Microsoft al momento de construir.
+La **plataforma de despliegue** es el entorno donde se ejecuta la carga de trabajo de Claude. El mismo modelo puede ejecutarse en varios entornos de despliegue, y la nube existente del cliente normalmente determina cuál. La API de Claude de primera parte es el entorno propio de Anthropic y típicamente recibe primero las nuevas características. Claude Platform on AWS se accede a través de la cuenta de AWS del cliente usando los IDs de modelo y el ciclo de vida propios de Anthropic; la inferencia es operada por Anthropic, fuera del límite de AWS. Amazon Bedrock ofrece dos integraciones: Claude in Amazon Bedrock usa la API de Mensajes en /anthropic/v1/messages con amplia paridad de características; confirma cualquier requisito específico de una característica contra la documentación de Bedrock, ya que existe una lista de características no soportadas, mientras que Claude on Amazon Bedrock (heredado) usa las APIs InvokeModel/Converse con identificadores versionados por ARN. Google Vertex AI hace lo mismo dentro de Google Cloud. Las plataformas de terceros, como Microsoft Foundry, incrustan Claude dentro de un producto que el cliente ya usa. Microsoft Foundry ofrece Claude en dos formas de alojamiento: Alojado en Azure (actualmente Claude Opus 4.8, Claude Sonnet 5 y Claude Haiku 4.5, con la inferencia ejecutándose de extremo a extremo (*end-to-end*) en infraestructura de Azure, disponible de forma general) y Alojado en Anthropic (todos los demás modelos Claude de Foundry, con la inferencia en infraestructura operada por Anthropic). Los supuestos de residencia para clientes regulados dependen de la forma de alojamiento del modelo específico. Confirma la forma de alojamiento y la división actual de modelos con Microsoft al momento de construir.
 
 ### La identidad y la residencia de datos son importantes para la seguridad
 
@@ -516,13 +516,13 @@ Condiciona la promoción a la suite de evaluaciones. Envía una nueva versión a
 | Claude in Amazon Bedrock | API de Mensajes en /anthropic/v1/messages, amplia paridad de características con la API de primera parte; confirma los requisitos específicos de cada característica contra la documentación de Bedrock. Los datos permanecen dentro del límite de AWS configurado por el cliente. | El cliente está en AWS, quiere amplia paridad de características con la API de primera parte (confirma los requisitos específicos de cada característica) y mantiene allí una postura de cumplimiento. | Fija el ID completo del modelo usando el formato con prefijo anthropic. Las fechas de retiro del socio difieren del calendario de Anthropic. Confirma al momento de publicar. |
 | Claude on Amazon Bedrock (heredado) | Identidad y facturación de AWS, APIs InvokeModel/Converse con identificadores de modelo versionados por ARN. | El cliente está en una integración existente de Bedrock que usa InvokeModel o Converse y no ha migrado a la API de Mensajes. | Fija mediante identificadores de modelo versionados por ARN según los controles de versionado de Bedrock. |
 | Google Vertex AI | Identidad, Gestión de Identidad y Acceso (IAM) y facturación de Google Cloud, con puntos de acceso regionales o globales para la residencia. | El cliente está en Google Cloud y mantiene allí una postura de cumplimiento. | Fija el ID completo del modelo antes del lanzamiento usando el formato de ID de modelo de Vertex. Las fechas de retiro del socio difieren del calendario de Anthropic. |
-| Plataforma de terceros | El modelo de identidad y facturación del producto que la envuelve. Nota: Claude en Microsoft Foundry ofrece dos formas de alojamiento: Alojado en Azure (actualmente Opus 4.8, Sonnet 5 y Haiku 4.5; inferencia de extremo a extremo en Azure) y Alojado en Anthropic (todos los demás modelos Claude de Foundry). Confirma los términos de residencia y cumplimiento con Microsoft antes de seleccionar esta ruta para un cliente regulado. | El cliente ya opera la plataforma que incrusta Claude. | Fija según los controles de versionado de la plataforma. |
+| Plataforma de terceros | El modelo de identidad y facturación del producto que la envuelve. Nota: Claude en Microsoft Foundry ofrece dos formas de alojamiento: Alojado en Azure (actualmente Opus 4.8, Sonnet 5 y Haiku 4.5; inferencia de extremo a extremo (*end-to-end*) en Azure) y Alojado en Anthropic (todos los demás modelos Claude de Foundry). Confirma los términos de residencia y cumplimiento con Microsoft antes de seleccionar esta ruta para un cliente regulado. | El cliente ya opera la plataforma que incrusta Claude. | Fija según los controles de versionado de la plataforma. |
 
 **Nota:**
 
 **Maneja bien**
 
-Hacer coincidir la plataforma con la nube del cliente y fijar la versión mantiene una migración revisable y una reversión posible.
+Hacer coincidir la plataforma con la nube del cliente y fijar la versión mantiene una migración revisable y una reversión (*rollback*) posible.
 
 **Agrega costo o complejidad**
 
@@ -542,7 +542,7 @@ Para un prototipo desechable que nunca toca producción, un alias móvil está b
 
 Lanzaste contra el alias que apuntaba a la versión recomendada, porque ese era el valor por defecto conveniente y te daba el modelo más reciente gratis. Funcionó. Luego el alias avanzó, y lo que era gratis resultó tener un precio.
 
-Este es un extracto de rastreo de un registro de producción, del tipo que revisarías hacia atrás después de un incidente. Muestra el día en que la forma de la salida cambió y por qué no había nada a lo cual revertir.
+Este es un extracto de rastreo (*trace*) de un registro de producción, del tipo que revisarías hacia atrás después de un incidente. Muestra el día en que la forma de la salida cambió y por qué no había nada a lo cual revertir.
 
 **El registro**
 
@@ -561,7 +561,7 @@ La aplicación nunca cambió, pero el alias sí. No se había retenido ninguna v
 
 **A qué debes prestar atención**
 
-Un alias resuelve a un objetivo móvil; un ID de modelo completo y fijado es una instantánea fija. Fija el ID de modelo completo para que una actualización aguas arriba sea algo que adoptes a propósito. Mantén disponible la versión fijada anterior para que una regresión sea una reversión y no un parche de emergencia. Somete la nueva versión a tu evaluación antes de promoverla, de modo que el cambio en la forma de la salida aparezca en una corrida de prueba en lugar de en producción.
+Un alias resuelve a un objetivo móvil; un ID de modelo completo y fijado es una instantánea fija. Fija el ID de modelo completo para que una actualización aguas arriba sea algo que adoptes a propósito. Mantén disponible la versión fijada anterior para que una regresión sea una reversión (*rollback*) y no un parche de emergencia. Somete la nueva versión a tu evaluación antes de promoverla, de modo que el cambio en la forma de la salida aparezca en una corrida de prueba en lugar de en producción.
 
 ---
 
@@ -597,7 +597,7 @@ La latencia depende de dónde se ejecuta la plataforma en relación con el clien
 
 ## El cumplimiento con frecuencia determina la plataforma
 
-El cumplimiento es a menudo la dimensión que zanja el debate. Es poco probable que un cliente que ya posee una certificación en una nube se recertifique en otra. La **residencia de datos** es una regla que exige que los datos de un cliente sean procesados en un país o región específicos. Las certificaciones de cumplimiento disponibles y quién puede auditar el acceso difieren según la plataforma, y un cliente regulado del sector financiero o de salud las trata como criterios de aprobado-o-reprobado en lugar de contrapartidas por equilibrar. La API de Claude de primera parte puede no ofrecer residencia de datos en la UE; confirma la cobertura regional actual en platform.claude.com, dado que la residencia exclusiva en la UE típicamente requiere Bedrock o Vertex AI; en plataformas de terceros como Microsoft Foundry, el alojamiento es por modelo: los modelos de Foundry alojados en Azure ejecutan la inferencia de extremo a extremo en infraestructura de Azure, mientras que los modelos de Foundry alojados por Anthropic no satisfacen los requisitos de residencia regional en la UE. La residencia debe confirmarse por modelo y despliegue con Microsoft. Plantea la restricción de cumplimiento durante el alcance, o aparecerá en la revisión del contrato después de que el trabajo esté terminado.
+El cumplimiento es a menudo la dimensión que zanja el debate. Es poco probable que un cliente que ya posee una certificación en una nube se recertifique en otra. La **residencia de datos** es una regla que exige que los datos de un cliente sean procesados en un país o región específicos. Las certificaciones de cumplimiento disponibles y quién puede auditar el acceso difieren según la plataforma, y un cliente regulado del sector financiero o de salud las trata como criterios de aprobado-o-reprobado en lugar de contrapartidas por equilibrar. La API de Claude de primera parte puede no ofrecer residencia de datos en la UE; confirma la cobertura regional actual en platform.claude.com, dado que la residencia exclusiva en la UE típicamente requiere Bedrock o Vertex AI; en plataformas de terceros como Microsoft Foundry, el alojamiento es por modelo: los modelos de Foundry alojados en Azure ejecutan la inferencia de extremo a extremo (*end-to-end*) en infraestructura de Azure, mientras que los modelos de Foundry alojados por Anthropic no satisfacen los requisitos de residencia regional en la UE. La residencia debe confirmarse por modelo y despliegue con Microsoft. Plantea la restricción de cumplimiento durante el alcance, o aparecerá en la revisión del contrato después de que el trabajo esté terminado.
 
 ## Qué impulsa el costo total más allá de la tarifa por token
 
@@ -655,7 +655,7 @@ Una plataforma que es fácil para que tu equipo construya sobre ella no es neces
 
 # Punto de control 6: Diagnostica el desajuste de plataforma a partir de un rastreo de comparación
 
-Inténtalo ahora. El rastreo de comparación a continuación muestra una plataforma de despliegue seleccionada por familiaridad que falla un requisito del cliente. Identifica el mecanismo, y luego elige el arreglo puntual entre las tres opciones.
+Inténtalo ahora. El rastreo (*trace*) de comparación a continuación muestra una plataforma de despliegue seleccionada por familiaridad que falla un requisito del cliente. Identifica el mecanismo, y luego elige el arreglo puntual entre las tres opciones.
 
 **El rastreo**
 
@@ -685,11 +685,11 @@ Una aplicación multicomponente coordina más de una capacidad de Claude dentro 
 
 ## El límite de confianza es donde los datos se mueven
 
-El **límite de confianza** es el punto donde los datos o las instrucciones se mueven de un entorno de despliegue a otro. Es exactamente donde aplican los controles de inyección y de acceso del módulo anterior. El contenido obtenido por una tarea de Claude Code es no confiable cuando llega al siguiente componente. El componente receptor debería tratarlo como datos, en lugar de como instrucciones, siguiendo el mismo principio usado a lo largo del módulo de seguridad. La disciplina central aquí es identificar cada costura como un límite. No asumas que un componente es confiable simplemente porque funcionó correctamente por su cuenta.
+El **límite de confianza** es el punto donde los datos o las instrucciones se mueven de un entorno de despliegue a otro. Es exactamente donde aplican los controles de inyección y de acceso del módulo anterior. El contenido obtenido por una tarea de Claude Code es no confiable cuando llega al siguiente componente. El componente receptor debería tratarlo como datos, en lugar de como instrucciones, siguiendo el mismo principio usado a lo largo del módulo de seguridad. La disciplina central aquí es identificar cada costura (*seam*) como un límite. No asumas que un componente es confiable simplemente porque funcionó correctamente por su cuenta.
 
 ## El privilegio mínimo aplica a toda la aplicación
 
-La identidad y el privilegio mínimo, que significa dar a cada componente solo el acceso que su tarea necesita y nada más, aplican a la aplicación en su conjunto. Cada componente opera bajo una identidad. La aplicación está contenida solo tanto como lo esté su costura más privilegiada, lo que significa que un solo componente con un alcance demasiado amplio se convierte en el punto débil aun cuando todos los demás componentes estén correctamente acotados. Acotas cada componente al privilegio mínimo que requiere su rol en el flujo de trabajo. Esto es lo que impide que un componente manipulado alcance más allá de su tarea prevista.
+La identidad y el privilegio mínimo (*least privilege*), que significa dar a cada componente solo el acceso que su tarea necesita y nada más, aplican a la aplicación en su conjunto. Cada componente opera bajo una identidad. La aplicación está contenida solo tanto como lo esté su costura (*seam*) más privilegiada, lo que significa que un solo componente con un alcance demasiado amplio se convierte en el punto débil aun cuando todos los demás componentes estén correctamente acotados. Acotas cada componente al privilegio mínimo que requiere su rol en el flujo de trabajo. Esto es lo que impide que un componente manipulado alcance más allá de su tarea prevista.
 
 ## Definir el alcance para una revisión regulada une el módulo
 
@@ -697,11 +697,11 @@ Una revisión regulada exige justificar el registro de auditoría, las decisione
 
 ### El mapa de integración multicomponente
 
-| Componente | Qué aporta | El límite de confianza en su costura | El control que lo hace cumplir |
+| Componente | Qué aporta | El límite de confianza en su costura (*seam*) | El control que lo hace cumplir |
 |------------|-----------|--------------------------------------|--------------------------------|
 | API de primera parte | Orquesta el flujo de trabajo y sostiene el punto de entrada. | La solicitud que entra a la aplicación desde el exterior. | Validación de entrada y la identidad bajo la cual se ejecuta la llamada. |
 | Tarea de Claude Code | Ejecuta el trabajo agéntico y puede obtener contenido externo. | El contenido que obtuvo, que es no confiable aguas abajo. | Tratar el contenido obtenido como datos en la siguiente costura. |
-| Servidor MCP | Alcanza un sistema del cliente para leer o actuar. | El acceso al sistema que sostiene en nombre de la aplicación. | Acotar el servidor al privilegio mínimo y registrar el acceso. |
+| Servidor MCP | Alcanza un sistema del cliente para leer o actuar. | El acceso al sistema que sostiene en nombre de la aplicación. | Acotar el servidor al privilegio mínimo (*least privilege*) y registrar el acceso. |
 
 **Nota:**
 
@@ -725,7 +725,7 @@ Cuando una costura no puede asegurarse, no la esquives para desplegar: escala el
 
 **Configuración**
 
-Conectaste los componentes, cada uno de los cuales pasó sus propias pruebas. Las partes ya estaban verificadas y conectar partes verificadas se siente seguro. Cada una era confiable de forma aislada. La brecha era que una costura entre dos partes confiables no puede ser confiable automáticamente por sí misma.
+Conectaste los componentes, cada uno de los cuales pasó sus propias pruebas. Las partes ya estaban verificadas y conectar partes verificadas se siente seguro. Cada una era confiable de forma aislada. La brecha era que una costura (*seam*) entre dos partes confiables no puede ser confiable automáticamente por sí misma.
 
 Esta es una transcripción breve de una sesión de emparejamiento, del tipo de ida y vuelta que termina en el momento en que se identifica la costura sin marcar.
 
@@ -734,7 +734,7 @@ Esta es una transcripción breve de una sesión de emparejamiento, del tipo de i
 **Dev A:** Los tres componentes pasan sus propias pruebas. Ya los conecté.
 **Dev B:** ¿A dónde envía la tarea de Claude Code lo que obtuvo?
 **Dev A:** Directo a la siguiente llamada como parte del prompt. Es solo el contenido que extrajimos de la página del cliente.
-**Dev B:** Ese contenido es no confiable. Si lleva instrucciones, el siguiente componente las ejecuta, porque nunca marcamos esa costura como un límite.
+**Dev B:** Ese contenido es no confiable. Si lleva instrucciones, el siguiente componente las ejecuta, porque nunca marcamos esa costura (*seam*) como un límite.
 **Dev A:** Pero cada componente era confiable por su cuenta.
 **Dev B:** Correcto, y la costura entre ellos no lo era. Esa es la que nadie trató como un límite, así que el contenido obtenido cruza como instrucciones.
 
@@ -752,7 +752,7 @@ Un componente que es confiable de forma aislada no vuelve automáticamente confi
 
 # Punto de control 7: Completa la configuración de límites multicomponente
 
-Inténtalo ahora. La aplicación multicomponente a continuación está conectada, con dos espacios en blanco. Arrastra el control correcto sobre la costura que recibe el contenido obtenido no confiable y arrastra el alcance de identidad correcto sobre el componente más privilegiado.
+Inténtalo ahora. La aplicación multicomponente a continuación está conectada, con dos espacios en blanco. Arrastra el control correcto sobre la costura (*seam*) que recibe el contenido obtenido no confiable y arrastra el alcance de identidad correcto sobre el componente más privilegiado.
 
 **La aplicación parcial**
 
@@ -818,7 +818,7 @@ def build_agent(repo_path):  # parametrizado para reutilización
     return Agent(
         model="us.anthropic.claude-opus-4-8",  # ID de modelo completo de Bedrock, fijado
         system_prompt=SYSTEM_PROMPT,
-        repo_path=repo_path,  # se establece por cada compromiso
+        repo_path=repo_path,  # se establece por cada proyecto
         tools=[read_file, run_linter],
     )
 
@@ -830,7 +830,7 @@ next_call(input=treat_as_data(fetched))  # no confiable -> datos, no instruccion
 assert eval_suite.run(model="us.anthropic.claude-opus-4-8") >= baseline_score
 ```
 
-**Respuesta modelo:** El primer defecto era una ruta de repositorio escrita en duro. Parametrizarla restaura la reutilización: un nuevo compromiso establece el valor en lugar de editar el bucle. El segundo defecto era un alias de modelo móvil. Fijar el ID de modelo completo de Bedrock (con el prefijo anthropic.) junto con una versión previa retenida restaura el despliegue controlado y da un objetivo de reversión si la nueva versión sufre una regresión. El tercer defecto era el contenido obtenido pasado directamente como instrucciones. Envolverlo en `treat_as_data()` cierra el límite de confianza: el contenido de una fuente no confiable se trata como datos, no como algo sobre lo cual el agente deba actuar. La aserción de la evaluación condiciona la promoción a una puntuación de referencia comprobada antes de que la versión salga a producción.
+**Respuesta modelo:** El primer defecto era una ruta de repositorio escrita en duro. Parametrizarla restaura la reutilización: un nuevo proyecto establece el valor en lugar de editar el bucle. El segundo defecto era un alias de modelo móvil. Fijar el ID de modelo completo de Bedrock (con el prefijo anthropic.) junto con una versión previa retenida restaura el despliegue controlado y da un objetivo de reversión (*rollback*) si la nueva versión sufre una regresión. El tercer defecto era el contenido obtenido pasado directamente como instrucciones. Envolverlo en `treat_as_data()` cierra el límite de confianza: el contenido de una fuente no confiable se trata como datos, no como algo sobre lo cual el agente deba actuar. La aserción de la evaluación condiciona la promoción a una puntuación de referencia comprobada antes de que la versión salga a producción.
 
 ---
 
@@ -851,7 +851,7 @@ Mover un activo a infraestructura compartida significa emparejarlo con el canal 
 **03**
 
 #### Fija lo que sale a producción.
-Elige la plataforma de despliegue con base en la nube y la postura de cumplimiento del cliente, luego fija la versión específica del modelo en lugar del alias móvil y mantén disponible la versión anterior. Un alias es como pedir la edición actual de un libro: conveniente, pero el texto puede cambiar. Fijar cita una edición fija, de modo que un cambio de modelo aguas arriba es algo que adoptas deliberadamente en lugar de algo que llega de un día para otro sin ruta de reversión.
+Elige la plataforma de despliegue con base en la nube y la postura de cumplimiento del cliente, luego fija la versión específica del modelo en lugar del alias móvil y mantén disponible la versión anterior. Un alias es como pedir la edición actual de un libro: conveniente, pero el texto puede cambiar. Fijar cita una edición fija, de modo que un cambio de modelo aguas arriba es algo que adoptas deliberadamente en lugar de algo que llega de un día para otro sin ruta de reversión (*rollback*).
 
 **04**
 
@@ -861,7 +861,7 @@ Una elección de plataforma es defendible solo cuando se miden la latencia, el c
 **05**
 
 #### Marca cada costura como un límite.
-Una aplicación multicomponente está contenida solo tanto como lo esté su costura más privilegiada. Acota cada componente al acceso mínimo que su rol requiere y trata cada punto donde los datos cruzan como un límite de confianza. El contenido obtenido se trata como datos, no como instrucciones. La confianza en un límite de componente debe establecerse explícitamente. No se hereda del componente que envió los datos. Cuando una costura no puede asegurarse, va a un responsable humano en lugar de salir a producción.
+Una aplicación multicomponente está contenida solo tanto como lo esté su costura (*seam*) más privilegiada. Acota cada componente al acceso mínimo que su rol requiere y trata cada punto donde los datos cruzan como un límite de confianza. El contenido obtenido se trata como datos, no como instrucciones. La confianza en un límite de componente debe establecerse explícitamente. No se hereda del componente que envió los datos. Cuando una costura no puede asegurarse, va a un responsable humano en lugar de salir a producción.
 
 **Nota:**
 
@@ -891,7 +891,7 @@ Empaquétalo, contribúyelo, colócalo y versiónalo, defiende esa colocación y
 Alfabético. Haz clic en un término para expandir su definición.
 
 **Accelerator (Acelerador)**
-Una solución funcional empaquetada de modo que el siguiente compromiso la configure en lugar de reconstruirla. Las partes específicas del cliente se exponen como parámetros documentados, los supuestos quedan por escrito y se incluye una evaluación para probar que el activo sigue funcionando en un contexto nuevo.
+Una solución funcional empaquetada de modo que el siguiente proyecto (*engagement*) la configure en lugar de reconstruirla. Las partes específicas del cliente se exponen como parámetros documentados, los supuestos quedan por escrito y se incluye una evaluación para probar que el activo sigue funcionando en un contexto nuevo.
 
 **Contribution readiness (Preparación para contribuir)**
 Lo que un mantenedor necesita para verificar una contribución: código enfocado, un ejemplo ejecutable, una prueba que demuestre el comportamiento, una declaración de los supuestos del entorno y derechos confirmados para contribuir el código.
@@ -903,7 +903,7 @@ Dónde se ejecuta una carga de trabajo de Claude. Las seis son: la API de Claude
 Un alias como opus o sonnet resuelve a una versión recomendada que se actualiza con el tiempo y puede diferir según la plataforma. Un ID de modelo completo fijado es una instantánea fija. Fijar es lo que impide que un cambio de modelo aguas arriba se convierta en un cambio silencioso en producción.
 
 **Trust boundary (Límite de confianza)**
-La costura donde los datos o las instrucciones se mueven de un entorno de despliegue a otro en una aplicación multicomponente. El contenido obtenido por un componente es no confiable cuando llega al siguiente, así que el componente receptor lo trata como datos, no como instrucciones.
+La costura (*seam*) donde los datos o las instrucciones se mueven de un entorno de despliegue a otro en una aplicación multicomponente. El contenido obtenido por un componente es no confiable cuando llega al siguiente, así que el componente receptor lo trata como datos, no como instrucciones.
 
 ---
 
@@ -911,7 +911,7 @@ La costura donde los datos o las instrucciones se mueven de un entorno de despli
 
 # ¡Felicidades! Has completado exitosamente este módulo.
 
-Ahora puedes llevar una construcción funcional hasta convertirla en un activo desplegable y auditable: un acelerador reutilizable, una contribución que un mantenedor puede verificar, una plataforma de despliegue elegida y versionada a propósito, y cada costura de una aplicación multicomponente marcada como un límite de confianza.
+Ahora puedes llevar una construcción funcional hasta convertirla en un activo desplegable y auditable: un acelerador reutilizable, una contribución que un mantenedor puede verificar, una plataforma de despliegue elegida y versionada a propósito, y cada costura (*seam*) de una aplicación multicomponente marcada como un límite de confianza.
 
 **El hilo conductor: el punto donde el código empieza a funcionar es donde comienza el trabajo de este módulo.**
 

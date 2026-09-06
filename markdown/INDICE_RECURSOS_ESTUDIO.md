@@ -12,7 +12,7 @@
 3. Responde 3 cuestionarios rápidos
 
 ### Si tienes **tiempo moderado** (1-2 horas)
-1. 🃏 Abre [tarjetas-interactivas.html](tarjetas-interactivas.html) en tu navegador
+1. 🃏 Abre [tarjetas-interactivas.html](../html/tarjetas-interactivas.html) en tu navegador
 2. Repasa todas las tarjetas de estudio (27 tarjetas)
 3. Contesta el cuestionario completo
 4. Revisa resultados y expliquaciones
@@ -20,7 +20,7 @@
 ### Si tienes **tiempo completo** (2-3 horas)
 1. 📖 Lee [ESTUDIO-CERTIFICACION-ANTHROPIC.md](ESTUDIO-CERTIFICACION-ANTHROPIC.md) completo
 2. Toma notas en tus propias palabras
-3. Usa [tarjetas-interactivas.html](tarjetas-interactivas.html) para práctica
+3. Usa [tarjetas-interactivas.html](../html/tarjetas-interactivas.html) para práctica
 4. Haz el cuestionario completo
 5. Revisa los "10 Errores Más Costosos"
 

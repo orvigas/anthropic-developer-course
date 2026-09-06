@@ -323,7 +323,7 @@ This material has been extracted from static HTML files. Some interactive elemen
 
 ### 🃏 Interactive Tool
 
-- **[tarjetas-interactivas.html](tarjetas-interactivas.html)** - Interactive web application (Spanish)
+- **[tarjetas-interactivas.html](../html/tarjetas-interactivas.html)** - Interactive web application (Spanish)
   - 27 study flashcards with flip animation
   - Shuffle function for random practice
   - 11 practice quizzes
@@ -339,7 +339,7 @@ To complete your Claude Developer Certified training:
 
 1. **Read modules in order** - Each builds on the previous one
 2. **Use the study guide** - Consult [ESTUDIO-CERTIFICACION-ANTHROPIC.md](ESTUDIO-CERTIFICACION-ANTHROPIC.md) (Spanish)
-3. **Practice with interactive flashcards** - Open [tarjetas-interactivas.html](tarjetas-interactivas.html)
+3. **Practice with interactive flashcards** - Open [tarjetas-interactivas.html](../html/tarjetas-interactivas.html)
 4. **Take notes** - Especially on production engineering concepts
 5. **Practice with code** - Module 2 concepts require hands-on implementation
 6. **Access the official platform** - For interactive exercises and official certification
