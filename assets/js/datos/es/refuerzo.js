@@ -24,7 +24,7 @@ const REFUERZO = {
                 nombre: 'C · Contexto',
                 claves: ['contexto', 'ventana', 'model_context_window_exceeded', 'trunca', 'cabe', 'validación'],
                 repasa: 'Son dos fallos distintos. Entrada mayor que la ventana: error de validación antes de generar. Techo alcanzado durante la generación: salida parcial con su razón de detención. Ninguno recorta en silencio.',
-                practica: { pagina: 'tarjetas-interactivas.html', que: 'las tarjetas de M1 sobre ventana de contexto' }
+                practica: { pagina: 'index.html', que: 'las tarjetas de M1 sobre ventana de contexto' }
             },
             {
                 nombre: 'M · Muestreo',
