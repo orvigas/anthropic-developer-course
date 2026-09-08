@@ -1,0 +1,14 @@
+/* Cuadros comparativos
+   Certificación Anthropic · Desarrollador */
+
+/* ---------- Cuadros comparativos ---------- */
+.cuadro { padding: 20px 22px; }
+.cuadro__cabecera { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+/* La insignia trae margen inferior porque en las tarjetas va suelta sobre el
+   texto; aquí comparte línea con el título. */
+.cuadro__cabecera .insignia { margin-bottom: 0; }
+.cuadro__titulo { font-size: 1.06em; color: var(--morado-osc); }
+/* Cinco columnas de texto no caben en un móvil. La tabla se desplaza dentro
+   de su caja en lugar de ensanchar la página entera. */
+.cuadro__desplazable { overflow-x: auto; }
+.cuadro__desplazable .tabla { min-width: 560px; }

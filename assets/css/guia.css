@@ -9,7 +9,4 @@
 .guia__lista li strong { color: var(--morado-osc); display: inline-block; min-width: 20px; }
 .guia ol { padding-left: 22px; }
 .guia ol li { margin-bottom: 7px; font-size: .94em; }
-.tabla { width: 100%; border-collapse: collapse; font-size: .88em; margin-top: 10px; }
-.tabla th, .tabla td { border: 1px solid var(--borde); padding: 8px 10px; text-align: left; vertical-align: top; }
-.tabla th { background: #f4f5fb; font-weight: 700; }
 .guia__desplazable { overflow-x: auto; }

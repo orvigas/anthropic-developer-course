@@ -20,6 +20,7 @@ const T = {
         { id: 'ejemplos',  archivo: 'ejemplos.html',         etiqueta: '🧪 Ejemplos' },
         { id: 'exam',      archivo: 'simulacro.html',        etiqueta: '🎓 Simulacro' },
         { id: 'repaso',    archivo: 'repaso.html',           etiqueta: '🎯 Qué reforzar' },
+        { id: 'cuadros',  archivo: 'cuadros.html',          etiqueta: '📊 Cuadros' },
         { id: 'guide',     archivo: 'guia.html',             etiqueta: '📖 Guía rápida' }
     ],
     otroIdioma: { href: '../en/index.html', etiqueta: 'English' },
@@ -120,6 +121,10 @@ const T = {
         queVeras: 'Qué verás',
         dondeSeRompe: 'Dónde se rompe.',
         yaLoProbe: 'Ya lo probé'
+    },
+    cua: {
+        vacio: 'No hay cuadros para este filtro.',
+        contador: n => `${n} cuadro${n === 1 ? '' : 's'} comparativo${n === 1 ? '' : 's'}`
     },
 
     /* ---------------------------- Qué reforzar ------------------------- */

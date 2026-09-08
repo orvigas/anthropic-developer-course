@@ -90,6 +90,23 @@ header p { font-size: 1.05em; opacity: .93; }
 
 .estado-vacio { text-align: center; color: var(--texto-suave); padding: 40px 20px; }
 
+/* ---------- Código en línea ---------- */
+/* Lo escriben a mano los bancos de assets/js/datos/ y el HTML de la guía, así
+   que aparece en páginas que no cargan codigo.css: por eso vive aquí (§4.3).
+   Queda fuera de BEM a propósito: renombrarlo sin tocar los 58 usos de los
+   datos dejaría el CSS y los datos apuntando a nombres distintos. */
+code.inline {
+    background: #eef0f8; padding: 1px 6px; border-radius: 4px;
+    font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: .88em; color: #4a3f9e;
+}
+
+/* ---------- Tablas ---------- */
+/* Las comparten la guía rápida y los cuadros comparativos, que cargan
+   hojas distintas: por eso viven aquí y no en una de las dos (§4.3). */
+.tabla { width: 100%; border-collapse: collapse; font-size: .88em; margin-top: 10px; }
+.tabla th, .tabla td { border: 1px solid var(--borde); padding: 8px 10px; text-align: left; vertical-align: top; }
+.tabla th { background: #f4f5fb; font-weight: 700; }
+
 /* ---------- Controles comunes de ejercicio ---------- */
 /* Contador, progreso, insignia y botones los comparten tarjetas, verdadero/falso,
    simulacro, ejemplos y repaso, pero solo la primera enlaza tarjetas.css: por eso

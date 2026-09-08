@@ -20,6 +20,7 @@ const T = {
         { id: 'ejemplos',  archivo: 'examples.html',        etiqueta: '🧪 Examples' },
         { id: 'exam',      archivo: 'mock-exam.html',       etiqueta: '🎓 Mock exam' },
         { id: 'repaso',    archivo: 'what-to-review.html',  etiqueta: '🎯 What to review' },
+        { id: 'cuadros',  archivo: 'comparison-tables.html', etiqueta: '📊 Charts' },
         { id: 'guide',     archivo: 'guide.html',           etiqueta: '📖 Quick guide' }
     ],
     otroIdioma: { href: '../es/index.html', etiqueta: 'Español' },
@@ -120,6 +121,10 @@ const T = {
         queVeras: 'What you will see',
         dondeSeRompe: 'Where it breaks.',
         yaLoProbe: 'I ran this'
+    },
+    cua: {
+        vacio: 'No charts for this filter.',
+        contador: n => `${n} comparison chart${n === 1 ? '' : 's'}`
     },
 
     /* -------------------------- What to review ------------------------- */
