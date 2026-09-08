@@ -1,2 +1,5 @@
 # Índice local de codegraph: artefactos de ejecución, no material del curso.
 .codegraph/
+
+# Permisos concedidos en esta máquina: estado local de la sesión, no del proyecto.
+.claude/settings.local.json
