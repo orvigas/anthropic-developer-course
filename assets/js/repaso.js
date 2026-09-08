@@ -69,8 +69,11 @@ function ejemplosPendientes(modulo) {
 
 /* ---------------------- Render ---------------------- */
 
-function claseDePct(pct) {
-    return pct >= 75 ? 'bien' : pct >= 50 ? 'medio' : 'flojo';
+/* El nivel se traduce a un modificador BEM del elemento que lo pinta:
+   el mismo porcentaje colorea `repaso__num` y `repaso__relleno`. */
+function claseDePct(pct, elemento) {
+    const nivel = pct >= 75 ? 'bien' : pct >= 50 ? 'medio' : 'flojo';
+    return `${elemento}--${nivel}`;
 }
 
 function renderResumen(resumen, fallos) {
@@ -82,46 +85,46 @@ function renderResumen(resumen, fallos) {
     const ultimo = progreso.x.length ? progreso.x[progreso.x.length - 1] : null;
 
     $('rep-resumen').innerHTML = `
-        <div class="rep-cifras">
-            <div class="rep-cifra">
-                <span class="rep-num ${claseDePct(acierto)}">${vistos ? acierto + '%' : '—'}</span>
-                <span class="rep-etq">${T.rep.deAcierto}</span>
-                <span class="rep-sub">${T.rep.respondidos(ok, vistos)}</span>
+        <div class="repaso__cifras">
+            <div class="repaso__cifra">
+                <span class="repaso__num ${claseDePct(acierto, 'repaso__num')}">${vistos ? acierto + '%' : '—'}</span>
+                <span class="repaso__etiqueta">${T.rep.deAcierto}</span>
+                <span class="repaso__sub">${T.rep.respondidos(ok, vistos)}</span>
             </div>
-            <div class="rep-cifra">
-                <span class="rep-num">${cobertura}%</span>
-                <span class="rep-etq">${T.rep.materialVisto}</span>
-                <span class="rep-sub">${T.rep.elementos(vistos, total)}</span>
+            <div class="repaso__cifra">
+                <span class="repaso__num">${cobertura}%</span>
+                <span class="repaso__etiqueta">${T.rep.materialVisto}</span>
+                <span class="repaso__sub">${T.rep.elementos(vistos, total)}</span>
             </div>
-            <div class="rep-cifra">
-                <span class="rep-num ${mal ? 'flojo' : 'bien'}">${mal}</span>
-                <span class="rep-etq">${T.rep.porReforzar}</span>
-                <span class="rep-sub">${mal ? T.rep.pendientes : T.rep.nadaPendiente}</span>
+            <div class="repaso__cifra">
+                <span class="repaso__num ${mal ? 'repaso__num--flojo' : 'repaso__num--bien'}">${mal}</span>
+                <span class="repaso__etiqueta">${T.rep.porReforzar}</span>
+                <span class="repaso__sub">${mal ? T.rep.pendientes : T.rep.nadaPendiente}</span>
             </div>
-            <div class="rep-cifra">
-                <span class="rep-num">${ultimo ? ultimo.pct + '%' : '—'}</span>
-                <span class="rep-etq">${T.rep.ultimoSimulacro}</span>
-                <span class="rep-sub">${ultimo ? fechaLegible(ultimo.fecha) : T.rep.sinIntentos}</span>
+            <div class="repaso__cifra">
+                <span class="repaso__num">${ultimo ? ultimo.pct + '%' : '—'}</span>
+                <span class="repaso__etiqueta">${T.rep.ultimoSimulacro}</span>
+                <span class="repaso__sub">${ultimo ? fechaLegible(ultimo.fecha) : T.rep.sinIntentos}</span>
             </div>
         </div>
 
-        <div class="rep-barras">
+        <div class="repaso__barras">
             ${Object.keys(MODULOS).map(m => {
                 const d = resumen[m];
                 const v = d.ok + d.mal;
                 const pct = v ? Math.round(d.ok / v * 100) : 0;
                 const cob = Math.round(v / d.total * 100);
                 return `
-                <div class="rep-barra">
-                    <div class="rep-barra-cab">
+                <div class="repaso__barra">
+                    <div class="repaso__barra-cabecera">
                         <strong>${m}</strong>
                         <span>${MODULOS[m].replace(/^M\d · /, '')}</span>
                         <em>${v ? pct + '%' : T.rep.sinPracticar}</em>
                     </div>
-                    <div class="rep-pista" title="${T.rep.moduloPracticado(cob)}">
-                        <div class="rep-relleno ${claseDePct(pct)}" style="width:${v ? pct : 0}%"></div>
+                    <div class="repaso__pista" title="${T.rep.moduloPracticado(cob)}">
+                        <div class="repaso__relleno ${claseDePct(pct, 'repaso__relleno')}" style="width:${v ? pct : 0}%"></div>
                     </div>
-                    <div class="rep-barra-pie">
+                    <div class="repaso__barra-pie">
                         ${T.rep.pieBarra(d.ok, d.mal, d.sinVer)}
                     </div>
                 </div>`;
@@ -139,7 +142,7 @@ function renderConsejos(resumen, fallos) {
 
     if (!modulos.length) {
         $('rep-consejos').innerHTML = `
-            <div class="panel rep-vacio">
+            <div class="panel repaso__vacio">
                 <h3>${T.rep.vacioTitulo}</h3>
                 <p>${T.rep.vacioTexto}</p>
             </div>`;
@@ -163,36 +166,36 @@ function renderConsejos(resumen, fallos) {
         const pendientes = ejemplosPendientes(m);
 
         return `
-        <div class="panel rep-modulo">
-            <div class="rep-modulo-cab">
-                <span class="module-badge">${m}</span>
+        <div class="panel repaso__modulo">
+            <div class="repaso__modulo-cabecera">
+                <span class="insignia">${m}</span>
                 <h3>${info.titulo}</h3>
-                <span class="rep-sigla">${info.sigla}</span>
-                <span class="rep-cuenta ${fm.length ? 'flojo' : ''}">
+                <span class="repaso__sigla">${info.sigla}</span>
+                <span class="repaso__cuenta ${fm.length ? 'repaso__cuenta--flojo' : ''}">
                     ${fm.length ? T.rep.cuenta(fm.length) : T.rep.sinPracticar}
                 </span>
             </div>
 
             ${pilares.length ? pilares.map(p => `
-                <div class="rep-consejo">
-                    <h4>${p.nombre} <span class="rep-tocado">${T.rep.tocado(cuenta[p.nombre])}</span></h4>
+                <div class="repaso__consejo">
+                    <h4>${p.nombre} <span class="repaso__tocado">${T.rep.tocado(cuenta[p.nombre])}</span></h4>
                     <p>${p.repasa}</p>
-                    <p class="rep-donde">
+                    <p class="repaso__donde">
                         📖 <code class="inline">${info.fuente}</code>
                         &nbsp;·&nbsp; ${T.rep.practicaCon} <a href="${p.practica.pagina}">${p.practica.que}</a>
                     </p>
                 </div>`).join('') : `
-                <div class="rep-consejo">
+                <div class="repaso__consejo">
                     <h4>${T.rep.pilaresTitulo}</h4>
                     <p>${info.pilares.map(p => p.nombre.replace(/^[A-Z] · /, '')).join(' · ')}</p>
-                    <p class="rep-donde">📖 <code class="inline">${info.fuente}</code></p>
+                    <p class="repaso__donde">📖 <code class="inline">${info.fuente}</code></p>
                 </div>`}
 
             ${sinPilar > 0 ? `
-                <p class="rep-nota">${T.rep.sinPilar(sinPilar)}</p>` : ''}
+                <p class="repaso__nota">${T.rep.sinPilar(sinPilar)}</p>` : ''}
 
             ${pendientes.length ? `
-                <p class="rep-nota">${T.rep.ejemplosPendientes(pendientes.length)}
+                <p class="repaso__nota">${T.rep.ejemplosPendientes(pendientes.length)}
                    <a href="${T.paginaDeBanco.e}">${T.rep.irEjemplos}</a>.</p>` : ''}
         </div>`;
     }).join('');
@@ -203,7 +206,7 @@ function renderFallos(fallos) {
 
     if (!lista.length) {
         $('rep-fallos').innerHTML = `
-            <div class="panel rep-vacio">
+            <div class="panel repaso__vacio">
                 <p>${fallos.length ? T.rep.nadaEnModulo : T.rep.nadaFallado}</p>
             </div>`;
         return;
@@ -214,17 +217,17 @@ function renderFallos(fallos) {
 
     $('rep-fallos').innerHTML = Object.keys(MODULOS).filter(m => porModulo[m]).map(m => `
         <div class="panel">
-            <h3 class="rep-grupo"><span class="module-badge">${m}</span> ${T.rep.grupo(porModulo[m].length)}</h3>
+            <h3 class="repaso__grupo"><span class="insignia">${m}</span> ${T.rep.grupo(porModulo[m].length)}</h3>
             ${porModulo[m].map(f => `
-                <div class="rep-fallo">
-                    <div class="rep-fallo-txt">
-                        <span class="rep-tipo">${f.tipo}</span>
+                <div class="repaso__fallo">
+                    <div class="repaso__fallo-texto">
+                        <span class="repaso__tipo">${f.tipo}</span>
                         ${f.texto}
-                        ${f.pilar ? `<span class="rep-pilar">${f.pilar.nombre}</span>` : ''}
+                        ${f.pilar ? `<span class="repaso__pilar">${f.pilar.nombre}</span>` : ''}
                     </div>
-                    <div class="rep-fallo-acc">
-                        <a class="rep-btn" href="${f.pagina}">${T.rep.practicar}</a>
-                        <button class="rep-btn ok" data-resuelto="${f.banco}:${f.i}">${T.rep.yaLoSe}</button>
+                    <div class="repaso__fallo-acciones">
+                        <a class="repaso__boton" href="${f.pagina}">${T.rep.practicar}</a>
+                        <button class="repaso__boton repaso__boton--resuelto" data-resuelto="${f.banco}:${f.i}">${T.rep.yaLoSe}</button>
                     </div>
                 </div>`).join('')}
         </div>`).join('');

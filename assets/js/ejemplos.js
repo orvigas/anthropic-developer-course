@@ -20,7 +20,7 @@ function renderEjemplos() {
     const cont = $('ej-container');
 
     if (!ejActivos.length) {
-        cont.innerHTML = `<div class="panel empty-state">${T.ej.vacio}</div>`;
+        cont.innerHTML = `<div class="panel estado-vacio">${T.ej.vacio}</div>`;
         $('ej-contador').textContent = '';
         return;
     }
@@ -30,25 +30,25 @@ function renderEjemplos() {
     cont.innerHTML = ejActivos.map((ej, i) => {
         const hecho = estadoItem('e', ej.i) === 1;
         return `
-        <div class="ejemplo${hecho ? ' hecho' : ''}" id="ej-${i}">
-            <button class="ej-head" data-toggle="${i}" aria-expanded="false">
-                <span class="ej-mod">${ej.m}</span>
-                <span class="ej-titulo">${ej.tema}</span>
-                <span class="ej-lang">${ej.lang}</span>
-                <span class="ej-caret">▾</span>
+        <div class="ejemplo${hecho ? ' ejemplo--hecho' : ''}" id="ej-${i}">
+            <button class="ejemplo__cabecera" data-toggle="${i}" aria-expanded="false">
+                <span class="ejemplo__modulo">${ej.m}</span>
+                <span class="ejemplo__titulo">${ej.tema}</span>
+                <span class="ejemplo__lenguaje">${ej.lang}</span>
+                <span class="ejemplo__flecha">▾</span>
             </button>
-            <div class="ej-body" id="ej-body-${i}">
-                <p class="ej-objetivo"><strong>${T.ej.objetivo}</strong> ${ej.objetivo}</p>
-                <p class="ej-req"><strong>${T.ej.necesitas}</strong> ${ej.requisitos}</p>
-                <ol class="ej-pasos">${ej.pasos.map(p => `<li>${p}</li>`).join('')}</ol>
-                <div class="ej-codewrap">
-                    <button class="ej-copy" data-copy="${i}">${T.ej.copiar}</button>
-                    <pre class="code">${escaparCodigo(ej.code)}</pre>
+            <div class="ejemplo__cuerpo" id="ej-body-${i}">
+                <p class="ejemplo__objetivo"><strong>${T.ej.objetivo}</strong> ${ej.objetivo}</p>
+                <p class="ejemplo__requisitos"><strong>${T.ej.necesitas}</strong> ${ej.requisitos}</p>
+                <ol class="ejemplo__pasos">${ej.pasos.map(p => `<li>${p}</li>`).join('')}</ol>
+                <div class="ejemplo__codigo">
+                    <button class="ejemplo__copiar" data-copy="${i}">${T.ej.copiar}</button>
+                    <pre class="codigo">${escaparCodigo(ej.code)}</pre>
                 </div>
-                ${ej.salida ? `<h4 class="ej-sub">${T.ej.queVeras}</h4>
-                <pre class="code out">${escaparCodigo(ej.salida)}</pre>` : ''}
-                <div class="ej-nota"><strong>${T.ej.dondeSeRompe}</strong> ${ej.notas}</div>
-                <label class="ej-hecho">
+                ${ej.salida ? `<h4 class="ejemplo__subtitulo">${T.ej.queVeras}</h4>
+                <pre class="codigo codigo--salida">${escaparCodigo(ej.salida)}</pre>` : ''}
+                <div class="ejemplo__nota"><strong>${T.ej.dondeSeRompe}</strong> ${ej.notas}</div>
+                <label class="ejemplo__marca">
                     <input type="checkbox" data-hecho="${i}"${hecho ? ' checked' : ''}>
                     <span>${T.ej.yaLoProbe}</span>
                 </label>
@@ -58,15 +58,15 @@ function renderEjemplos() {
 }
 
 $('ej-container').addEventListener('click', (ev) => {
-    const cabecera = ev.target.closest('.ej-head');
+    const cabecera = ev.target.closest('.ejemplo__cabecera');
     if (cabecera) {
         const bloque = cabecera.parentElement;
-        const abierto = bloque.classList.toggle('abierto');
+        const abierto = bloque.classList.toggle('ejemplo--abierto');
         cabecera.setAttribute('aria-expanded', abierto ? 'true' : 'false');
         return;
     }
 
-    const copiar = ev.target.closest('.ej-copy');
+    const copiar = ev.target.closest('.ejemplo__copiar');
     if (copiar) {
         const ej = ejActivos[parseInt(copiar.dataset.copy, 10)];
         copiarTexto(ej.code, copiar);
@@ -105,7 +105,7 @@ $('ej-container').addEventListener('change', (ev) => {
     if (!caja) return;
     const ej = ejActivos[parseInt(caja.dataset.hecho, 10)];
     marcarItem('e', ej.i, caja.checked ? 1 : 0);
-    caja.closest('.ejemplo').classList.toggle('hecho', caja.checked);
+    caja.closest('.ejemplo').classList.toggle('ejemplo--hecho', caja.checked);
     actualizarContadorEjemplos();
     actualizarStatsGlobales();
 });
@@ -113,8 +113,8 @@ $('ej-container').addEventListener('change', (ev) => {
 $('ej-expandir').addEventListener('click', () => {
     const abrir = $('ej-expandir').dataset.estado !== 'abierto';
     document.querySelectorAll('#ej-container .ejemplo').forEach(b => {
-        b.classList.toggle('abierto', abrir);
-        b.querySelector('.ej-head').setAttribute('aria-expanded', abrir ? 'true' : 'false');
+        b.classList.toggle('ejemplo--abierto', abrir);
+        b.querySelector('.ejemplo__cabecera').setAttribute('aria-expanded', abrir ? 'true' : 'false');
     });
     $('ej-expandir').dataset.estado = abrir ? 'abierto' : 'cerrado';
     $('ej-expandir').textContent = abrir ? '⊟ Contraer todo' : '⊞ Expandir todo';

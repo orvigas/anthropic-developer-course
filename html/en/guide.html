@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="../../assets/css/guia.css">
 </head>
 <body>
-<div class="container">
+<div class="contenedor">
     <header>
         <h1>🧠 Interactive Study Flashcards</h1>
         <p>Claude Developer Certification · Anthropic</p>
-        <div class="global-stats" id="global-stats"></div>
+        <div class="estadisticas" id="global-stats"></div>
     </header>
 
-    <div class="tab-navigation" id="tab-nav"></div>
+    <div class="navegacion" id="tab-nav"></div>
 
     <main class="vista">
         <div class="panel guia">
@@ -25,7 +25,7 @@
             </p>
 
             <h3>📌 Module 1 — T.C.M.S · MSO Foundations</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>T</strong> · <b>Tokens</b> — the unit of everything: prompt, history, tool schemas, results and response. The tokenizer depends on the model.</li>
                 <li><strong>C</strong> · <b>Context</b> — a fixed budget. Oversized input = validation error; ceiling hit during generation = partial output with <code class="inline">model_context_window_exceeded</code>.</li>
                 <li><strong>M</strong> · <b>Sampling</b> — every token is sampled from a distribution, hence the non-determinism. New models reject <code class="inline">temperature</code>/<code class="inline">top_p</code>/<code class="inline">top_k</code> with a 400.</li>
@@ -33,7 +33,7 @@
             </ul>
 
             <h3>📌 Module 2 — P.E.S.A · Production-grade prompting</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>P</strong> · <b>System prompt</b> — the persistent contract that applies to every response.</li>
                 <li><strong>E</strong> · <b>XML tags</b> — they separate instructions from data.</li>
                 <li><strong>S</strong> · <b>Samples (few-shot)</b> — they show the pattern instead of describing it.</li>
@@ -41,7 +41,7 @@
             </ul>
 
             <h3>📌 Module 3 — P.C.S.A · Claude Code, MCP and integration</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>P</strong> · <b>Permissions</b> — default, acceptEdits, plan, auto, allowlist, bypass. A <em>deny</em> rule always wins.</li>
                 <li><strong>C</strong> · <b>Configuration</b> — CLAUDE.md is prepended to the context on every session; rules files scope by path; hooks enforce deterministically.</li>
                 <li><strong>S</strong> · <b>Skills and plugins</b> — reusable workflows; the plugin bundles them with hooks, subagents and MCP.</li>
@@ -49,7 +49,7 @@
             </ul>
 
             <h3>📌 Module 4 — E.R.C.S · Production, evals and security</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>E</strong> · <b>Evals</b> — they turn "done" into a number. Coverage &gt; rubric perfection.</li>
                 <li><strong>R</strong> · <b>Resilience and tracing</b> — four testing levels + traces that localize the step that failed.</li>
                 <li><strong>C</strong> · <b>Cost</b> — levers: model, context size, number of tool calls, caching and batching.</li>
@@ -57,7 +57,7 @@
             </ul>
 
             <h3>📌 Module 5 — E.P.R.L · Accelerators and IP contribution</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>E</strong> · <b>Encapsulation</b> — the next engagement configures the asset instead of rebuilding it.</li>
                 <li><strong>P</strong> · <b>Preparation to contribute</b> — focused code, runnable example, test, assumptions and confirmed rights.</li>
                 <li><strong>R</strong> · <b>Requirements</b> — functional (what it does) and infrastructure (where and under what constraints it runs).</li>
@@ -79,7 +79,7 @@
             </ol>
 
             <h3>🧭 "When do I use…?" decision table</h3>
-            <div class="scroll-x">
+            <div class="guia__desplazable">
             <table class="tabla">
                 <tr><th>Situation</th><th>Choice</th><th>Module</th></tr>
                 <tr><td>A user is waiting for the response on screen</td><td>Streaming (SSE)</td><td>M1</td></tr>
@@ -105,7 +105,7 @@
                 The 69 course terms in both languages, in case the exam reaches you in Spanish.
                 "Source" says whether the pair comes from the module's official glossary or from the body of the material.
             </p>
-            <div class="scroll-x">
+            <div class="guia__desplazable">
             <table class="tabla">
                 <tr><th>English</th><th>Español</th><th>Module</th><th>Source</th></tr>
                 <tr><td>Accelerator</td><td><b>Acelerador</b></td><td>M5</td><td>glossary</td></tr>

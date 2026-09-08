@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="../../assets/css/guia.css">
 </head>
 <body>
-<div class="container">
+<div class="contenedor">
     <header>
         <h1>🧠 Tarjetas de Estudio Interactivas</h1>
         <p>Certificación de Desarrollador Claude · Anthropic</p>
-        <div class="global-stats" id="global-stats"></div>
+        <div class="estadisticas" id="global-stats"></div>
     </header>
 
-    <div class="tab-navigation" id="tab-nav"></div>
+    <div class="navegacion" id="tab-nav"></div>
 
     <main class="vista">
         <div class="panel guia">
@@ -25,7 +25,7 @@
             </p>
 
             <h3>📌 Módulo 1 — T.C.M.S · Fundamentos MSO</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>T</strong> · <b>Tokens</b> — unidad de todo: prompt, historial, esquemas de herramientas, resultados y respuesta. El tokenizador depende del modelo.</li>
                 <li><strong>C</strong> · <b>Contexto</b> — presupuesto fijo. Entrada sobredimensionada = error de validación; techo alcanzado durante la generación = salida parcial con <code class="inline">model_context_window_exceeded</code>.</li>
                 <li><strong>M</strong> · <b>Muestreo</b> — cada token se muestrea de una distribución, de ahí el no-determinismo. Los modelos nuevos rechazan <code class="inline">temperature</code>/<code class="inline">top_p</code>/<code class="inline">top_k</code> con error 400.</li>
@@ -33,7 +33,7 @@
             </ul>
 
             <h3>📌 Módulo 2 — P.E.S.A · Prompting de grado de producción</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>P</strong> · <b>Prompt de sistema</b> — contrato persistente que aplica a cada respuesta.</li>
                 <li><strong>E</strong> · <b>Etiquetas XML</b> — separan instrucciones de datos.</li>
                 <li><strong>S</strong> · <b>Samples (few-shot)</b> — muestran el patrón en lugar de describirlo.</li>
@@ -41,7 +41,7 @@
             </ul>
 
             <h3>📌 Módulo 3 — P.C.S.A · Claude Code, MCP e integración</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>P</strong> · <b>Permisos</b> — predeterminado, acceptEdits, plan, auto, allowlist, bypass. Una regla <em>deny</em> siempre gana.</li>
                 <li><strong>C</strong> · <b>Configuración</b> — CLAUDE.md se antepone al contexto en cada sesión; archivos de reglas acotan por ruta; los ganchos aplican de forma determinista.</li>
                 <li><strong>S</strong> · <b>Skills y plugins</b> — flujos reutilizables; el plugin los empaqueta con ganchos, subagentes y MCP.</li>
@@ -49,7 +49,7 @@
             </ul>
 
             <h3>📌 Módulo 4 — E.R.C.S · Producción, evaluaciones y seguridad</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>E</strong> · <b>Evaluaciones</b> — convierten "listo" en un número. Cobertura &gt; perfección de rúbrica.</li>
                 <li><strong>R</strong> · <b>Resiliencia y rastreo</b> — cuatro niveles de prueba + trazas que localizan el paso que falló.</li>
                 <li><strong>C</strong> · <b>Costo</b> — palancas: modelo, tamaño de contexto, número de llamadas a herramientas, caché y lotes.</li>
@@ -57,7 +57,7 @@
             </ul>
 
             <h3>📌 Módulo 5 — E.P.R.L · Aceleradores y contribución IP</h3>
-            <ul class="clean">
+            <ul class="guia__lista">
                 <li><strong>E</strong> · <b>Empaquetamiento</b> — el siguiente compromiso configura el activo en lugar de reconstruirlo.</li>
                 <li><strong>P</strong> · <b>Preparación para contribuir</b> — código enfocado, ejemplo ejecutable, prueba, supuestos y derechos confirmados.</li>
                 <li><strong>R</strong> · <b>Requisitos</b> — funcionales (qué hace) e infraestructura (dónde y bajo qué restricciones corre).</li>
@@ -79,7 +79,7 @@
             </ol>
 
             <h3>🧭 Tabla de decisión "¿cuándo uso…?"</h3>
-            <div class="scroll-x">
+            <div class="guia__desplazable">
             <table class="tabla">
                 <tr><th>Situación</th><th>Elección</th><th>Módulo</th></tr>
                 <tr><td>Un usuario espera la respuesta en pantalla</td><td>Streaming (SSE)</td><td>M1</td></tr>
@@ -105,7 +105,7 @@
                 Los 69 términos del curso en los dos idiomas, por si el examen te llega en inglés.
                 «Origen» dice si el par sale del glosario oficial del módulo o del cuerpo del material.
             </p>
-            <div class="scroll-x">
+            <div class="guia__desplazable">
             <table class="tabla">
                 <tr><th>Español</th><th>English</th><th>Módulo</th><th>Origen</th></tr>
                 <tr><td>Acelerador</td><td><b>Accelerator</b></td><td>M5</td><td>glosario</td></tr>

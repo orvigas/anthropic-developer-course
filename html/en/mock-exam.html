@@ -10,37 +10,37 @@
     <link rel="stylesheet" href="../../assets/css/resultados.css">
 </head>
 <body>
-<div class="container">
+<div class="contenedor">
     <header>
         <h1>🧠 Interactive Study Flashcards</h1>
         <p>Claude Developer Certification · Anthropic</p>
-        <div class="global-stats" id="global-stats"></div>
+        <div class="estadisticas" id="global-stats"></div>
     </header>
 
-    <div class="tab-navigation" id="tab-nav"></div>
+    <div class="navegacion" id="tab-nav"></div>
 
     <main class="vista">
-        <div id="exam-intro" class="panel summary">
+        <div id="exam-intro" class="panel resumen">
             <h2>🎓 Mock exam</h2>
             <p style="color:var(--texto-suave); margin-bottom:18px;">
                 25 random questions from the five modules (multiple choice, true/false and code),
                 on a 20-minute clock. When you finish you get the per-module breakdown.
             </p>
-            <div class="breakdown" id="exam-record"></div>
-            <button class="submit-btn" id="exam-start" style="margin-top:18px;">▶️ Start mock exam</button>
+            <div class="desglose" id="exam-record"></div>
+            <button class="boton-accion" id="exam-start" style="margin-top:18px;">▶️ Start mock exam</button>
         </div>
 
         <div id="exam-run" style="display:none;">
             <div style="text-align:center; margin-bottom:16px;">
-                <span class="timer" id="exam-timer">20:00</span>
+                <span class="cronometro" id="exam-timer">20:00</span>
             </div>
-            <div class="card-counter"><span id="exam-pos">1</span> / <span id="exam-total">25</span></div>
-            <div class="progress-bar"><div class="progress-fill" id="exam-progress"></div></div>
+            <div class="contador"><span id="exam-pos">1</span> / <span id="exam-total">25</span></div>
+            <div class="progreso"><div class="progreso__relleno" id="exam-progress"></div></div>
             <div class="panel" id="exam-panel"></div>
-            <div class="navigation-buttons">
-                <button class="nav-btn" id="exam-prev">← Previous</button>
-                <button class="nav-btn" id="exam-next">Next →</button>
-                <button class="nav-btn ok" id="exam-finish">✓ Finish and grade</button>
+            <div class="tarjeta__botones">
+                <button class="tarjeta__boton" id="exam-prev">← Previous</button>
+                <button class="tarjeta__boton" id="exam-next">Next →</button>
+                <button class="tarjeta__boton tarjeta__boton--acierto" id="exam-finish">✓ Finish and grade</button>
             </div>
         </div>
 

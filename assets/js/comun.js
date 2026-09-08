@@ -21,10 +21,10 @@ const shuffled = (arr) => {
    Aquí solo se consume: `progreso`, marcarItem(), registrarResultado()... */
 
 function scoreClass(pct) {
-    if (pct >= 90) return 'excellent';
-    if (pct >= 75) return 'good';
-    if (pct >= 60) return 'needs-improvement';
-    return 'poor';
+    if (pct >= 90) return 'resumen__nota--excelente';
+    if (pct >= 75) return 'resumen__nota--bien';
+    if (pct >= 60) return 'resumen__nota--mejorable';
+    return 'resumen__nota--flojo';
 }
 function scoreMessage(pct) {
     if (pct >= 90) return T.score.excelente;
@@ -36,8 +36,8 @@ function renderBreakdown(porModulo) {
     return Object.keys(MODULOS).filter(k => porModulo[k]).map(k => {
         const d = porModulo[k];
         const pct = Math.round(d.ok / d.total * 100);
-        return `<div class="bd-item"><div class="bd-mod">${k}</div>
-                <div class="bd-val" style="color:var(--${pct>=75?'verde':pct>=50?'ambar':'rojo'})">${pct}%</div>
+        return `<div class="desglose__item"><div class="desglose__modulo">${k}</div>
+                <div class="desglose__valor" style="color:var(--${pct>=75?'verde':pct>=50?'ambar':'rojo'})">${pct}%</div>
                 <div style="font-size:.78em;color:var(--texto-suave)">${d.ok}/${d.total}</div></div>`;
     }).join('');
 }
@@ -51,12 +51,12 @@ function actualizarStatsGlobales() {
     const repasar = totalPorRepasar();
     const ultimo = progreso.x.length ? progreso.x[progreso.x.length - 1].pct + '%' : '—';
     $('global-stats').innerHTML =
-        `<span>${T.stats.tarjetas(TOTALES.tarjetas)}</span>` +
-        `<span>${T.stats.preguntas(TOTALES.preguntas)}</span>` +
-        `<span>${T.stats.ejemplos(TOTALES.ejemplos)}</span>` +
-        `<span>${T.stats.dominadas(dominadas)}</span>` +
-        `<span class="stat-repaso${repasar ? ' hay' : ''}">${T.stats.porRepasar(repasar)}</span>` +
-        `<span>${T.stats.ultimo(ultimo)}</span>`;
+        `<span class="estadisticas__dato">${T.stats.tarjetas(TOTALES.tarjetas)}</span>` +
+        `<span class="estadisticas__dato">${T.stats.preguntas(TOTALES.preguntas)}</span>` +
+        `<span class="estadisticas__dato">${T.stats.ejemplos(TOTALES.ejemplos)}</span>` +
+        `<span class="estadisticas__dato">${T.stats.dominadas(dominadas)}</span>` +
+        `<span class="estadisticas__dato estadisticas__dato--repaso${repasar ? ' estadisticas__dato--pendiente' : ''}">${T.stats.porRepasar(repasar)}</span>` +
+        `<span class="estadisticas__dato">${T.stats.ultimo(ultimo)}</span>`;
 }
 
 /* Construye una fila de chips de filtro por módulo. */
@@ -64,13 +64,13 @@ function construirFiltros(contenedorId, onChange) {
     const cont = $(contenedorId);
     const claves = ['TODOS', ...Object.keys(MODULOS)];
     cont.innerHTML = claves.map((k, i) =>
-        `<button class="chip${i === 0 ? ' active' : ''}" data-mod="${k}">${k === 'TODOS' ? T.filtroTodos : k}</button>`
+        `<button class="filtros__chip${i === 0 ? ' filtros__chip--activo' : ''}" data-mod="${k}">${k === 'TODOS' ? T.filtroTodos : k}</button>`
     ).join('');
     cont.addEventListener('click', (ev) => {
-        const btn = ev.target.closest('.chip');
+        const btn = ev.target.closest('.filtros__chip');
         if (!btn) return;
-        cont.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
+        cont.querySelectorAll('.filtros__chip').forEach(c => c.classList.remove('filtros__chip--activo'));
+        btn.classList.add('filtros__chip--activo');
         onChange(btn.dataset.mod);
     });
 }
@@ -78,7 +78,7 @@ function construirFiltros(contenedorId, onChange) {
 function marcarHueco(code) {
     return code
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-        .replace(/____/g, '<span class="blank">____</span>');
+        .replace(/____/g, '<span class="codigo__hueco">____</span>');
 }
 
 function escaparCodigo(txt) {
@@ -94,10 +94,10 @@ const PAGINAS = T.paginas;
 function construirNav(actual) {
     $('tab-nav').innerHTML = PAGINAS.map(p =>
         p.id === actual
-            ? `<span class="tab-btn active">${p.etiqueta}</span>`
-            : `<a class="tab-btn" href="${p.archivo}">${p.etiqueta}</a>`
+            ? `<span class="navegacion__boton navegacion__boton--activo">${p.etiqueta}</span>`
+            : `<a class="navegacion__boton" href="${p.archivo}">${p.etiqueta}</a>`
     ).join('') +
-        `<a class="tab-btn idioma" href="${T.otroIdioma.href}">🌐 ${T.otroIdioma.etiqueta}</a>`;
+        `<a class="navegacion__boton navegacion__boton--idioma" href="${T.otroIdioma.href}">🌐 ${T.otroIdioma.etiqueta}</a>`;
 }
 
 /* =========================================================================
@@ -108,17 +108,17 @@ function construirNav(actual) {
    ========================================================================= */
 function construirBotonReinicio() {
     const zona = document.createElement('div');
-    zona.className = 'zona-reinicio';
+    zona.className = 'reinicio';
     zona.innerHTML = `
-        <button class="btn-reinicio" id="btn-reinicio" title="${descripcionDelMedio()}">
+        <button class="reinicio__boton" id="btn-reinicio" title="${descripcionDelMedio()}">
             ${T.reinicio.boton}
         </button>
-        <span class="confirma-reinicio" id="confirma-reinicio" hidden>
+        <span class="reinicio__confirma" id="confirma-reinicio" hidden>
             ${T.reinicio.aviso}
-            <button class="btn-reinicio peligro" id="btn-reinicio-si">${T.reinicio.si}</button>
-            <button class="btn-reinicio" id="btn-reinicio-no">${T.reinicio.no}</button>
+            <button class="reinicio__boton reinicio__boton--peligro" id="btn-reinicio-si">${T.reinicio.si}</button>
+            <button class="reinicio__boton" id="btn-reinicio-no">${T.reinicio.no}</button>
         </span>
-        <span class="nota-medio">${descripcionDelMedio()}</span>`;
+        <span class="reinicio__nota">${descripcionDelMedio()}</span>`;
     document.querySelector('header').appendChild(zona);
 
     $('btn-reinicio').addEventListener('click', () => {

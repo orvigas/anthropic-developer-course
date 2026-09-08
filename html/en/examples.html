@@ -9,25 +9,25 @@
     <link rel="stylesheet" href="../../assets/css/ejemplos.css">
 </head>
 <body>
-<div class="container">
+<div class="contenedor">
     <header>
         <h1>🧠 Interactive Study Flashcards</h1>
         <p>Claude Developer Certification · Anthropic</p>
-        <div class="global-stats" id="global-stats"></div>
+        <div class="estadisticas" id="global-stats"></div>
     </header>
 
-    <div class="tab-navigation" id="tab-nav"></div>
+    <div class="navegacion" id="tab-nav"></div>
 
     <main class="vista">
-        <div class="tip">
+        <div class="aviso">
             🧪 One complete example per topic, from nothing to working. The Python ones need
             <code class="inline">pip install anthropic</code> and a key in
             <code class="inline">ANTHROPIC_API_KEY</code> (they spend tokens);
             the Claude Code ones are configuration files and cost nothing.
         </div>
         <div class="filtros" id="ej-filtros"></div>
-        <div class="card-counter" id="ej-contador"></div>
-        <div class="ej-toolbar">
+        <div class="contador" id="ej-contador"></div>
+        <div class="barra-ejemplos">
             <button id="ej-expandir" data-estado="cerrado">⊞ Expand all</button>
         </div>
         <div id="ej-container"></div>

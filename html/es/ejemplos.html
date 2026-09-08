@@ -9,25 +9,25 @@
     <link rel="stylesheet" href="../../assets/css/ejemplos.css">
 </head>
 <body>
-<div class="container">
+<div class="contenedor">
     <header>
         <h1>🧠 Tarjetas de Estudio Interactivas</h1>
         <p>Certificación de Desarrollador Claude · Anthropic</p>
-        <div class="global-stats" id="global-stats"></div>
+        <div class="estadisticas" id="global-stats"></div>
     </header>
 
-    <div class="tab-navigation" id="tab-nav"></div>
+    <div class="navegacion" id="tab-nav"></div>
 
     <main class="vista">
-        <div class="tip">
+        <div class="aviso">
             🧪 Un ejemplo completo por tema, de cero a funcionando. Los de Python necesitan
             <code class="inline">pip install anthropic</code> y una clave en
             <code class="inline">ANTHROPIC_API_KEY</code> (consumen tokens);
             los de Claude Code son archivos de configuración y no cuestan nada.
         </div>
         <div class="filtros" id="ej-filtros"></div>
-        <div class="card-counter" id="ej-contador"></div>
-        <div class="ej-toolbar">
+        <div class="contador" id="ej-contador"></div>
+        <div class="barra-ejemplos">
             <button id="ej-expandir" data-estado="cerrado">⊞ Expandir todo</button>
         </div>
         <div id="ej-container"></div>

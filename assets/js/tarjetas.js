@@ -16,7 +16,7 @@ let fcIndice = 0;
 function renderTarjeta() {
     const card = fcMazo[fcIndice];
     const flip = $('flip-card');
-    flip.classList.remove('flipped');
+    flip.classList.remove('tarjeta--volteada');
 
     if (!card) {
         $('fc-pregunta').textContent = T.fc.vacio;
@@ -55,7 +55,7 @@ function marcarTarjeta(estado) {
     renderTarjeta();
 }
 
-$('flip-card').addEventListener('click', () => $('flip-card').classList.toggle('flipped'));
+$('flip-card').addEventListener('click', () => $('flip-card').classList.toggle('tarjeta--volteada'));
 $('prev-btn').addEventListener('click', () => { if (fcIndice > 0) { fcIndice--; renderTarjeta(); } });
 $('next-btn').addEventListener('click', () => { if (fcIndice < fcMazo.length - 1) { fcIndice++; renderTarjeta(); } });
 $('know-btn').addEventListener('click', () => marcarTarjeta(1));
@@ -66,7 +66,7 @@ document.addEventListener('keydown', (ev) => {
     if (ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') return;
     if (ev.key === 'ArrowRight') { $('next-btn').click(); }
     else if (ev.key === 'ArrowLeft') { $('prev-btn').click(); }
-    else if (ev.key === ' ') { ev.preventDefault(); $('flip-card').classList.toggle('flipped'); }
+    else if (ev.key === ' ') { ev.preventDefault(); $('flip-card').classList.toggle('tarjeta--volteada'); }
 });
 
 construirFiltros('fc-filtros', (mod) => {

@@ -4,12 +4,12 @@
 /* ---------- Guía ---------- */
 .guia h3 { color: var(--morado-osc); margin: 26px 0 10px; font-size: 1.12em; }
 .guia h3:first-child { margin-top: 0; }
-.guia ul.clean { list-style: none; }
-.guia ul.clean li { padding: 5px 0 5px 4px; border-bottom: 1px solid #f0f1f6; font-size: .94em; }
-.guia ul.clean li strong { color: var(--morado-osc); display: inline-block; min-width: 20px; }
+.guia__lista { list-style: none; }
+.guia__lista li { padding: 5px 0 5px 4px; border-bottom: 1px solid #f0f1f6; font-size: .94em; }
+.guia__lista li strong { color: var(--morado-osc); display: inline-block; min-width: 20px; }
 .guia ol { padding-left: 22px; }
 .guia ol li { margin-bottom: 7px; font-size: .94em; }
 .tabla { width: 100%; border-collapse: collapse; font-size: .88em; margin-top: 10px; }
 .tabla th, .tabla td { border: 1px solid var(--borde); padding: 8px 10px; text-align: left; vertical-align: top; }
 .tabla th { background: #f4f5fb; font-weight: 700; }
-.scroll-x { overflow-x: auto; }
+.guia__desplazable { overflow-x: auto; }

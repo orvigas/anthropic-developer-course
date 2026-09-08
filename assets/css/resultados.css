@@ -2,22 +2,22 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Resultados ---------- */
-.summary { text-align: center; }
-.summary h2 { color: var(--morado-osc); margin-bottom: 10px; font-size: 1.6em; }
-.score { font-size: 3em; font-weight: 800; margin: 12px 0 4px; }
-.score-sub { color: var(--texto-suave); font-size: .95em; margin-bottom: 14px; }
-.score.excellent { color: var(--verde); }
-.score.good { color: var(--morado); }
-.score.needs-improvement { color: #d18a00; }
-.score.poor { color: var(--rojo); }
+.resumen { text-align: center; }
+.resumen h2 { color: var(--morado-osc); margin-bottom: 10px; font-size: 1.6em; }
+.resumen__nota { font-size: 3em; font-weight: 800; margin: 12px 0 4px; }
+.resumen__detalle { color: var(--texto-suave); font-size: .95em; margin-bottom: 14px; }
+.resumen__nota--excelente { color: var(--verde); }
+.resumen__nota--bien { color: var(--morado); }
+.resumen__nota--mejorable { color: #d18a00; }
+.resumen__nota--flojo { color: var(--rojo); }
 
-.breakdown { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 10px; margin: 22px 0 6px; }
-.bd-item { border: 1px solid var(--borde); border-radius: 9px; padding: 12px 8px; }
-.bd-item .bd-mod { font-size: .75em; color: var(--texto-suave); letter-spacing: 1px; font-weight: 700; }
-.bd-item .bd-val { font-size: 1.4em; font-weight: 700; margin-top: 4px; }
+.desglose { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px,1fr)); gap: 10px; margin: 22px 0 6px; }
+.desglose__item { border: 1px solid var(--borde); border-radius: 9px; padding: 12px 8px; }
+.desglose__modulo { font-size: .75em; color: var(--texto-suave); letter-spacing: 1px; font-weight: 700; }
+.desglose__valor { font-size: 1.4em; font-weight: 700; margin-top: 4px; }
 
-.timer {
+.cronometro {
     display: inline-block; background: #2c2360; color: #fff; padding: 6px 16px;
     border-radius: 20px; font-weight: 700; font-variant-numeric: tabular-nums; font-size: .95em;
 }
-.timer.warn { background: var(--rojo); }
+.cronometro--alerta { background: var(--rojo); }

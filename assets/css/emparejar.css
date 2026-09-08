@@ -2,14 +2,14 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Emparejar ---------- */
-.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.match-col h4 { font-size: .8em; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-suave); margin-bottom: 10px; }
-.match-item {
+.emparejar__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.emparejar__columna h4 { font-size: .8em; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-suave); margin-bottom: 10px; }
+.emparejar__item {
     border: 2px solid var(--borde); border-radius: 9px; padding: 11px 13px;
     margin-bottom: 9px; cursor: pointer; background: #fafbff; font-size: .9em; transition: all .18s;
 }
-.match-item:hover:not(.done) { border-color: var(--morado); background: #f2f3ff; }
-.match-item.selected { border-color: var(--morado); background: #e7e9ff; box-shadow: 0 0 0 3px rgba(102,126,234,.2); }
-.match-item.done { border-color: var(--verde); background: var(--verde-bg); cursor: default; opacity: .75; }
-.match-item.wrong { border-color: var(--rojo); background: var(--rojo-bg); }
-.match-item .pair-tag { font-weight: 700; color: var(--verde); font-size: .8em; margin-right: 6px; }
+.emparejar__item:hover:not(.emparejar__item--resuelto) { border-color: var(--morado); background: #f2f3ff; }
+.emparejar__item--activo { border-color: var(--morado); background: #e7e9ff; box-shadow: 0 0 0 3px rgba(102,126,234,.2); }
+.emparejar__item--resuelto { border-color: var(--verde); background: var(--verde-bg); cursor: default; opacity: .75; }
+.emparejar__item--error { border-color: var(--rojo); background: var(--rojo-bg); }
+.emparejar__marca { font-weight: 700; color: var(--verde); font-size: .8em; margin-right: 6px; }

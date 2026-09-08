@@ -2,12 +2,16 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Completar código ---------- */
-pre.code {
+.codigo {
     background: #1e1e2e; color: #dcdce8; padding: 16px 18px; border-radius: 9px;
     overflow-x: auto; font-family: 'SF Mono', Menlo, Consolas, monospace;
     font-size: .84em; line-height: 1.6; margin: 12px 0 16px; white-space: pre;
 }
-pre.code .blank { background: #f0b429; color: #1e1e2e; padding: 1px 8px; border-radius: 3px; font-weight: 700; }
+.codigo__hueco { background: #f0b429; color: #1e1e2e; padding: 1px 8px; border-radius: 3px; font-weight: 700; }
+
+/* `inline` queda fuera de BEM a propósito: lo escriben a mano los bancos de
+   assets/js/datos/ (58 usos), y renombrarlo aquí sin tocarlos dejaría el CSS
+   y los datos apuntando a nombres distintos. */
 code.inline {
     background: #eef0f8; padding: 1px 6px; border-radius: 4px;
     font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: .88em; color: #4a3f9e;

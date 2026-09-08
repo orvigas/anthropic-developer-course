@@ -8,45 +8,45 @@
     <link rel="stylesheet" href="../../assets/css/tarjetas.css">
 </head>
 <body>
-<div class="container">
+<div class="contenedor">
     <header>
         <h1>🧠 Interactive Study Flashcards</h1>
         <p>Claude Developer Certification · Anthropic</p>
-        <div class="global-stats" id="global-stats"></div>
+        <div class="estadisticas" id="global-stats"></div>
     </header>
 
-    <div class="tab-navigation" id="tab-nav"></div>
+    <div class="navegacion" id="tab-nav"></div>
 
     <main class="vista">
-        <div class="tip">
+        <div class="aviso">
             💡 <strong>Click the card</strong> (or press the space bar) to flip it. Mark <em>I know it</em> / <em>Review</em>
             to keep track; use ← → to move between cards.
         </div>
         <div class="filtros" id="fc-filtros"></div>
-        <div class="card-counter"><span id="current-card">1</span> / <span id="total-cards">0</span> · <span id="fc-marca"></span></div>
-        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+        <div class="contador"><span id="current-card">1</span> / <span id="total-cards">0</span> · <span id="fc-marca"></span></div>
+        <div class="progreso"><div class="progreso__relleno" id="progress-fill"></div></div>
 
-        <div class="flip-scene">
-            <div class="flip-card" id="flip-card">
-                <div class="flip-face front">
-                    <div class="module-badge" id="fc-modulo">M1</div>
-                    <div class="flip-question" id="fc-pregunta"></div>
-                    <div class="flip-hint">Click to see the answer</div>
+        <div class="escena">
+            <div class="tarjeta" id="flip-card">
+                <div class="tarjeta__cara tarjeta__cara--anverso">
+                    <div class="insignia" id="fc-modulo">M1</div>
+                    <div class="tarjeta__pregunta" id="fc-pregunta"></div>
+                    <div class="tarjeta__pista">Click to see the answer</div>
                 </div>
-                <div class="flip-face back">
-                    <div class="module-badge" id="fc-modulo-b">M1</div>
-                    <div class="flip-answer" id="fc-respuesta"></div>
-                    <div class="flip-hint">Click to go back</div>
+                <div class="tarjeta__cara tarjeta__cara--reverso">
+                    <div class="insignia" id="fc-modulo-b">M1</div>
+                    <div class="tarjeta__respuesta" id="fc-respuesta"></div>
+                    <div class="tarjeta__pista">Click to go back</div>
                 </div>
             </div>
         </div>
 
-        <div class="navigation-buttons">
-            <button class="nav-btn" id="prev-btn">← Previous</button>
-            <button class="nav-btn ok" id="know-btn">✓ I know it</button>
-            <button class="nav-btn review" id="review-btn">↻ Review</button>
-            <button class="nav-btn" id="shuffle-btn">🔀 Shuffle</button>
-            <button class="nav-btn" id="next-btn">Next →</button>
+        <div class="tarjeta__botones">
+            <button class="tarjeta__boton" id="prev-btn">← Previous</button>
+            <button class="tarjeta__boton tarjeta__boton--acierto" id="know-btn">✓ I know it</button>
+            <button class="tarjeta__boton tarjeta__boton--repasar" id="review-btn">↻ Review</button>
+            <button class="tarjeta__boton" id="shuffle-btn">🔀 Shuffle</button>
+            <button class="tarjeta__boton" id="next-btn">Next →</button>
         </div>
     </main>
 </div>
