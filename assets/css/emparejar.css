@@ -13,3 +13,9 @@
 .emparejar__item--resuelto { border-color: var(--verde); background: var(--verde-bg); cursor: default; opacity: .75; }
 .emparejar__item--error { border-color: var(--rojo); background: var(--rojo-bg); }
 .emparejar__marca { font-weight: 700; color: var(--verde); font-size: .8em; margin-right: 6px; }
+
+/* Mismo caso que en tarjetas.css: en base.css este override lo anulaba esta
+   misma hoja, y el grid seguía a dos columnas en pantallas estrechas. */
+@media (max-width: 700px) {
+    .emparejar__grid { grid-template-columns: 1fr; }
+}

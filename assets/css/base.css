@@ -90,11 +90,36 @@ header p { font-size: 1.05em; opacity: .93; }
 
 .estado-vacio { text-align: center; color: var(--texto-suave); padding: 40px 20px; }
 
+/* ---------- Controles comunes de ejercicio ---------- */
+/* Contador, progreso, insignia y botones los comparten tarjetas, verdadero/falso,
+   simulacro, ejemplos y repaso, pero solo la primera enlaza tarjetas.css: por eso
+   viven aquí y no en esa hoja (§4.3). */
+.contador { color: #fff; text-align: center; margin-bottom: 10px; font-size: .92em; }
+.progreso {
+    background: rgba(255,255,255,.28); height: 7px; border-radius: 4px;
+    margin-bottom: 20px; overflow: hidden;
+}
+.progreso__relleno { height: 100%; background: #fff; transition: width .3s ease; width: 0%; }
+
+.insignia {
+    display: inline-block; background: var(--morado); color: #fff;
+    padding: 3px 12px; border-radius: 20px; font-size: .72em;
+    letter-spacing: .8px; font-weight: 700; margin-bottom: 16px;
+}
+
+.tarjeta__botones { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.tarjeta__boton {
+    background: #fff; color: var(--morado-osc); padding: 10px 18px; border: none;
+    border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .9em; transition: all .2s;
+}
+.tarjeta__boton:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0,0,0,.2); }
+.tarjeta__boton:disabled { opacity: .45; cursor: not-allowed; }
+.tarjeta__boton--acierto { background: var(--verde); color: #fff; }
+.tarjeta__boton--repasar { background: #f0b429; color: #4a370a; }
+
 @media (max-width: 700px) {
     header h1 { font-size: 1.6em; }
-    .emparejar__grid { grid-template-columns: 1fr; }
     .panel { padding: 20px 16px; }
-    .tarjeta__cara { padding: 24px 18px; }
 }
 
 /* ---------- Reinicio del curso ---------- */
