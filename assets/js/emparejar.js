@@ -27,9 +27,9 @@ function renderMatch() {
     cont.innerHTML = matchActivos.map((set, si) => {
         const defs = shuffled(set.pares.map((p, i) => ({ texto: p[1], idx: i })));
         return `
-        <div class="emparejar__conjunto" data-set="${si}" style="margin-bottom:34px;">
-            <h3 style="color:var(--morado-osc); margin-bottom:4px; font-size:1.05em;">${set.titulo}</h3>
-            <p style="font-size:.82em; color:var(--texto-suave); margin-bottom:14px;">
+        <div class="emparejar__conjunto" data-set="${si}">
+            <h3 class="emparejar__titulo">${set.titulo}</h3>
+            <p class="emparejar__pie">
                 <span class="emparejar__estado" data-status="${si}">${T.match.estado(0, set.pares.length)}</span>
             </p>
             <div class="emparejar__grid">
@@ -91,7 +91,7 @@ $('match-panel').addEventListener('click', (ev) => {
             ? T.match.completado(total)
             : T.match.estado(hechos, total);
         if (hechos === total) {
-            status.style.color = 'var(--verde)';
+            status.style.color = 'var(--acierto)';
             // Un conjunto solo cuenta como dominado si se completó sin fallos.
             const conjunto = matchActivos[si];
             registrarResultado('p', conjunto.i, !matchFallos[conjunto.i]);

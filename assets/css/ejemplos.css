@@ -2,74 +2,81 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Ejemplos aplicados ---------- */
-.barra-ejemplos { display: flex; justify-content: center; margin-bottom: 14px; }
+/* Esta barra va sobre el marco oscuro, no dentro de un panel: por eso usa los
+   velos y no las superficies claras. */
+.barra-ejemplos { display: flex; justify-content: center; margin-bottom: 18px; }
 .barra-ejemplos button {
-    background: rgba(255,255,255,.92); color: var(--morado-osc); border: none;
-    padding: 7px 16px; border-radius: 9px; cursor: pointer;
-    font-weight: 600; font-size: .84em; box-shadow: 0 3px 8px rgba(0,0,0,.12);
+    background: var(--velo-1); color: var(--marco-texto); border: 1px solid var(--velo-borde);
+    padding: 8px 16px; border-radius: var(--radio-boton); cursor: pointer;
+    font-weight: 500; font-size: .875rem; letter-spacing: var(--tracking-boton);
+    transition: background .2s, border-color .2s;
 }
-.barra-ejemplos button:hover { background: #fff; }
+.barra-ejemplos button:hover { background: var(--velo-2); border-color: var(--velo-borde-fuerte); }
 
 .ejemplo {
-    background: #fff; border-radius: 12px; margin-bottom: 12px;
+    background: var(--superficie); border-radius: var(--radio-panel); margin-bottom: 12px;
     box-shadow: var(--sombra); overflow: hidden;
-    border-left: 4px solid transparent;
+    border-left: 3px solid transparent;
 }
-.ejemplo--hecho { border-left-color: var(--verde); }
+.ejemplo--hecho { border-left-color: var(--acierto); }
 
 .ejemplo__cabecera {
     width: 100%; display: flex; align-items: center; gap: 10px;
-    padding: 15px 18px; background: none; border: none; cursor: pointer;
+    padding: 16px 18px; background: none; border: none; cursor: pointer;
     text-align: left; font-size: 1em; font-family: inherit; color: var(--texto);
+    letter-spacing: inherit;
 }
-.ejemplo__cabecera:hover { background: #f7f8ff; }
+.ejemplo__cabecera:hover { background: var(--superficie-2); }
 .ejemplo__modulo {
-    background: var(--morado); color: #fff; font-size: .68em; font-weight: 700;
-    padding: 3px 9px; border-radius: 20px; letter-spacing: .8px; flex-shrink: 0;
+    background: var(--acento); color: var(--marco-texto); font-size: .68em; font-weight: 600;
+    padding: 3px 10px; border-radius: var(--radio-pildora); letter-spacing: var(--tracking-versalita);
+    text-transform: uppercase; flex-shrink: 0;
 }
-.ejemplo__titulo { font-weight: 600; flex: 1; }
+.ejemplo__titulo { font-weight: 500; flex: 1; letter-spacing: var(--tracking-h4); }
 .ejemplo__lenguaje {
-    font-size: .7em; color: var(--texto-suave); background: #eef0f8;
-    padding: 3px 9px; border-radius: 20px; letter-spacing: .5px; flex-shrink: 0;
-    font-family: 'SF Mono', Menlo, Consolas, monospace;
+    font-size: .68em; color: var(--texto-suave); background: var(--superficie-3);
+    padding: 3px 10px; border-radius: var(--radio-pildora); flex-shrink: 0;
+    font-family: 'SF Mono', Menlo, Consolas, monospace; font-weight: 600;
 }
 .ejemplo__flecha { color: var(--texto-suave); transition: transform .2s; flex-shrink: 0; }
 .ejemplo--abierto .ejemplo__flecha { transform: rotate(180deg); }
 
-.ejemplo__cuerpo { display: none; padding: 0 18px 18px; }
+.ejemplo__cuerpo { display: none; padding: 0 18px 20px; }
 .ejemplo--abierto .ejemplo__cuerpo { display: block; }
 
-.ejemplo__objetivo { font-size: .95em; margin-bottom: 8px; }
+.ejemplo__objetivo { font-size: .95em; margin-bottom: 10px; }
 .ejemplo__requisitos {
     font-size: .86em; color: var(--texto-suave);
-    background: #f7f8ff; border-radius: 6px; padding: 8px 12px; margin-bottom: 12px;
+    background: var(--superficie-2); border: 1px solid var(--borde-suave);
+    border-radius: var(--radio); padding: 9px 12px; margin-bottom: 14px;
 }
 .ejemplo__pasos { padding-left: 20px; margin-bottom: 4px; }
-.ejemplo__pasos li { font-size: .9em; margin-bottom: 4px; color: #3f4354; }
+.ejemplo__pasos li { font-size: .9em; margin-bottom: 5px; color: var(--texto-medio); }
 
 .ejemplo__codigo { position: relative; }
 .ejemplo__copiar {
-    position: absolute; top: 20px; right: 10px; z-index: 2;
-    background: rgba(255,255,255,.14); color: #dcdce8;
-    border: 1px solid rgba(255,255,255,.25); border-radius: 6px;
+    position: absolute; top: 22px; right: 10px; z-index: 2;
+    background: var(--velo-2); color: var(--codigo-texto);
+    border: 1px solid var(--velo-borde); border-radius: var(--radio-xs);
     padding: 4px 10px; font-size: .74em; cursor: pointer; font-family: inherit;
 }
-.ejemplo__copiar:hover { background: rgba(255,255,255,.28); }
+.ejemplo__copiar:hover { background: var(--velo-3); border-color: var(--velo-borde-fuerte); }
 
 .ejemplo__subtitulo {
-    font-size: .78em; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--texto-suave); margin: 14px 0 -4px;
+    font-size: .72em; font-weight: 600;
+    color: var(--texto-suave); margin: 16px 0 -4px;
 }
-.codigo--salida { background: #23233a; color: #b9c6b9; }
+.codigo--salida { background: var(--codigo-fondo-salida); color: var(--codigo-texto-salida); }
 
 .ejemplo__nota {
-    background: var(--ambar-bg); border-left: 4px solid #f0b429;
-    padding: 12px 15px; border-radius: 6px; margin-top: 14px;
-    font-size: .9em; color: #6b4e0c;
+    background: var(--aviso-fondo); border-left: 3px solid var(--aviso);
+    padding: 12px 15px; border-radius: var(--radio); margin-top: 16px;
+    font-size: .9em; color: var(--aviso-texto);
 }
-.ejemplo__nota strong { color: #8a6410; }
+.ejemplo__nota strong { color: var(--aviso-texto); font-weight: 700; }
 
 .ejemplo__marca {
-    display: inline-flex; align-items: center; gap: 8px; margin-top: 14px;
+    display: inline-flex; align-items: center; gap: 8px; margin-top: 16px;
     font-size: .87em; color: var(--texto-suave); cursor: pointer;
 }
+.ejemplo__marca input { accent-color: var(--acento); }

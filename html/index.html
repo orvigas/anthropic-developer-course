@@ -26,25 +26,25 @@
         }
         .selector-idioma__opcion {
             display: block; text-decoration: none; color: inherit;
-            background: var(--panel); border: 2px solid transparent;
-            border-radius: 16px; padding: 26px 24px; box-shadow: var(--sombra);
-            transition: transform .15s ease, border-color .15s ease;
+            background: var(--superficie); border: 1px solid var(--borde);
+            border-radius: var(--radio-panel); padding: 28px 26px; box-shadow: var(--sombra);
+            transition: border-color .15s ease, box-shadow .15s ease;
         }
         .selector-idioma__opcion:hover, .selector-idioma__opcion:focus-visible {
-            transform: translateY(-3px); border-color: var(--morado); outline: none;
+            border-color: var(--acento); box-shadow: 0 0 0 3px var(--anillo-acento), var(--sombra); outline: none;
         }
         .selector-idioma__bandera { font-size: 2.4em; line-height: 1; }
-        .selector-idioma__opcion h2 { color: var(--morado-osc); font-size: 1.35em; margin: 10px 0 4px; }
+        .selector-idioma__opcion h2 { color: var(--acento); font-size: 1.35em; margin: 12px 0 6px; }
         .selector-idioma__opcion p { color: var(--texto-suave); font-size: .92em; }
-        .selector-idioma__ir { display: inline-block; margin-top: 14px; font-weight: 600; color: var(--morado-osc); }
+        .selector-idioma__ir { display: inline-block; margin-top: 14px; font-weight: 600; color: var(--acento); }
         .selector-idioma__sugerido {
             display: inline-block; margin-top: 12px; font-size: .78em; font-weight: 600;
-            color: var(--verde); background: var(--verde-bg);
-            border-radius: 999px; padding: 2px 10px;
+            color: var(--acierto); background: var(--acierto-fondo);
+            border-radius: var(--radio-pildora); padding: 2px 10px;
         }
         .selector-idioma__nota {
-            text-align: center; color: #fff; opacity: .9;
-            font-size: .88em; margin-top: 26px; text-shadow: 0 2px 8px rgba(0,0,0,.28);
+            text-align: center; color: var(--marco-texto-suave);
+            font-size: .88em; margin-top: 30px;
         }
     </style>
 </head>

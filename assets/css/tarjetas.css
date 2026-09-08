@@ -2,7 +2,7 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Flashcards ---------- */
-.escena { perspective: 1400px; margin-bottom: 20px; }
+.escena { perspective: 1400px; margin-bottom: 24px; }
 .tarjeta {
     position: relative; width: 100%; min-height: 300px;
     transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,.2,.2,1);
@@ -11,15 +11,15 @@
 .tarjeta--volteada { transform: rotateY(180deg); }
 .tarjeta__cara {
     position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    background: #fff; border-radius: 16px; box-shadow: var(--sombra);
-    padding: 32px 30px; display: flex; flex-direction: column;
+    background: var(--superficie); border-radius: var(--radio-panel); box-shadow: var(--sombra);
+    padding: 34px 32px; display: flex; flex-direction: column;
     justify-content: center; align-items: center; text-align: center; overflow: auto;
 }
-.tarjeta__cara--reverso { transform: rotateY(180deg); background: #f7f8ff; }
-.tarjeta__pregunta { font-size: 1.18em; font-weight: 600; }
-.tarjeta__respuesta { font-size: 1.02em; color: #3f4354; }
-.tarjeta__respuesta strong { color: var(--morado-osc); }
-.tarjeta__pista { font-size: .8em; color: #a0a4b4; margin-top: 18px; letter-spacing: .3px; }
+.tarjeta__cara--reverso { transform: rotateY(180deg); background: var(--superficie-2); }
+.tarjeta__pregunta { font-size: 1.2em; font-weight: 500; letter-spacing: var(--tracking-h3); line-height: 1.31; }
+.tarjeta__respuesta { font-size: 1.02em; color: var(--texto-medio); }
+.tarjeta__respuesta strong { color: var(--acento); font-weight: 600; }
+.tarjeta__pista { font-size: .78em; color: var(--texto-suave); margin-top: 20px; }
 
 /* El override móvil estaba en base.css, que se carga antes con la misma
    especificidad: esta hoja lo pisaba y la cara nunca reducía su padding. */

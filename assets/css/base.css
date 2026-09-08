@@ -1,94 +1,230 @@
-/* Base: variables, layout, cabecera, navegación y paneles
+/* Base: tokens, layout, cabecera, navegación y paneles
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
+/* =========================================================================
+   TOKENS
+   Los nombres son de ROL, no de color: un token llamado --morado que guarda
+   un azul es lo que hizo que la disciplina de §4.1 se perdiera y aparecieran
+   97 literales fuera de :root. Cambiar de tema debe ser editar solo este
+   bloque, así que aquí no puede faltar ningún color del proyecto.
+
+   El tema se organiza en dos mitades deliberadas: un MARCO OSCURO (fondo de
+   página, cabecera, navegación, chips, barra de estadísticas) y una
+   SUPERFICIE CLARA para leer (paneles, tablas, tarjetas). El material tiene
+   35 cuadros comparativos y texto denso: la lectura larga sobre fondo oscuro
+   lo empeora, así que el color va en el marco y el contenido se queda claro.
+   ========================================================================= */
+
 :root {
-    --morado: #667eea;
-    --morado-osc: #5a4fcf;
-    --violeta: #764ba2;
-    --verde: #1f8a4c;
-    --verde-bg: #e3f6ea;
-    --rojo: #c62828;
-    --rojo-bg: #fdeaea;
-    --ambar: #b7791f;
-    --ambar-bg: #fff5db;
-    --texto: #2c2f3a;
-    --texto-suave: #6b7080;
-    --borde: #e2e4ec;
-    --panel: #ffffff;
-    --sombra: 0 8px 20px rgba(30, 20, 80, 0.12);
+    /* ---- Marco oscuro ---- */
+    --fondo: #020817;
+    /* Un realce radial muy tenue evita que el azul marino se vea plano en
+       pantallas grandes sin recurrir a un degradado de dos tintas. */
+    --fondo-realce: rgba(24, 51, 254, .20);
+    --marco-texto: #ffffff;
+    --marco-texto-suave: #adb4d8;
+
+    /* Velos blancos sobre el marco: relleno, relleno al pasar el cursor y
+       relleno enfatizado. Sustituyen a los nueve rgba(255,255,255,·) sueltos
+       que había repartidos por cinco hojas. */
+    --velo-1: rgba(255, 255, 255, .08);
+    --velo-2: rgba(255, 255, 255, .16);
+    --velo-3: rgba(255, 255, 255, .28);
+    /* .36 es el mínimo que da 3.2:1 sobre --fondo, el umbral WCAG AA para
+       bordes de control. Por debajo el borde del chip no se distingue. */
+    --velo-borde: rgba(255, 255, 255, .36);
+    --velo-borde-fuerte: rgba(255, 255, 255, .62);
+    --velo-oscuro: rgba(2, 8, 23, .55);
+
+    /* ---- Superficies claras ---- */
+    --superficie: #ffffff;
+    --superficie-2: #f9fbff;
+    --superficie-3: #eef1f8;
+    --borde: #e1e6f0;
+    --borde-suave: #edf0f7;
+
+    /* ---- Texto sobre claro ---- */
+    --texto: #232323;
+    --texto-medio: #364969;
+    --texto-suave: #4d6388;
+
+    /* ---- Acentos ---- */
+    --acento: #1833fe;
+    --acento-hover: #0a1fd0;
+    /* Solo sobre el marco oscuro: sobre blanco no llega a 4.5:1. */
+    --acento-claro: #3ca1ff;
+    --acento-coral: #f85936;
+    --coral-velo: rgba(248, 89, 54, .18);
+    --anillo-acento: rgba(24, 51, 254, .22);
+
+    /* ---- Estados del ejercicio ----
+       Aquí el color ES el significado (acierto / fallo / repasar), así que
+       verde y rojo se mantienen distinguibles aunque la paleta base no
+       tenga verde. --acierto se oscureció respecto al anterior #1f8a4c,
+       que se quedaba en 4.4:1 sobre blanco. */
+    --acierto: #137a45;
+    --acierto-fondo: #e6f6ec;
+    --error: #c81414;
+    --error-fondo: #fdeaea;
+    --error-hover: #9d0f0f;
+    --aviso: #f0b429;
+    --aviso-fondo: #fff6e0;
+    /* Un solo marrón para todo texto sobre ámbar: pasa AA tanto sobre el
+       relleno sólido (4.6:1) como sobre blanco (8.6:1). */
+    --aviso-texto: #6b4310;
+
+    /* ---- Código ---- */
+    --codigo-fondo: #0b1220;
+    --codigo-texto: #dbe3f5;
+    --codigo-fondo-salida: #111a2c;
+    --codigo-texto-salida: #b6d7c4;
+
+    /* ---- Forma ----
+       Radios pequeños: la geometría queda tensa en lugar de blanda. */
+    --radio-xs: 3px;
+    --radio: 6px;
+    --radio-panel: 8px;
+    --radio-boton: 5px;
+    --radio-pildora: 999rem;
+
+    /* ---- Sombra ---- */
+    /* Una sola sombra: la elevación la dan el contraste marco/superficie y el
+       borde, no capas de sombra. */
+    --sombra: 0 10px 26px rgba(2, 8, 23, .12);
+
+    /* ---- Medidas ----
+       El contenedor sube poco: ensanchar la columna de texto empeora la
+       lectura. Solo las páginas de tablas usan --ancho-amplio (§ .contenedor--amplio). */
+    --ancho: 980px;
+    --ancho-amplio: 1240px;
+
+    /* ---- Tipografía ----
+       Títulos en peso 500 con tracking negativo y line-height ceñido; el
+       cuerpo con tracking ligeramente negativo. Es el tratamiento, no la
+       familia: la pila del sistema se mantiene para que el material siga
+       abriéndose sin conexión desde file://. */
+    --tracking-cuerpo: -0.01125rem;
+    --tracking-h1: -0.075rem;
+    --tracking-h2: -0.047rem;
+    --tracking-h3: -0.036rem;
+    --tracking-h4: -0.03rem;
+    --tracking-boton: -0.0175rem;
+    /* Tracking POSITIVO para las etiquetas cortas en versalitas. Es .11rem y
+       no los .15rem del original porque nuestras etiquetas son más pequeñas
+       (.68em–.85em) y ahí .15rem las desarma. */
+    --tracking-versalita: .11rem;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(140deg, #667eea 0%, #764ba2 100%);
+    background: radial-gradient(1100px 620px at 50% -12%, var(--fondo-realce), transparent 68%) var(--fondo);
     background-attachment: fixed;
     min-height: 100vh;
-    padding: 24px 16px 60px;
+    padding: 32px 20px 72px;
     color: var(--texto);
-    line-height: 1.55;
+    line-height: 1.625;
+    letter-spacing: var(--tracking-cuerpo);
+    -webkit-font-smoothing: antialiased;
 }
 
-.contenedor { max-width: 940px; margin: 0 auto; }
+h1, h2, h3, h4 { font-weight: 500; line-height: 1.25; }
+h1 { letter-spacing: var(--tracking-h1); line-height: 1.19; }
+h2 { letter-spacing: var(--tracking-h2); }
+h3 { letter-spacing: var(--tracking-h3); line-height: 1.31; }
+h4 { letter-spacing: var(--tracking-h4); }
 
-header { text-align: center; color: white; margin-bottom: 28px; }
-header h1 { font-size: 2.3em; margin-bottom: 6px; text-shadow: 0 2px 8px rgba(0,0,0,.28); }
-header p { font-size: 1.05em; opacity: .93; }
+.contenedor { max-width: var(--ancho); margin: 0 auto; }
+/* Las páginas de cuadros y guía son casi solo tablas: ahí la columna ancha
+   ayuda a leer las comparativas de cinco ejes sin desplazamiento lateral.
+   La tabla se ensancha; el texto corrido no, que es lo que se degrada. */
+.contenedor--amplio { max-width: var(--ancho-amplio); }
+.contenedor--amplio .aviso { max-width: 92ch; margin-left: auto; margin-right: auto; }
+
+header { text-align: center; color: var(--marco-texto); margin-bottom: 40px; }
+header h1 { font-size: 2.4em; margin-bottom: 10px; letter-spacing: -0.103rem; }
+header p { font-size: 1em; color: var(--marco-texto-suave); }
 
 .estadisticas {
-    display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
-    margin-top: 16px; font-size: .85em;
+    display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;
+    margin-top: 22px; font-size: .78em;
 }
 .estadisticas__dato {
-    background: rgba(255,255,255,.18);
-    border: 1px solid rgba(255,255,255,.3);
-    color: #fff; padding: 5px 12px; border-radius: 20px;
+    background: var(--velo-1);
+    border: 1px solid var(--velo-borde);
+    color: var(--marco-texto); padding: 5px 13px; border-radius: var(--radio-pildora);
 }
 
 .navegacion {
-    display: flex; gap: 8px; margin-bottom: 24px;
+    display: flex; gap: 6px; margin-bottom: 32px;
     flex-wrap: wrap; justify-content: center;
 }
 
 .navegacion__boton {
-    padding: 10px 18px; border: none; background: rgba(255,255,255,.92);
-    color: var(--morado-osc); cursor: pointer; border-radius: 10px;
-    font-weight: 600; font-size: .92em; transition: transform .2s, box-shadow .2s, background .2s;
-    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+    padding: 9px 16px; background: var(--velo-1);
+    border: 1px solid var(--velo-borde);
+    color: var(--marco-texto); cursor: pointer; border-radius: var(--radio-boton);
+    font-weight: 500; font-size: .875rem; letter-spacing: var(--tracking-boton);
+    transition: background .2s, border-color .2s, color .2s;
 }
 .navegacion__boton { text-decoration: none; display: inline-block; }
-.navegacion__boton:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,.18); }
-.navegacion__boton--activo { background: #2c2360; color: #fff; }
+.navegacion__boton:hover { background: var(--velo-2); border-color: var(--velo-borde-fuerte); }
+.navegacion__boton--activo,
+.navegacion__boton--activo:hover {
+    background: var(--acento); border-color: var(--acento); color: var(--marco-texto);
+}
 
 .vista { display: block; animation: fadeIn .25s ease; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
 .panel {
-    background: var(--panel); border-radius: 14px; padding: 26px;
-    box-shadow: var(--sombra); margin-bottom: 20px;
+    background: var(--superficie); border-radius: var(--radio-panel); padding: 28px;
+    box-shadow: var(--sombra); margin-bottom: 24px;
 }
 
 .aviso {
-    background: var(--ambar-bg); border-left: 4px solid #f0b429;
-    padding: 12px 16px; border-radius: 6px; margin-bottom: 20px;
-    color: #7a5a10; font-size: .92em;
+    background: var(--aviso-fondo); border-left: 3px solid var(--aviso);
+    padding: 13px 16px; border-radius: var(--radio); margin-bottom: 24px;
+    color: var(--aviso-texto); font-size: .92em;
 }
 
 /* ---------- Filtros ---------- */
-.filtros { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 18px; }
+.filtros { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 22px; }
 .filtros__chip {
-    padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,.45);
-    background: rgba(255,255,255,.15); color: #fff; cursor: pointer;
-    font-size: .84em; font-weight: 600; transition: all .2s;
+    padding: 6px 15px; border-radius: var(--radio-pildora); border: 1px solid var(--velo-borde);
+    background: var(--velo-1); color: var(--marco-texto); cursor: pointer;
+    font-size: .8em; font-weight: 500; letter-spacing: var(--tracking-boton);
+    transition: background .2s, border-color .2s, color .2s;
 }
-.filtros__chip:hover { background: rgba(255,255,255,.3); }
+.filtros__chip:hover { background: var(--velo-2); border-color: var(--velo-borde-fuerte); }
 /* El chip activo conserva su fondo bajo el cursor: si no, al pasar por encima
    parecería que se ha desactivado. */
 .filtros__chip--activo,
-.filtros__chip--activo:hover { background: #fff; color: var(--morado-osc); border-color: #fff; }
+.filtros__chip--activo:hover {
+    background: var(--acento-claro); color: var(--fondo); border-color: var(--acento-claro);
+    font-weight: 600;
+}
 
 .estado-vacio { text-align: center; color: var(--texto-suave); padding: 40px 20px; }
+
+/* ---------- Etiquetas en versalitas ---------- */
+/* Etiqueta corta en mayúsculas con tracking POSITIVO: es el recurso
+   tipográfico que sostiene el conjunto. Vive aquí y no en cada hoja de vista
+   porque lo comparten seis vistas distintas (§4.3), y se aplica a las clases
+   que ya cumplían ese papel para no tocar el marcado. */
+.insignia,
+.estadisticas__dato,
+.quiz__meta,
+.desglose__modulo,
+.ejemplo__lenguaje,
+.ejemplo__subtitulo,
+.emparejar__columna h4,
+.repaso__sigla,
+.repaso__tipo {
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-versalita);
+}
 
 /* ---------- Código en línea ---------- */
 /* Lo escriben a mano los bancos de assets/js/datos/ y el HTML de la guía, así
@@ -96,81 +232,100 @@ header p { font-size: 1.05em; opacity: .93; }
    Queda fuera de BEM a propósito: renombrarlo sin tocar los 58 usos de los
    datos dejaría el CSS y los datos apuntando a nombres distintos. */
 code.inline {
-    background: #eef0f8; padding: 1px 6px; border-radius: 4px;
-    font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: .88em; color: #4a3f9e;
+    background: var(--superficie-3); padding: 1px 6px; border-radius: var(--radio-xs);
+    font-family: 'SF Mono', Menlo, Consolas, monospace; font-size: .88em; color: var(--acento);
+    letter-spacing: 0;
 }
 
 /* ---------- Tablas ---------- */
 /* Las comparten la guía rápida y los cuadros comparativos, que cargan
    hojas distintas: por eso viven aquí y no en una de las dos (§4.3). */
-.tabla { width: 100%; border-collapse: collapse; font-size: .88em; margin-top: 10px; }
-.tabla th, .tabla td { border: 1px solid var(--borde); padding: 8px 10px; text-align: left; vertical-align: top; }
-.tabla th { background: #f4f5fb; font-weight: 700; }
+.tabla { width: 100%; border-collapse: collapse; font-size: .88em; margin-top: 12px; }
+.tabla th, .tabla td { border: 1px solid var(--borde); padding: 9px 11px; text-align: left; vertical-align: top; }
+.tabla th { background: var(--superficie-3); font-weight: 600; color: var(--texto); }
 
 /* ---------- Controles comunes de ejercicio ---------- */
 /* Contador, progreso, insignia y botones los comparten tarjetas, verdadero/falso,
    simulacro, ejemplos y repaso, pero solo la primera enlaza tarjetas.css: por eso
    viven aquí y no en esa hoja (§4.3). */
-.contador { color: #fff; text-align: center; margin-bottom: 10px; font-size: .92em; }
+.contador { color: var(--marco-texto-suave); text-align: center; margin-bottom: 10px; font-size: .875rem; }
 .progreso {
-    background: rgba(255,255,255,.28); height: 7px; border-radius: 4px;
-    margin-bottom: 20px; overflow: hidden;
+    background: var(--velo-2); height: 5px; border-radius: var(--radio-xs);
+    margin-bottom: 24px; overflow: hidden;
 }
-.progreso__relleno { height: 100%; background: #fff; transition: width .3s ease; width: 0%; }
+.progreso__relleno { height: 100%; background: var(--acento-claro); transition: width .3s ease; width: 0%; }
 
 .insignia {
-    display: inline-block; background: var(--morado); color: #fff;
-    padding: 3px 12px; border-radius: 20px; font-size: .72em;
-    letter-spacing: .8px; font-weight: 700; margin-bottom: 16px;
+    display: inline-block; background: var(--acento); color: var(--marco-texto);
+    padding: 3px 11px; border-radius: var(--radio-pildora); font-size: .68em;
+    font-weight: 600; margin-bottom: 16px;
 }
 
-.tarjeta__botones { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.tarjeta__botones { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
 .tarjeta__boton {
-    background: #fff; color: var(--morado-osc); padding: 10px 18px; border: none;
-    border-radius: 9px; cursor: pointer; font-weight: 600; font-size: .9em; transition: all .2s;
+    background: var(--velo-1); color: var(--marco-texto); padding: 10px 18px;
+    border: 1px solid var(--velo-borde);
+    border-radius: var(--radio-boton); cursor: pointer; font-weight: 500;
+    font-size: .875rem; letter-spacing: var(--tracking-boton);
+    transition: background .2s, border-color .2s, opacity .2s;
 }
-.tarjeta__boton:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 5px 12px rgba(0,0,0,.2); }
-.tarjeta__boton:disabled { opacity: .45; cursor: not-allowed; }
-.tarjeta__boton--acierto { background: var(--verde); color: #fff; }
-.tarjeta__boton--repasar { background: #f0b429; color: #4a370a; }
+.tarjeta__boton:hover:not(:disabled) { background: var(--velo-2); border-color: var(--velo-borde-fuerte); }
+.tarjeta__boton:disabled { opacity: .4; cursor: not-allowed; }
+.tarjeta__boton--acierto,
+.tarjeta__boton--acierto:hover:not(:disabled) { background: var(--acierto); border-color: var(--acierto); color: var(--marco-texto); }
+.tarjeta__boton--repasar,
+.tarjeta__boton--repasar:hover:not(:disabled) { background: var(--aviso); border-color: var(--aviso); color: var(--aviso-texto); }
+
+/* El foco es la única señal para quien navega con teclado: sobre el marco
+   oscuro un outline blanco es lo que se ve, y sobre las superficies claras
+   hace falta el acento. */
+:focus-visible { outline: 2px solid var(--acento-claro); outline-offset: 2px; }
+.panel :focus-visible, .ejemplo :focus-visible { outline-color: var(--acento); }
 
 @media (max-width: 700px) {
-    header h1 { font-size: 1.6em; }
-    .panel { padding: 20px 16px; }
+    header h1 { font-size: 1.7em; letter-spacing: var(--tracking-h1); }
+    .panel { padding: 22px 16px; }
 }
 
 /* ---------- Reinicio del curso ---------- */
 .reinicio {
     display: flex; align-items: center; justify-content: center;
-    gap: 10px; flex-wrap: wrap; margin-top: 14px;
+    gap: 10px; flex-wrap: wrap; margin-top: 18px;
 }
 .reinicio__boton {
-    background: rgba(255,255,255,.16); color: #fff;
-    border: 1px solid rgba(255,255,255,.35); border-radius: 20px;
-    padding: 5px 14px; font-size: .8em; font-weight: 600;
+    background: var(--velo-1); color: var(--marco-texto);
+    border: 1px solid var(--velo-borde); border-radius: var(--radio-pildora);
+    padding: 5px 14px; font-size: .78em; font-weight: 500;
+    letter-spacing: var(--tracking-boton);
     cursor: pointer; font-family: inherit;
 }
-.reinicio__boton:hover { background: rgba(255,255,255,.3); }
-.reinicio__boton--peligro { background: var(--rojo); border-color: var(--rojo); }
-.reinicio__boton--peligro:hover { background: #a91f1f; }
+.reinicio__boton:hover { background: var(--velo-2); border-color: var(--velo-borde-fuerte); }
+.reinicio__boton--peligro { background: var(--error); border-color: var(--error); }
+.reinicio__boton--peligro:hover { background: var(--error-hover); border-color: var(--error-hover); }
 
 .reinicio__confirma {
     display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap;
-    color: #fff; font-size: .82em;
-    background: rgba(0,0,0,.22); border-radius: 20px; padding: 5px 8px 5px 14px;
+    color: var(--marco-texto); font-size: .82em;
+    background: var(--velo-oscuro); border-radius: var(--radio-pildora); padding: 5px 8px 5px 14px;
 }
 .reinicio__nota {
     flex-basis: 100%; text-align: center;
-    color: rgba(255,255,255,.72); font-size: .72em;
+    color: var(--marco-texto-suave); font-size: .72em;
 }
 
-/* Se resalta solo cuando hay algo pendiente: si no, es ruido. */
+/* El contador de repaso es el único dato accionable de la barra; el resto son
+   totales fijos. Lo emite comun.js y hasta ahora no tenía regla propia. */
+.estadisticas__dato--repaso { color: var(--marco-texto-suave); }
+
+/* Se resalta solo cuando hay algo pendiente: si no, es ruido. El coral es el
+   acento de atención de la paleta y aquí no compite con nada: en el marco
+   oscuro no hay ningún otro estado en color. */
 .estadisticas__dato--pendiente {
-    background: rgba(255,255,255,.34);
-    border-color: rgba(255,255,255,.6);
-    font-weight: 700;
+    background: var(--coral-velo);
+    border-color: var(--acento-coral);
+    color: var(--marco-texto);
+    font-weight: 600;
 }
 
 /* Conmutador de idioma: última pestaña de la navegación. */
-.navegacion__boton--idioma { margin-left: auto; opacity: .85; }
-.navegacion__boton--idioma:hover { opacity: 1; }
+.navegacion__boton--idioma { margin-left: auto; }

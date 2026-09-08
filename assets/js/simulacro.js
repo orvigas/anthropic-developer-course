@@ -29,7 +29,7 @@ function renderRecordExamen() {
     const ultimos = progreso.x.slice(-4);
     const mejor = Math.max.apply(null, progreso.x.map(e => e.pct));
     $('exam-record').innerHTML =
-        `<div class="desglose__item"><div class="desglose__modulo">${T.exam.mejor}</div><div class="desglose__valor" style="color:var(--verde)">${mejor}%</div></div>` +
+        `<div class="desglose__item"><div class="desglose__modulo">${T.exam.mejor}</div><div class="desglose__valor" style="color:var(--acierto)">${mejor}%</div></div>` +
         ultimos.map(e => `<div class="desglose__item"><div class="desglose__modulo">${fechaLegible(e.fecha)}</div><div class="desglose__valor">${e.pct}%</div></div>`).join('');
 }
 
@@ -142,7 +142,7 @@ function finalizarExamen(porTiempo) {
         </div>
         ${fallos.length ? `
         <div class="panel">
-            <h3 style="color:var(--morado-osc); margin-bottom:14px;">${T.exam.repasoFallos(fallos.length)}</h3>
+            <h3 style="color:var(--acento); margin-bottom:14px;">${T.exam.repasoFallos(fallos.length)}</h3>
             ${fallos.map(x => `
                 <div class="quiz__pregunta">
                     <div class="quiz__meta">${MODULOS[x.p.m]} · ${x.p.tipo}</div>

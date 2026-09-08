@@ -37,7 +37,7 @@ function renderBreakdown(porModulo) {
         const d = porModulo[k];
         const pct = Math.round(d.ok / d.total * 100);
         return `<div class="desglose__item"><div class="desglose__modulo">${k}</div>
-                <div class="desglose__valor" style="color:var(--${pct>=75?'verde':pct>=50?'ambar':'rojo'})">${pct}%</div>
+                <div class="desglose__valor" style="color:var(--${pct>=75?'acierto':pct>=50?'aviso-texto':'error'})">${pct}%</div>
                 <div style="font-size:.78em;color:var(--texto-suave)">${d.ok}/${d.total}</div></div>`;
     }).join('');
 }

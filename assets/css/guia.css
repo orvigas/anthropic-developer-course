@@ -2,11 +2,15 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Guía ---------- */
-.guia h3 { color: var(--morado-osc); margin: 26px 0 10px; font-size: 1.12em; }
+.guia h3 { color: var(--acento); margin: 30px 0 12px; font-size: 1.12em; }
 .guia h3:first-child { margin-top: 0; }
 .guia__lista { list-style: none; }
-.guia__lista li { padding: 5px 0 5px 4px; border-bottom: 1px solid #f0f1f6; font-size: .94em; }
-.guia__lista li strong { color: var(--morado-osc); display: inline-block; min-width: 20px; }
+.guia__lista li { padding: 6px 0 6px 4px; border-bottom: 1px solid var(--borde-suave); font-size: .94em; }
+.guia__lista li strong { color: var(--acento); display: inline-block; min-width: 20px; font-weight: 600; }
 .guia ol { padding-left: 22px; }
 .guia ol li { margin-bottom: 7px; font-size: .94em; }
 .guia__desplazable { overflow-x: auto; }
+
+/* La página va en .contenedor--amplio porque es casi toda tabla; la prosa
+   suelta se queda en medida de lectura para que la línea no se desborde. */
+.guia p, .guia ol { max-width: 74ch; }

@@ -1,35 +1,48 @@
 /* Página «Qué reforzar» · Certificación Anthropic */
 
+/* ---------- Títulos de sección ---------- */
+/* Van sobre el marco oscuro, entre paneles. Estaban en línea en el HTML de
+   las dos versiones de idioma con un color y una sombra literales; aquí
+   quedan bajo el bloque al que pertenecen (§4.4). */
+.repaso__seccion {
+    color: var(--marco-texto); text-align: center;
+    margin: 34px 0 16px; font-size: 1.25em;
+}
+/* La segunda sección lleva la fila de filtros justo debajo. */
+.repaso__seccion--pegada { margin-bottom: 8px; }
+
 /* ---------- Cifras de cabecera ---------- */
 .repaso__cifras {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px; margin-bottom: 26px;
+    gap: 12px; margin-bottom: 30px;
 }
 .repaso__cifra {
-    border: 1px solid var(--borde); border-radius: 11px; padding: 16px 12px;
-    text-align: center; background: #fafbff;
+    border: 1px solid var(--borde); border-radius: var(--radio); padding: 18px 12px;
+    text-align: center; background: var(--superficie-2);
 }
-.repaso__num { display: block; font-size: 2.1em; font-weight: 800; color: var(--morado-osc); line-height: 1.1; }
-.repaso__num--bien  { color: var(--verde); }
-.repaso__num--medio { color: #d18a00; }
-.repaso__num--flojo { color: var(--rojo); }
-.repaso__etiqueta { display: block; font-size: .84em; font-weight: 600; margin-top: 4px; }
+/* Misma lógica que .resumen__nota: cifra grande en peso 500 y tracking muy
+   negativo, no en negrita. */
+.repaso__num { display: block; font-size: 2.2em; font-weight: 500; letter-spacing: -0.075rem; color: var(--acento); line-height: 1.1; }
+.repaso__num--bien  { color: var(--acierto); }
+.repaso__num--medio { color: var(--aviso-texto); }
+.repaso__num--flojo { color: var(--error); }
+.repaso__etiqueta { display: block; font-size: .84em; font-weight: 600; margin-top: 6px; }
 .repaso__sub { display: block; font-size: .74em; color: var(--texto-suave); margin-top: 3px; }
 
 /* ---------- Barras por módulo ---------- */
-.repaso__barras { display: flex; flex-direction: column; gap: 14px; }
+.repaso__barras { display: flex; flex-direction: column; gap: 16px; }
 .repaso__barra-cabecera {
-    display: flex; align-items: baseline; gap: 8px; font-size: .88em; margin-bottom: 5px;
+    display: flex; align-items: baseline; gap: 8px; font-size: .88em; margin-bottom: 6px;
 }
-.repaso__barra-cabecera strong { color: var(--morado-osc); }
+.repaso__barra-cabecera strong { color: var(--acento); font-weight: 600; }
 .repaso__barra-cabecera span { color: var(--texto-suave); flex: 1; }
-.repaso__barra-cabecera em { font-style: normal; font-weight: 700; font-variant-numeric: tabular-nums; }
-.repaso__pista { background: #eef0f8; border-radius: 4px; height: 9px; overflow: hidden; }
-.repaso__relleno { height: 100%; background: var(--morado); transition: width .3s ease; }
-.repaso__relleno--bien  { background: var(--verde); }
-.repaso__relleno--medio { background: #f0b429; }
-.repaso__relleno--flojo { background: var(--rojo); }
-.repaso__barra-pie { font-size: .76em; color: var(--texto-suave); margin-top: 4px; }
+.repaso__barra-cabecera em { font-style: normal; font-weight: 600; font-variant-numeric: tabular-nums; }
+.repaso__pista { background: var(--superficie-3); border-radius: var(--radio-xs); height: 6px; overflow: hidden; }
+.repaso__relleno { height: 100%; background: var(--acento); transition: width .3s ease; }
+.repaso__relleno--bien  { background: var(--acierto); }
+.repaso__relleno--medio { background: var(--aviso); }
+.repaso__relleno--flojo { background: var(--error); }
+.repaso__barra-pie { font-size: .76em; color: var(--texto-suave); margin-top: 5px; }
 
 /* ---------- Consejos por módulo ---------- */
 .repaso__modulo-cabecera {
@@ -37,68 +50,69 @@
     padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--borde);
 }
 .repaso__modulo-cabecera .insignia { margin-bottom: 0; }
-.repaso__modulo-cabecera h3 { font-size: 1.06em; color: var(--morado-osc); flex: 1; }
+.repaso__modulo-cabecera h3 { font-size: 1.06em; color: var(--acento); flex: 1; }
 .repaso__sigla {
-    font-size: .72em; letter-spacing: 1px; color: var(--texto-suave);
+    font-size: .7em; color: var(--texto-suave); font-weight: 600;
     font-family: 'SF Mono', Menlo, Consolas, monospace;
 }
 .repaso__cuenta {
-    font-size: .74em; font-weight: 700; padding: 3px 10px; border-radius: 20px;
-    background: #eef0f8; color: var(--texto-suave);
+    font-size: .74em; font-weight: 600; padding: 3px 10px; border-radius: var(--radio-pildora);
+    background: var(--superficie-3); color: var(--texto-suave);
 }
-.repaso__cuenta--flojo { background: var(--rojo-bg); color: var(--rojo); }
+.repaso__cuenta--flojo { background: var(--error-fondo); color: var(--error); }
 
-.repaso__consejo { padding: 14px 0; border-bottom: 1px solid #f0f1f6; }
+.repaso__consejo { padding: 16px 0; border-bottom: 1px solid var(--borde-suave); }
 .repaso__consejo:last-child { border-bottom: none; }
-.repaso__consejo h4 { font-size: .96em; color: var(--texto); margin-bottom: 5px; }
+.repaso__consejo h4 { font-size: .98em; color: var(--texto); margin-bottom: 6px; font-weight: 600; }
 .repaso__tocado {
-    font-size: .72em; font-weight: 600; color: var(--rojo);
-    background: var(--rojo-bg); padding: 2px 8px; border-radius: 20px; margin-left: 6px;
+    font-size: .72em; font-weight: 600; color: var(--error);
+    background: var(--error-fondo); padding: 2px 8px; border-radius: var(--radio-pildora); margin-left: 6px;
 }
-.repaso__consejo p { font-size: .9em; color: #3f4354; }
+.repaso__consejo p { font-size: .9em; color: var(--texto-medio); }
 .repaso__donde { margin-top: 8px; font-size: .84em !important; color: var(--texto-suave) !important; }
-.repaso__donde a { color: var(--morado-osc); font-weight: 600; }
+.repaso__donde a { color: var(--acento); font-weight: 600; }
 
 .repaso__nota {
-    margin-top: 12px; font-size: .86em; color: #6b4e0c;
-    background: var(--ambar-bg); border-left: 4px solid #f0b429;
-    padding: 10px 13px; border-radius: 6px;
+    margin-top: 14px; font-size: .86em; color: var(--aviso-texto);
+    background: var(--aviso-fondo); border-left: 3px solid var(--aviso);
+    padding: 11px 13px; border-radius: var(--radio);
 }
-.repaso__nota a { color: #8a6410; font-weight: 700; }
+.repaso__nota a { color: var(--aviso-texto); font-weight: 700; }
 
 /* ---------- Lista de fallos ---------- */
 .repaso__grupo {
     display: flex; align-items: center; gap: 10px;
-    font-size: .95em; color: var(--texto-suave); margin-bottom: 12px;
+    font-size: .95em; color: var(--texto-suave); margin-bottom: 14px;
 }
 .repaso__grupo .insignia { margin-bottom: 0; }
 
 .repaso__fallo {
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    padding: 11px 0; border-bottom: 1px solid #f0f1f6;
+    padding: 12px 0; border-bottom: 1px solid var(--borde-suave);
 }
 .repaso__fallo:last-child { border-bottom: none; }
 .repaso__fallo-texto { flex: 1; min-width: 240px; font-size: .9em; }
 .repaso__tipo {
-    display: inline-block; font-size: .68em; font-weight: 700; letter-spacing: .6px;
-    text-transform: uppercase; color: var(--morado-osc); background: #eef0f8;
-    padding: 2px 8px; border-radius: 20px; margin-right: 7px; vertical-align: middle;
+    display: inline-block; font-size: .66em; font-weight: 600;
+    color: var(--acento); background: var(--superficie-3);
+    padding: 2px 8px; border-radius: var(--radio-pildora); margin-right: 7px; vertical-align: middle;
 }
 .repaso__pilar {
     display: block; font-size: .76em; color: var(--texto-suave); margin-top: 3px;
 }
 .repaso__fallo-acciones { display: flex; gap: 7px; flex-shrink: 0; }
 .repaso__boton {
-    font-size: .8em; font-weight: 600; padding: 6px 12px; border-radius: 7px;
-    border: 1px solid var(--borde); background: #fafbff; color: var(--morado-osc);
+    font-size: .78em; font-weight: 500; padding: 6px 12px; border-radius: var(--radio-boton);
+    border: 1px solid var(--borde); background: var(--superficie-2); color: var(--acento);
+    letter-spacing: var(--tracking-boton);
     cursor: pointer; text-decoration: none; font-family: inherit; white-space: nowrap;
 }
-.repaso__boton:hover { border-color: var(--morado); background: #f2f3ff; }
-.repaso__boton--resuelto { color: var(--verde); }
-.repaso__boton--resuelto:hover { border-color: var(--verde); background: var(--verde-bg); }
+.repaso__boton:hover { border-color: var(--acento); background: var(--superficie-3); }
+.repaso__boton--resuelto { color: var(--acierto); }
+.repaso__boton--resuelto:hover { border-color: var(--acierto); background: var(--acierto-fondo); }
 
 .repaso__vacio { text-align: center; color: var(--texto-suave); }
-.repaso__vacio h3 { color: var(--morado-osc); margin-bottom: 8px; }
+.repaso__vacio h3 { color: var(--acento); margin-bottom: 8px; }
 
 @media (max-width: 700px) {
     .repaso__fallo-acciones { width: 100%; }

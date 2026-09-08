@@ -2,17 +2,28 @@
    Extraído de tarjetas-interactivas.html · Certificación Anthropic */
 
 /* ---------- Emparejar ---------- */
-.emparejar__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-.emparejar__columna h4 { font-size: .8em; text-transform: uppercase; letter-spacing: 1px; color: var(--texto-suave); margin-bottom: 10px; }
+.emparejar__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.emparejar__columna h4 { font-size: .72em; color: var(--texto-suave); margin-bottom: 12px; font-weight: 600; }
 .emparejar__item {
-    border: 2px solid var(--borde); border-radius: 9px; padding: 11px 13px;
-    margin-bottom: 9px; cursor: pointer; background: #fafbff; font-size: .9em; transition: all .18s;
+    border: 1px solid var(--borde); border-radius: var(--radio); padding: 11px 13px;
+    margin-bottom: 8px; cursor: pointer; background: var(--superficie-2); font-size: .9em;
+    transition: border-color .18s, background .18s, box-shadow .18s;
 }
-.emparejar__item:hover:not(.emparejar__item--resuelto) { border-color: var(--morado); background: #f2f3ff; }
-.emparejar__item--activo { border-color: var(--morado); background: #e7e9ff; box-shadow: 0 0 0 3px rgba(102,126,234,.2); }
-.emparejar__item--resuelto { border-color: var(--verde); background: var(--verde-bg); cursor: default; opacity: .75; }
-.emparejar__item--error { border-color: var(--rojo); background: var(--rojo-bg); }
-.emparejar__marca { font-weight: 700; color: var(--verde); font-size: .8em; margin-right: 6px; }
+.emparejar__item:hover:not(.emparejar__item--resuelto) { border-color: var(--acento); background: var(--superficie-3); }
+.emparejar__item--activo { border-color: var(--acento); background: var(--superficie-3); box-shadow: 0 0 0 3px var(--anillo-acento); }
+.emparejar__item--resuelto { border-color: var(--acierto); background: var(--acierto-fondo); cursor: default; opacity: .8; }
+.emparejar__item--error { border-color: var(--error); background: var(--error-fondo); }
+.emparejar__marca { font-weight: 700; color: var(--acierto); font-size: .8em; margin-right: 6px; }
+
+/* ---------- Conjunto ---------- */
+/* Estas cuatro reglas estaban en línea dentro del template literal de
+   emparejar.js; al no ser valores calculados en tiempo de ejecución, su sitio
+   es la hoja del bloque (§4.4). */
+.emparejar__conjunto { margin-bottom: 36px; }
+.emparejar__conjunto:last-child { margin-bottom: 0; }
+.emparejar__titulo { font-size: 1.05em; color: var(--acento); margin-bottom: 4px; }
+.emparejar__pie { font-size: .82em; color: var(--texto-suave); margin-bottom: 16px; }
+.emparejar__estado { font-weight: 600; }
 
 /* Mismo caso que en tarjetas.css: en base.css este override lo anulaba esta
    misma hoja, y el grid seguía a dos columnas en pantallas estrechas. */

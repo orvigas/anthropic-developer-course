@@ -3,8 +3,10 @@
 
 /* ---------- Completar código ---------- */
 .codigo {
-    background: #1e1e2e; color: #dcdce8; padding: 16px 18px; border-radius: 9px;
+    background: var(--codigo-fondo); color: var(--codigo-texto); padding: 16px 18px;
+    border-radius: var(--radio); border: 1px solid var(--velo-1);
     overflow-x: auto; font-family: 'SF Mono', Menlo, Consolas, monospace;
-    font-size: .84em; line-height: 1.6; margin: 12px 0 16px; white-space: pre;
+    font-size: .84em; line-height: 1.6; margin: 14px 0 18px; white-space: pre;
+    letter-spacing: 0;
 }
-.codigo__hueco { background: #f0b429; color: #1e1e2e; padding: 1px 8px; border-radius: 3px; font-weight: 700; }
+.codigo__hueco { background: var(--aviso); color: var(--aviso-texto); padding: 1px 8px; border-radius: var(--radio-xs); font-weight: 700; }
